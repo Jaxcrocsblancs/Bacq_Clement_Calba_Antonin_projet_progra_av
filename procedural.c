@@ -12,5 +12,5 @@ int main()
   /* create window */
   screen = SDL_SetVideoMode(COL*32, LIG*32, 0, 0);
 
-  
+  return 0;
 }
