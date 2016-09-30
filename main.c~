@@ -1,0 +1,17 @@
+/*************************/
+/* main.c                */
+/* auteur : Bacp Clement */
+/* et Calba Antonin      */
+/*************************/
+#include "include.h"
+
+int main()
+{
+  /* initialize SDL */
+  SDL_Init(SDL_INIT_VIDEO);
+
+  /* create window */
+  screen = SDL_SetVideoMode(COL*32, LIG*32, 0, 0);
+
+  return 0;
+}
