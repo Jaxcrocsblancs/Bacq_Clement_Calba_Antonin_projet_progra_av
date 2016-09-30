@@ -8,4 +8,5 @@
 #include "define.h"
 #include "procedural.h"
 #include "affichage.h"
+#include "SDL_rotozoom.h"
 #endif
