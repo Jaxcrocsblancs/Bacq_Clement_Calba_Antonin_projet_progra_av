@@ -3,6 +3,6 @@
 
 int main()
 {
-    printf("etst\n");
+    printf("test\n");
     return 0;
 }
