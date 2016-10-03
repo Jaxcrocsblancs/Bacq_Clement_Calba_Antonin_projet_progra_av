@@ -5,7 +5,7 @@
 /*************************/
 #include "include.h"
 
-int main()
+int main(int argc, char *argv[])
 {
   SDL_Surface* screen;
   SDL_Rect coord;
@@ -20,7 +20,7 @@ int main()
   scanf("%d",&seed);
   srand (seed);
   generation_procedural(sol);
-  
+
   affichage_tab(sol);
   affichage_tab(block);
   /* initialize SDL */
@@ -32,8 +32,8 @@ int main()
   image = image_init();
   coord.x = 0;
   coord.y = 0;
-  
-  
+
+
   int done = 0;
   while (done == 0)
     {
@@ -72,7 +72,7 @@ int main()
 		  }
 		break;
 		case SDLK_UP:
-		  if (-LIG*32+LIG*32/(int)zoom < coord.y) 
+		  if (-LIG*32/(int)zoom < coord.y)
 		    coord.y-=32*(int)zoom;
 		  break;
 		case SDLK_DOWN:
