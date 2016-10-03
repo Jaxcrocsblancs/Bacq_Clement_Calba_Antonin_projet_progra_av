@@ -67,23 +67,25 @@ int main()
 		    printf("z2\n");
 		    image=image_init();
 		    zoom=1.0;
+		    coord.x=0;
+		    coord.y=0;
 		  }
 		break;
 		case SDLK_UP:
-		  if (LIG*32/(int)zoom > coord.y+LIG*32/(int)zoom)
-		    coord.y-=32;
+		  if (-LIG*32+LIG*32/(int)zoom < coord.y) 
+		    coord.y-=32*(int)zoom;
 		  break;
 		case SDLK_DOWN:
 		  if (coord.y<0)
-		    coord.y+=32;
+		    coord.y+=32*(int)zoom;
 		  break;
 		case SDLK_RIGHT:
 		  if (coord.x<0)
-		    coord.x+=32;
+		    coord.x+=32*(int)zoom;
 		  break;
 		case SDLK_LEFT:
-		  if (COL*32/(int)zoom > coord.x)
-		  coord.x-=32;
+		  if (coord.y/32*(int)zoom > -COL/32*(int)zoom)
+		    coord.x-=32*(int)zoom;
 		  break;
 		}
 	      }
