@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
   int sol[COL][LIG];
   int block[COL][LIG]={0};
   int seed, tic;
-  float zoom=1.0;
+  int zoom=1;
   tic=1;
 
   printf("donner la graine: \n");
@@ -72,27 +72,27 @@ int main(int argc, char *argv[])
 		  }
 		break;
 		case SDLK_UP:
-		  if (-LIG*32/(int)zoom < coord.y)
-		    coord.y-=32*(int)zoom;
+		  if (-(zoom-1)*LIG*32/zoom < coord.y)
+		    coord.y-=32*zoom;
 		  break;
 		case SDLK_DOWN:
 		  if (coord.y<0)
-		    coord.y+=32*(int)zoom;
+		    coord.y+=32*zoom;
 		  break;
 		case SDLK_RIGHT:
 		  if (coord.x<0)
-		    coord.x+=32*(int)zoom;
+		    coord.x+=32*zoom;
 		  break;
 		case SDLK_LEFT:
-		  if (coord.y/32*(int)zoom > -COL/32*(int)zoom)
-		    coord.x-=32*(int)zoom;
+		  if (-(zoom-1)*COL*32/zoom < coord.x)
+		    coord.x-=32*zoom;
 		  break;
 		}
 	      }
 	  }
 	}
       tic+=1;
-      affichage_screen(sol, screen, zoom, image, coord);
+      affichage_screen(sol, screen, (float)zoom, image, coord);
       SDL_Flip(screen);
     }
   return 0;
