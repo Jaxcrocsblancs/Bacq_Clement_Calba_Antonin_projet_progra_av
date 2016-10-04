@@ -4,5 +4,5 @@
 /* et Calba Antonin      */
 /*************************/
 
-#define COL 30
-#define LIG 30
+#define COL 20
+#define LIG 20

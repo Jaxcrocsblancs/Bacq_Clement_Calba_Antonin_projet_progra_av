@@ -51,8 +51,8 @@ void affichage_screen(int tab[COL][LIG], SDL_Surface* screen, float zoom, image 
 	  SDL_BlitSurface(image.fraisier,0, screen, &coord);
 	if (tab[col][lig] == 4)
 	  SDL_BlitSurface(image.ble,0, screen, &coord);
-	coord.x = coord_init.x + lig * 32 * (int)zoom;
+	coord.y = coord_init.y + lig * 32 * (int)zoom;
       }
-      coord.y = coord_init.y + col * 32 * (int)zoom;
+      coord.x = coord_init.x + col * 32 * (int)zoom;
     }
 }
