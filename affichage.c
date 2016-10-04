@@ -1,5 +1,78 @@
 #include "include.h"
 
+void affichage_map(map_objt tab[COL][LIG],SDL_Surface *screen)
+{
+	SDL_Rect rcCase, rcCaseDest;
+
+	rcCase.x = 0;
+	rcCase.y = 0;
+	rcCase.h = 32;
+	rcCase.w = 32;
+
+	rcCaseDest.x = 0;
+	rcCaseDest.y = 0;
+	rcCaseDest.h = 32;
+	rcCaseDest.w = 32;
+
+	int loc,gil;
+	for(loc=0;loc<COL;loc++)
+	{
+		rcCaseDest.x = 32*loc;
+		for(gil=0;gil<LIG;gil++)
+		{
+			rcCaseDest.y = 32*gil;
+			SDL_BlitSurface(&tab[loc][gil].s, &rcCase, screen, &rcCaseDest);
+			rcCaseDest.y += 32;
+		}
+	}
+}
+
+void affichage_surface(SDL_Surface *screen, SDL_Surface *s,SDL_Rect rcCase, SDL_Rect rcCaseDest)
+{
+	SDL_BlitSurface(s, &rcCase, screen, &rcCaseDest);
+}
+
+void affichage_perso(SDL_Surface *screen, SDL_Surface *perso,SDL_Rect rcDepla, SDL_Rect rcDeplaS,liste_point L,int cpt)
+{
+	if(!est_vide(L))
+	{
+		if(prem(L).col * 32 > rcDepla.x)
+		{
+			rcDeplaS.x = (4+cpt)*32;
+		}
+		if(prem(L).col * 32 < rcDepla.x)
+		{
+			rcDeplaS.x = (6+cpt)*32;
+		}
+		if(prem(L).lig * 32 < rcDepla.y)
+		{
+			rcDeplaS.x = (2+cpt)*32;
+		}
+		if(prem(L).lig * 32 > rcDepla.y)
+		{
+			rcDeplaS.x = (0+cpt)*32;
+		}
+
+		rcDepla.x = prem(L).col * 32;
+		rcDepla.y = prem(L).lig * 32;
+		SDL_BlitSurface(perso, &rcDeplaS, screen, &rcDepla);
+		if(!est_vide(reste(L)))
+		{
+			L = reste(L);
+		}
+		cpt++;
+		if(cpt == 2)
+		{
+			cpt = 0;
+		}
+	}
+}
+
+
+
+
+
+
 void affichage_tab(int tab[COL][LIG])
 {
   int col,lig;
