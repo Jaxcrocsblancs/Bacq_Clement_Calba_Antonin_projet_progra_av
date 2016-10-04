@@ -1,13 +1,6 @@
 #ifndef AFFICHAGE_H
 #define AFFICHAGE_H
 
-struct map_objt
-{
-  SDL_Surface *s;
-  int a;
-};
-typedef struct map_objt map_objt;
-
 struct image
 {
   SDL_Surface* chene;
@@ -18,11 +11,15 @@ struct image
 };
 typedef struct image image;
 
+struct map_objt
+{
+  SDL_Surface *s;
+  int a;
+};
 
-
-void affichage_tab(map_objt tab[COL][LIG]);
+void affichage_tab(int tab[COL][LIG]);
 image zoom_image(image image, float zoom);
-void affichage_map(map_objt tab[COL][LIG],SDL_Surface *screen, int zoom, image image, SDL_Rect coord_init);
+void affichage_map(map_objt tab[COL][LIG],SDL_Surface *screen, int zoom, image image, SDL_Rect coord_init, image image);
 image image_init();
 
 

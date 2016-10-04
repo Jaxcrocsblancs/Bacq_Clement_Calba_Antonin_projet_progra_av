@@ -10,8 +10,7 @@ int main(int argc, char *argv[])
   SDL_Surface* screen;
   SDL_Rect coord;
   image image;
-  int sol[COL][LIG];
-  int block[COL][LIG]={0};
+  map_objt sol[COL][LIG];
   int seed, tic;
   int zoom=1;
   tic=1;
@@ -22,7 +21,6 @@ int main(int argc, char *argv[])
   generation_procedural(sol);
 
   affichage_tab(sol);
-  affichage_tab(block);
   /* initialize SDL */
   SDL_Init(SDL_INIT_VIDEO);
 
@@ -93,7 +91,6 @@ int main(int argc, char *argv[])
 	  }
 	}
       tic+=1;
-      affichage_screen(sol, screen, (float)zoom, image, coord);
       SDL_Flip(screen);
     }
   return 0;
