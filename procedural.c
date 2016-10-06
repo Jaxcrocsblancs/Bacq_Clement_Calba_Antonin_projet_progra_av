@@ -29,7 +29,7 @@ object proba_object(int nb, object procedu, int dist)
 
   if (nb == 1)
     procedu.chene += plus;
-  if (nb == 2) 
+  if (nb == 2)
     procedu.pommier += plus;
   if (nb == 3)
     procedu.fraisier += plus;
@@ -45,10 +45,6 @@ int proba(object procedu)
   if (a<procedu.chene)
     return 1;
   a-=procedu.chene;
-  
-  if (a<procedu.pommier)
-    return 2;
-  a-=procedu.pommier;
   if (a<procedu.fraisier)
     return 3;
   a-=procedu.fraisier;
@@ -58,7 +54,7 @@ int proba(object procedu)
   return 0;
 }
 
- 
+
 void generation_procedural(map_objt tab[COL][LIG])
 {
   int col, lig;
@@ -70,7 +66,7 @@ void generation_procedural(map_objt tab[COL][LIG])
 	tab[col][lig].a=0;
 	//initialisation variable structure object
 	procedu.chene=10;
-	procedu.pommier=10;
+	procedu.pommier=0;
 	procedu.fraisier=10;
 	procedu.ble=10;
 
@@ -138,7 +134,7 @@ void generation_procedural(map_objt tab[COL][LIG])
 	  }
 	tab[col][lig].a=proba(procedu);
       }
-  
+
   //Dans l'autre sens
   for (col=COL;col>0;col--)
     for (lig=LIG;lig>0;lig--)
