@@ -11,26 +11,21 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-void remplisTab(int tab[COL][LIG])
+void remplisTab(map_objt tab[COL][LIG])
 {
 	int col,lig;
 	for(col=0;col<COL;col++)
 	{
 		for(lig=0;lig<LIG;lig++)
 		{
-			tab[col][lig] = 0;
+			tab[col][lig].a = 0;
 		}
 	} // end for
-	tab[1][0] = 1;
-	tab[1][1] = 1;
-	tab[1][2] = 1;
-	tab[2][1] = 1;
-	tab[2][3] = 1;
-	tab[4][2] = 1;
-	tab[4][3] = 1;
-
-	tab[0][0] =  2;
-	tab[5][0] =  3;
+	tab[0][0].a = 1;
+	tab[0][1].a = 1;
+	tab[0][2].a = 1;
+	tab[0][3].a = 1;
+	tab[0][4].a = 1;
 }
 
 void afficherTab(int tab[COL][LIG])
@@ -66,11 +61,10 @@ void initnodes(map_objt tab[COL][LIG], NODE node[COL][LIG])
 		for(y=0;y<LIG;y++)
 		{
 			node[x][y].walkable = Walkable(tab,x,y);
-			node[x][y].onopen = false;
-			node[x][y].onclosed = false;
 			node[x][y].g = 0;
 			node[x][y].h = 0;
 			node[x][y].f = 0;
+			node[x][y].onclosed = 0;
 			node[x][y].parentx = NULL;
 			node[x][y].parenty = NULL;
 		}
@@ -123,7 +117,7 @@ liste_point findpath(int startx, int starty, int endx, int endy,NODE node[COL][L
 	currentx = startx;
 	currenty = starty;
 
-	node[startx][starty].onclosed = true; // ajoute un noeud de node a la liste ouverte
+	node[startx][starty].walkable = 0; // ajoute un noeud de node a la liste ouverte
 	pStart = remplisPoint(startx, starty, 0);
 	LF = cons(pStart,LF);
 
@@ -160,22 +154,14 @@ liste_point findpath(int startx, int starty, int endx, int endy,NODE node[COL][L
 							node[currentx + x][currenty + y].parentx = currentx;
 							node[currentx + x][currenty + y].parenty = currenty;
 						}
-						else
-						{
-							cptRetour += 1;
-						}
 					} // END if ((currentx + x < 0) || (currenty + y < 0) || (currentx + x >= COL) || (currenty + y >= LIG) )
-					else
-					{
-						cptRetour += 1;
-					}
 				} //END if ((x == 0) || (y == 0))
 			}
 		} // END for
 
 		if(est_vide(LO))
 		{
-			printf("Gros FAIL\n");
+			fprintf(stdin,"Gros FAIL\n");
 			printf("currentx = %d, currenty = %d\n",currentx,currenty);
 		}
 
@@ -186,7 +172,8 @@ liste_point findpath(int startx, int starty, int endx, int endy,NODE node[COL][L
 		currentx = pLF.col;
 		currenty = pLF.lig;
 		LO = supprimerR(pLF,LO);
-		node[currentx][currenty].onclosed = true;
+		node[currentx][currenty].onclosed = 1;
+		node[currentx][currenty].walkable = 0;
 		}
 
 
@@ -205,18 +192,21 @@ liste_point Astar(map_objt tab[COL][LIG], NODE node[COL][LIG],int startx, int st
 }
 
 
-//int main()
+//int main(int argc, char *argv[])
 //{
-//	int tab[COL][LIG];
-////	test();
+//	map_objt tab[COL][LIG];
+//	int dx,dy,fx,fy;
+//	dx = 5;
+//	dy = 3;
+//	fx = 0;
+//	fy = 0;
 //
+//	NODE node[COL][LIG];
 //	liste_point path;
 //
-//	path = Astar(tab);
+//	path = Astar(tab, node,dx,dy,fx,fy);
 //	afficher_point_liste(path);
 //	printf("\n");
-//	path = renverser_liste(path);
-//	afficher_point_liste(path);
 //
 //	return 0;
 //}
