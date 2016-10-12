@@ -17,7 +17,7 @@
 #define LIG 20
 
 
-void affichage_map(map_objt tab[COL][LIG],SDL_Surface *screen)
+void affichage_map(sol tab[COL][LIG],SDL_Surface *screen)
 {
 	SDL_Rect rcCase, rcCaseDest;
 
@@ -43,7 +43,7 @@ void affichage_map(map_objt tab[COL][LIG],SDL_Surface *screen)
 	}
 }
 
-void deplacement_chemin(map_objt tab[COL][LIG], SDL_Surface *screen, SDL_Surface *perso,SDL_Rect *rcDepla,
+void deplacement_chemin(sol tab[COL][LIG], SDL_Surface *screen, SDL_Surface *perso,SDL_Rect *rcDepla,
 		SDL_Rect rcDeplaS, liste_point *L, int buttx, int butty, NODE node[COL][LIG], int *cond)
 {
 	int dx,dy;
@@ -53,7 +53,7 @@ void deplacement_chemin(map_objt tab[COL][LIG], SDL_Surface *screen, SDL_Surface
 		dx = prem(*L).col;
 		dy = prem(*L).lig;
 
-		if(tab[dx][dy].a == 1)
+		if(tab[dx][dy].id == 1)
 		{
 			rcDepla->x = dx * 32;
 			rcDepla->y = dy * 32;
@@ -72,7 +72,7 @@ void deplacement_chemin(map_objt tab[COL][LIG], SDL_Surface *screen, SDL_Surface
 }
 
 
-void deplacement_personnage(map_objt tab[COL][LIG], SDL_Surface *screen, SDL_Surface *perso,SDL_Rect *rcDepla,
+void deplacement_personnage(sol tab[COL][LIG], SDL_Surface *screen, SDL_Surface *perso,SDL_Rect *rcDepla,
 		SDL_Rect rcDeplaS, liste_point *L, int buttx, int butty, NODE node[COL][LIG], int *cond)
 {
 	if(*cond > 0)
@@ -86,12 +86,12 @@ void deplacement_personnage(map_objt tab[COL][LIG], SDL_Surface *screen, SDL_Sur
 	}
 }
 
-void move_build(map_objt tab[COL][LIG], SDL_Surface *screen, SDL_Surface *perso,SDL_Surface *CaseR,SDL_Rect *rcDepla,
+void move_build(sol tab[COL][LIG], SDL_Surface *screen, SDL_Surface *perso,SDL_Surface *CaseR,SDL_Rect *rcDepla,
 		SDL_Rect rcDeplaS, int buttx, int butty, NODE node[COL][LIG],int *condBuild, liste_point *L)
 {
 	int dx,dy;
 
-	if(*condBuild > 0 && tab[buttx][butty].a != 0)
+	if(*condBuild > 0 && tab[buttx][butty].id != 0)
 	{
 		if(*condBuild == 1)
 		{
@@ -100,8 +100,8 @@ void move_build(map_objt tab[COL][LIG], SDL_Surface *screen, SDL_Surface *perso,
 		}
 		if(est_vide(reste(*L)))
 		{
-			tab[prem(*L).col][prem(*L).lig].a = 0;
-			tab[prem(*L).col][prem(*L).lig].s = *CaseR;
+			tab[prem(*L).col][prem(*L).lig].id = 0;
+			
 			*L = l_vide();
 			*condBuild = 0;
 		}
@@ -110,7 +110,7 @@ void move_build(map_objt tab[COL][LIG], SDL_Surface *screen, SDL_Surface *perso,
 			dx = prem(*L).col;
 			dy = prem(*L).lig;
 
-			if(tab[dx][dy].a == 1)
+			if(tab[dx][dy].id == 1)
 			{
 				rcDepla->x = dx * 32;
 				rcDepla->y = dy * 32;
@@ -126,15 +126,7 @@ void move_build(map_objt tab[COL][LIG], SDL_Surface *screen, SDL_Surface *perso,
 		{
 			*condBuild = 0;
 		}
-
 	}
-
-
-
-
-
-	deplacement_personnage(tab,screen,perso,rcDepla,rcDeplaS,L,buttx,butty,node,condBuild);
-
 }
 
 
@@ -159,7 +151,7 @@ int main(int argc, char *argv[])
 	rcDepla.h = 32;
 	rcDepla.w = 32;
 
-	map_objt tab[COL][LIG];
+	sol tab[COL][LIG];
 	NODE node[COL][LIG];
 
   /* initialize SDL */
@@ -193,7 +185,7 @@ int main(int argc, char *argv[])
 		for(lig=0;lig<LIG;lig++)
 		{
 			tab[col][lig].s = *CaseN;
-			tab[col][lig].a = 1;
+			tab[col][lig].id = 1;
 		}
 	} // end for$
 
@@ -226,7 +218,7 @@ int main(int argc, char *argv[])
 			{
 				if(event.button.button == SDL_BUTTON_LEFT)
 				{
-					if(tab[event.button.x / 32][event.button.y / 32].a == 1)
+					if(tab[event.button.x / 32][event.button.y / 32].id == 1)
 					{
 						buttx = (event.button.x / 32) * 32;
 						butty = (event.button.y /32) * 32;
@@ -235,7 +227,7 @@ int main(int argc, char *argv[])
 				}
 				if(event.button.button == SDL_BUTTON_RIGHT)
 				{
-//					tab[event.button.x/32][event.button.y/32].a = 0;
+//					tab[event.button.x/32][event.button.y/32].id = 0;
 //					tab[event.button.x/32][event.button.y/32].s = *CaseR;
 					buttRx = (event.button.x / 32) * 32;
 					buttRy = (event.button.y /32) * 32;
@@ -243,7 +235,7 @@ int main(int argc, char *argv[])
 				}
 				if(event.button.button == SDL_BUTTON_MIDDLE)
 				{
-					tab[event.button.x/32][event.button.y/32].a = 1;
+					tab[event.button.x/32][event.button.y/32].id = 1;
 					tab[event.button.x/32][event.button.y/32].s = *CaseN;
 				}
 

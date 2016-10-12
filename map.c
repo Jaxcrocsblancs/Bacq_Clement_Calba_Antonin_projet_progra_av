@@ -1,7 +1,7 @@
 /*
  * map.c
  *
- *  Created on: 26 sept. 20taille
+ *  Created on: 26 sept. 2016
  *      Author: cleme
  */
 
@@ -12,21 +12,21 @@
 #include <stdbool.h>
 #include <assert.h>
 
-void remplisTab(map_objt tab[COL][LIG])
+void remplisTab(sol tab[COL][LIG])
 {
 	int col,lig;
 	for(col=0;col<COL;col++)
 	{
 		for(lig=0;lig<LIG;lig++)
 		{
-			tab[col][lig].a = 0;
+			tab[col][lig].id = 0;
 		}
 	} // end for
-	tab[0][0].a = 1;
-	tab[0][1].a = 1;
-	tab[0][2].a = 1;
-	tab[0][3].a = 1;
-	tab[0][4].a = 1;
+	tab[0][0].id = 1;
+	tab[0][1].id = 1;
+	tab[0][2].id = 1;
+	tab[0][3].id = 1;
+	tab[0][4].id = 1;
 }
 
 void afficherTab(int tab[COL][LIG])
@@ -46,7 +46,7 @@ void afficherTab(int tab[COL][LIG])
 
 int Walkable(sol tab[COL][LIG], int col, int lig)
 {
-	if(tab[col][lig].a == 0)
+	if(tab[col][lig].id == 0)
 	{
 		return 0;
 	}
