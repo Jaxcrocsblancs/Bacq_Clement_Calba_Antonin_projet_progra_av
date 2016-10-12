@@ -1,7 +1,7 @@
 /*
  * map.c
  *
- *  Created on: 26 sept. 2016
+ *  Created on: 26 sept. 20taille
  *      Author: cleme
  */
 
@@ -44,7 +44,7 @@ void afficherTab(int tab[COL][LIG])
 	printf("\n");
 }
 
-int Walkable(map_objt tab[COL][LIG], int col, int lig)
+int Walkable(sol tab[COL][LIG], int col, int lig)
 {
 	if(tab[col][lig].a == 0)
 	{
@@ -54,7 +54,7 @@ int Walkable(map_objt tab[COL][LIG], int col, int lig)
 }
 
 
-void initnodes(map_objt tab[COL][LIG], NODE node[COL][LIG])
+void initnodes(sol tab[COL][LIG], NODE node[COL][LIG])
 {
 	int x,y;
 	for(x=0;x<COL;x++)
@@ -212,7 +212,7 @@ liste_point findpath(int startx, int starty, int endx, int endy,NODE node[COL][L
 } //END function
 
 
-liste_point Astar(map_objt tab[COL][LIG], NODE node[COL][LIG],int startx, int starty, int endx, int endy)
+liste_point Astar(sol tab[COL][LIG], NODE node[COL][LIG],int startx, int starty, int endx, int endy)
 {
 	initnodes(tab,node);
 	afficherNode(node);

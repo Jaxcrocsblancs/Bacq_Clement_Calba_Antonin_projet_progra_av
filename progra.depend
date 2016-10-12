@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1475500221 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\affichage.c
+1476228493 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\affichage.c
 	"include.h"
 
-1475500362 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\include.h
+1476194998 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\include.h
 	<SDL/SDL.h>
 	<stdlib.h>
 	<stdio.h>
@@ -11,6 +11,7 @@
 	"procedural.h"
 	"affichage.h"
 	"SDL_rotozoom.h"
+	"struct.h"
 
 1325742239 c:\program files (x86)\codeblocks\sdl-1.2.15\include\sdl\sdl.h
 	"SDL_main.h"
@@ -202,20 +203,22 @@
 	"begin_code.h"
 	"close_code.h"
 
-1475500221 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\define.h
+1476228410 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\define.h
 
-1475500221 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\procedural.h
+1476228967 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\procedural.h
+	"struct.h"
 
-1475500221 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\affichage.h
+1476228934 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\affichage.h
+	"struct.h"
 
 1475500386 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\sdl_rotozoom.h
 	<math.h>
 	"SDL/SDL.h"
 
-1475506709 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\main.c
+1476228528 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\main.c
 	"include.h"
 
-1475500221 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\procedural.c
+1476228856 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\procedural.c
 	"include.h"
 
 1475500221 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\sdl_rotozoom.c
@@ -223,4 +226,9 @@
 	<stdlib.h>
 	<string.h>
 	"SDL_rotozoom.h"
+
+1476103509 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\objet.c
+	"include.h"
+
+1476228819 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\struct.h
 

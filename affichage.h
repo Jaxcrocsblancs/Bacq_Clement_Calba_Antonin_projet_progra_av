@@ -1,26 +1,10 @@
+#include "struct.h"
 #ifndef AFFICHAGE_H
 #define AFFICHAGE_H
 
-struct image
-{
-  SDL_Surface* chene;
-  SDL_Surface* pommier;
-  SDL_Surface* fraisier;
-  SDL_Surface* ble;
-  SDL_Surface* herbe;
-};
-typedef struct image image;
-
-void affichage_tab(int tab[COL][LIG]);
-void affichage_screen(int tab[COL][LIG], SDL_Surface* screen, float zoom, image image, SDL_Rect coord_init);
+void affichage_tab(sol tab[COL][LIG]);
 image zoom_image(image image, float zoom);
+void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image, SDL_Rect coord_init);
 image image_init();
-
-
-
-
-
-
-
-
+void affichage_tab_object(sol tab[COL][LIG]);
 #endif
