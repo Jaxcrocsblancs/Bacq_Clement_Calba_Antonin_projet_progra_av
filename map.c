@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <assert.h>
 
 void remplisTab(map_objt tab[COL][LIG])
 {
@@ -86,6 +87,7 @@ void afficherNode(NODE node[COL][LIG])
 
 liste_point triPath(liste_point L, NODE node[COL][LIG])
 {
+
 	if(est_vide(reste(L)))
 	{
 		return l_vide();
@@ -99,6 +101,31 @@ liste_point triPath(liste_point L, NODE node[COL][LIG])
 	return triPath(L,node);
 }
 
+int test_arret(NODE node[COL][LIG], int currentx, int currenty, liste_point LO)
+{
+	int x,y;
+	for(x=-1;x<=1;x++)
+	{
+		for(y=-1;y<=1;y++)
+		{
+			if( ((x == 0)&&(y != 0)) || ((y == 0)&&(x != 0)))
+			{
+				if((currentx + x >= 0) && (currenty + y >= 0) && (currentx + x < COL) && (currenty + y < LIG) )
+				{
+					if(node[currentx + x][currenty + y].walkable && !node[currentx + x][currenty + y].onclosed)
+					{
+						return 1;
+					}
+				}
+			}
+		}
+	}
+	if(est_vide(LO))
+	{
+		return 0;
+	}
+	return 1;
+}
 
 liste_point findpath(int startx, int starty, int endx, int endy,NODE node[COL][LIG])
 {
@@ -120,11 +147,13 @@ liste_point findpath(int startx, int starty, int endx, int endy,NODE node[COL][L
 	node[startx][starty].walkable = 0; // ajoute un noeud de node a la liste ouverte
 	pStart = remplisPoint(startx, starty, 0);
 	LF = cons(pStart,LF);
+//	LO = cons(pStart,LO);
 
 
 	//s'arrete quand quand le quand la position actuelle est egal a l arrivee
-	while((currentx != endx) || (currenty != endy))
+	while(((currentx != endx) || (currenty != endy)) && test_arret(node,currentx,currenty,LO))
 	{
+//		LO = supprimerR(pStart,LO);
 		cptRetour = 0;
 		// recherche le plus petit F des noeuds en liste ouverte
 		for(x=-1;x<=1;x++)
@@ -159,11 +188,6 @@ liste_point findpath(int startx, int starty, int endx, int endy,NODE node[COL][L
 			}
 		} // END for
 
-		if(est_vide(LO))
-		{
-			fprintf(stdin,"Gros FAIL\n");
-			printf("currentx = %d, currenty = %d\n",currentx,currenty);
-		}
 
 		if(!est_vide(LO))
 		{
@@ -175,9 +199,13 @@ liste_point findpath(int startx, int starty, int endx, int endy,NODE node[COL][L
 		node[currentx][currenty].onclosed = 1;
 		node[currentx][currenty].walkable = 0;
 		}
-
-
 	}//END while
+
+	if(prem(LF).col != endx || prem(LF).lig != endy)
+	{
+		return l_vide();
+	}
+
 
 	LF = triPath(LF,node);
 	return renverser_liste(LF);
@@ -191,23 +219,4 @@ liste_point Astar(map_objt tab[COL][LIG], NODE node[COL][LIG],int startx, int st
 	return findpath(startx,starty,endx,endy,node);
 }
 
-
-//int main(int argc, char *argv[])
-//{
-//	map_objt tab[COL][LIG];
-//	int dx,dy,fx,fy;
-//	dx = 5;
-//	dy = 3;
-//	fx = 0;
-//	fy = 0;
-//
-//	NODE node[COL][LIG];
-//	liste_point path;
-//
-//	path = Astar(tab, node,dx,dy,fx,fy);
-//	afficher_point_liste(path);
-//	printf("\n");
-//
-//	return 0;
-//}
 
