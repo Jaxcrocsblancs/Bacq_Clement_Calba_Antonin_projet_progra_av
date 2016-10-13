@@ -11,7 +11,6 @@ typedef struct item item;
 
 struct sol
 {
-  //sol
   int id;
   item item;
 };
@@ -32,5 +31,29 @@ struct object
   int ble;
 };
 typedef  struct object object;
+
+struct point_cout
+{
+	int col;
+	int lig;
+	int f; // cout total
+};
+typedef struct point_cout point_cout;
+
+typedef struct Liste_point *liste_point;
+struct Liste_point
+{
+	point_cout premier;
+	liste_point reste;
+};
+
+
+struct perso
+{
+    SDL_Rect rcDest;
+    SDL_Rect rcSens;
+    SDL_Surface *perso;
+};
+typedef struct perso perso;
 
 #endif

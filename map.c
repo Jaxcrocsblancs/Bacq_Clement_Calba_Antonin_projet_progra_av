@@ -5,11 +5,7 @@
  *      Author: cleme
  */
 
-#include "map.h"
-#include "liste_point.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
+#include "include.h"
 
 void remplisTab(int tab[COL][LIG])
 {
@@ -50,7 +46,7 @@ void afficherTab(int tab[COL][LIG])
 
 int Walkable(sol tab[COL][LIG], int col, int lig)
 {
-	if(tab[col][lig].a == 0)
+	if(tab[col][lig].id == 1)
 	{
 		return 0;
 	}
@@ -200,24 +196,8 @@ liste_point findpath(int startx, int starty, int endx, int endy,NODE node[COL][L
 liste_point Astar(sol tab[COL][LIG], NODE node[COL][LIG],int startx, int starty, int endx, int endy)
 {
 	initnodes(tab,node);
-	afficherNode(node);
+//	afficherNode(node);
 	return findpath(startx,starty,endx,endy,node);
 }
 
-
-//int main()
-//{
-//	int tab[COL][LIG];
-////	test();
-//
-//	liste_point path;
-//
-//	path = Astar(tab);
-//	afficher_point_liste(path);
-//	printf("\n");
-//	path = renverser_liste(path);
-//	afficher_point_liste(path);
-//
-//	return 0;
-//}
 

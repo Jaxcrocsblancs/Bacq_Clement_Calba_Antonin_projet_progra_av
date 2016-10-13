@@ -5,7 +5,7 @@
  *      Author: cleme
  */
 
-#include "liste_point.h"
+#include "include.h"
 
 
 point_cout remplisPoint(int col, int lig, int f)

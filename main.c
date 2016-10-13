@@ -10,13 +10,17 @@ int main(int argc, char *argv[])
   freopen("CON", "w", stdout);
   freopen("CON", "r", stdin);
   freopen("CON", "w", stderr);
-    printf("test\n");
+
   SDL_Surface* screen;
   SDL_Rect coord;
   image image;
+  perso perso;
+  liste_point L;
+  NODE node[COL][LIG];
   sol sol[COL][LIG];
   int seed, tic;
   int zoom;
+  int buttx,butty,cond;
 
   tic=0;
   image=image_init();
@@ -27,7 +31,6 @@ int main(int argc, char *argv[])
   generation_procedural(sol);
   affichage_tab(sol);
 
-
   /* initialize SDL */
   SDL_Init(SDL_INIT_VIDEO);
 
@@ -35,6 +38,8 @@ int main(int argc, char *argv[])
   screen = SDL_SetVideoMode(COL*taille, LIG*taille, 0, 0);
 
   image = image_init();
+  perso = init_perso();
+
   coord.x = 0;
   coord.y = 0;
   zoom=1;
@@ -158,6 +163,9 @@ int main(int argc, char *argv[])
                     }
                 case SDL_BUTTON_RIGHT:
                     {
+                        buttx = event.motion.x / 32 * 32;
+                        butty = event.motion.y / 32 * 32;
+                        cond = 1;
                         printf("%d %d\n", (-coord.x+event.motion.x)/(taille*zoom), (-coord.y+event.motion.y)/(taille*zoom));
                         printf("droite bas\n");
                         break;
@@ -188,11 +196,12 @@ int main(int argc, char *argv[])
                 }
                 break;
             }
-
         }
       tic+=1;
       SDL_Delay(25);
       affichage_map(sol,screen, zoom, image, coord);
+      deplacement_personnage(sol, screen, &perso.rcDest, perso.rcSens, &L, buttx/taille, butty/taille, node, &cond);
+      SDL_BlitSurface(perso.perso, &perso.rcSens, screen, &perso.rcDest);
       SDL_Flip(screen);
     }
   return 0;

@@ -185,6 +185,32 @@ image image_init()
     return image;
 }
 
+perso init_perso()
+{
+    perso p;
+    SDL_Surface *image;
+    SDL_Rect rcDest;
+    SDL_Rect rcSens;
+
+    rcDest.x = 0;
+    rcDest.y = 0;
+    rcDest.h = 32;
+    rcDest.w = 32;
+
+    rcSens.x = 0;
+    rcSens.y = 0;
+    rcSens.h = 32;
+    rcSens.w = 32;
+
+    image = SDL_LoadBMP ("image/plante.bmp");
+
+    p.rcDest = rcDest;
+    p.rcSens = rcSens;
+    p.perso = image;
+
+    return p;
+}
+
 image zoom_image(image image, float zoom)
 {
   image.herbe = rotozoomSurface(image.herbe, 0, zoom, 1);
