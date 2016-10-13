@@ -19,21 +19,15 @@ typedef struct sol sol;
 
 struct image
 {
-  SDL_Surface* chene;
-  SDL_Surface* salade;
-  SDL_Surface* fraisier;
-  SDL_Surface* ble;
   SDL_Surface* herbe;
-  SDL_Surface* bois_1;
-  SDL_Surface* bois_2;
-  SDL_Surface* bois;
+  SDL_Surface* plante;
 };
 typedef struct image image;
 
 struct object
 {
   int chene;
-  int pommier;
+  int salade;
   int fraisier;
   int ble;
 };

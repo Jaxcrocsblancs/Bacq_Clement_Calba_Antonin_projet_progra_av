@@ -1,3 +1,8 @@
+/*************************/
+/* procedural.c          */
+/* Auteur : Bacq Clement */
+/* et Calba Antonin      */
+/*************************/
 #include "include.h"
 
 void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image, SDL_Rect coord_init)
@@ -20,24 +25,87 @@ void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image,
 	    for(lig=0;lig<LIG;lig++)
 	      {
             rcCaseDest.x = taille*zoom*lig +coord_init.x;
-                if (tab[col][lig].id==0)
-                     SDL_BlitSurface(image.herbe, &rcCase, screen, &rcCaseDest);
-                if (tab[col][lig].id==1)
-                     SDL_BlitSurface(image.chene, &rcCase, screen, &rcCaseDest);
-                if (tab[col][lig].id==3)
-                    SDL_BlitSurface(image.fraisier, &rcCase, screen, &rcCaseDest);
-                if (tab[col][lig].id==4)
-                    SDL_BlitSurface(image.ble, &rcCase, screen, &rcCaseDest);/*
-                if (tab[col][lig].id==10)
-                     SDL_BlitSurface(image.bois_1, &rcCase, screen, &rcCaseDest);
-                if (tab[col][lig].id==11)
-                    SDL_BlitSurface(image.bois_2, &rcCase, screen, &rcCaseDest);
-                if (tab[col][lig].id==12)
-                    SDL_BlitSurface(image.bois, &rcCase, screen, &rcCaseDest);*/
-
-                if (tab[col][lig].item.id==1)
-                    SDL_BlitSurface(image.bois_1, &rcCase, screen, &rcCaseDest);
+            SDL_BlitSurface(image.herbe, &rcCase, screen, &rcCaseDest);
 	      }
+	  }
+
+	for(col=0;col<COL;col++)
+	  {
+	    rcCaseDest.y = taille*zoom*col + coord_init.y;
+	    if (rcCaseDest.y> -taille*zoom)
+            for(lig=0;lig<LIG;lig++)
+              {
+                rcCaseDest.x = taille*zoom*lig + coord_init.x;
+                if (rcCaseDest.x> -taille*zoom)
+                {
+                switch (tab[col][lig].id)
+                    {
+                        case 1:
+                        {
+                            rcCase.x = 5*taille*zoom;
+                            rcCase.y = 0*taille*zoom;
+                            rcCase.h = 2*taille*zoom;
+                            rcCaseDest.y = taille*zoom*(col-1) + coord_init.y;
+                            SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+                            rcCaseDest.y = taille*zoom*col + coord_init.y;
+                            rcCase.h = taille*zoom;
+                            break;
+                        }
+                        case 2:
+                        {
+                            rcCase.x = 6*taille*zoom;
+                            rcCase.y = 2*taille*zoom;
+                            SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+                            break;
+                        }
+                       case 3:
+                        {
+                            rcCase.x = 4*taille*zoom;
+                            rcCase.y = 2*taille*zoom;
+                            SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+                            break;
+                        }
+                        case 4:
+                        {
+                            rcCase.x = 5*taille*zoom;
+                            rcCase.y = 2*taille*zoom;
+                            SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+                            break;
+                        }
+                    }
+                switch (tab[col][lig].item.id)
+                    {
+                    case 1:
+                    {
+                        rcCase.x = 2*taille*zoom;
+                        rcCase.y = 2*taille*zoom;
+                        SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+                        break;
+                    }
+                    case 2:
+                    {
+                        rcCase.x = 6*taille*zoom;
+                        rcCase.y = 3*taille*zoom;
+                        SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+                        break;
+                    }
+                    case 3:
+                    {
+                        rcCase.x = 7*taille*zoom;
+                        rcCase.y = 3*taille*zoom;
+                        SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+                        break;
+                    }
+                    case 4:
+                    {
+                        rcCase.x = 6*taille*zoom;
+                        rcCase.y = 4*taille*zoom;
+                        SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+                        break;
+                    }
+                  }
+                }
+              }
 	  }
 }
 
@@ -111,24 +179,16 @@ void affichage_tab_object(sol tab[COL][LIG])
 image image_init()
 {
     image image;
-    image.chene = SDL_LoadBMP ("image/chene.bmp");
-    image.fraisier = SDL_LoadBMP ("image/fraisier.bmp");
-    image.ble = SDL_LoadBMP ("image/ble.bmp");
     image.herbe = SDL_LoadBMP ("image/herbe.bmp");
-    image.bois_1 = SDL_LoadBMP ("image/1_bois.bmp");
-    image.bois_2 = SDL_LoadBMP ("image/2_3_bois.bmp");
-    image.bois = SDL_LoadBMP ("image/bois.bmp");
+    image.plante = SDL_LoadBMP ("image/plante.bmp");
+    SDL_SetColorKey(image.plante, SDL_SRCCOLORKEY, SDL_MapRGB(image.plante->format, 255, 0, 255));
     return image;
 }
 
 image zoom_image(image image, float zoom)
 {
   image.herbe = rotozoomSurface(image.herbe, 0, zoom, 1);
-  image.fraisier = rotozoomSurface(image.fraisier, 0, zoom, 1);
-  image.chene = rotozoomSurface(image.chene, 0, zoom, 1);
-  image.ble = rotozoomSurface(image.ble, 0, zoom, 1);
-  image.bois_1 = rotozoomSurface(image.bois_1, 0, zoom, 1);
-  image.bois_2 = rotozoomSurface(image.bois_2, 0, zoom, 1);
-  image.bois = rotozoomSurface(image.bois, 0, zoom, 1);
+  image.plante = rotozoomSurface(image.plante, 0, zoom, 1);
+  SDL_SetColorKey(image.plante, SDL_SRCCOLORKEY, SDL_MapRGB(image.plante->format, 255, 0, 255));
   return image;
 }

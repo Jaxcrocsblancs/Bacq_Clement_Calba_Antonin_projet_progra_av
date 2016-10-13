@@ -1,6 +1,6 @@
 /*************************/
 /* procedural.c          */
-/* auteur : Bacp Clement */
+/* auteur : Bacq Clement */
 /* et Calba Antonin      */
 /*************************/
 
@@ -35,7 +35,7 @@ object proba_object(int nb, object procedu, int dist)
   if (nb == 1)
     procedu.chene += plus;
   if (nb == 2)
-    procedu.pommier += plus;
+    procedu.salade += plus;
   if (nb == 3)
     procedu.fraisier += plus;
   if (nb == 4)
@@ -50,6 +50,9 @@ int proba(object procedu)
   if (a<procedu.chene)
     return 1;
   a-=procedu.chene;
+  if (a<procedu.salade)
+    return 2;
+  a-=procedu.salade;
   if (a<procedu.fraisier)
     return 3;
   a-=procedu.fraisier;
@@ -70,7 +73,7 @@ void generation_procedural(sol tab[COL][LIG])
 	tab[col][lig].id=0;
 	//initialisation variable structure object
 	procedu.chene=10;
-	procedu.pommier=0;
+	procedu.salade=10;
 	procedu.fraisier=10;
 	procedu.ble=10;
 
@@ -146,7 +149,7 @@ void generation_procedural(sol tab[COL][LIG])
 	tab[col][lig].id=0;
 	//initialisation variable structure object
 	procedu.chene= 0;
-	procedu.pommier= 0;
+	procedu.salade= 0;
 	procedu.fraisier= 0;
 	procedu.ble= 0;
 

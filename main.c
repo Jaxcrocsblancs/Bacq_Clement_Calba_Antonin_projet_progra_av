@@ -1,6 +1,6 @@
 /*************************/
 /* main.c                */
-/* auteur : Bacp Clement */
+/* auteur : Bacq Clement */
 /* et Calba Antonin      */
 /*************************/
 #include "include.h"
@@ -10,12 +10,14 @@ int main(int argc, char *argv[])
   freopen("CON", "w", stdout);
   freopen("CON", "r", stdin);
   freopen("CON", "w", stderr);
+
   SDL_Surface* screen;
   SDL_Rect coord;
   image image;
   sol sol[COL][LIG];
   int seed, tic;
   int zoom;
+
   tic=0;
   image=image_init();
   printf("donner la graine: \n");
@@ -24,6 +26,7 @@ int main(int argc, char *argv[])
   init_tab(sol);
   generation_procedural(sol);
   affichage_tab(sol);
+
 
   /* initialize SDL */
   SDL_Init(SDL_INIT_VIDEO);
@@ -118,16 +121,40 @@ int main(int argc, char *argv[])
                     }
                 case SDL_BUTTON_LEFT:
                     {
-
-                        printf("%d %d, %d\n", (-coord.y+event.motion.y)/(taille*zoom), (-coord.x+event.motion.x)/(taille*zoom),sol[(-coord.y+event.motion.y)/(taille*zoom)][(-coord.x+event.motion.x)/(taille*zoom)].id);
-                        if (sol[(-coord.x+event.motion.y)/(taille*zoom)][(-coord.y+event.motion.x)/(taille*zoom)].id == 1)
+                        switch (sol[(-coord.y+event.motion.y)/(taille*zoom)][(-coord.x+event.motion.x)/(taille*zoom)].id)
                         {
-                            printf("j'ai un arbre\n");
-                            sol[(-coord.x+event.motion.y)/(taille*zoom)][(-coord.y+event.motion.x)/(taille*zoom)].id = 0;
-                           sol[(-coord.x+event.motion.y)/(taille*zoom)][(-coord.y+event.motion.x)/(taille*zoom)].item.id = 1;
-                        }
+                            case 1:
+                                {
+                                printf("j'ai un arbre\n");
+                                sol[(-coord.y+event.motion.y)/(taille*zoom)][(-coord.x+event.motion.x)/(taille*zoom)].id = 0;
+                                sol[(-coord.y+event.motion.y)/(taille*zoom)][(-coord.x+event.motion.x)/(taille*zoom)].item.id = 1;
+                                break;
+                                }
+                            case 2:
+                                {
+                                printf("j'ai des patates\n");
+                                sol[(-coord.y+event.motion.y)/(taille*zoom)][(-coord.x+event.motion.x)/(taille*zoom)].id = 0;
+                                sol[(-coord.y+event.motion.y)/(taille*zoom)][(-coord.x+event.motion.x)/(taille*zoom)].item.id = 2;
+                                break;
+                                }
+                            case 3:
+                                {
+                                printf("j'ai des fraises\n");
+                                sol[(-coord.y+event.motion.y)/(taille*zoom)][(-coord.x+event.motion.x)/(taille*zoom)].id = 0;
+                                sol[(-coord.y+event.motion.y)/(taille*zoom)][(-coord.x+event.motion.x)/(taille*zoom)].item.id = 3;
+                                break;
+                                }
+                            case 4:
+                                {
+                                printf("j'ai des navets\n");
+                                sol[(-coord.y+event.motion.y)/(taille*zoom)][(-coord.x+event.motion.x)/(taille*zoom)].id = 0;
+                                sol[(-coord.y+event.motion.y)/(taille*zoom)][(-coord.x+event.motion.x)/(taille*zoom)].item.id = 4;
+                                break;
+                                }
+
                         printf("bas\n");
                         break;
+                        }
                     }
                 case SDL_BUTTON_RIGHT:
                     {
@@ -164,6 +191,7 @@ int main(int argc, char *argv[])
 
         }
       tic+=1;
+      SDL_Delay(25);
       affichage_map(sol,screen, zoom, image, coord);
       SDL_Flip(screen);
     }
