@@ -15,33 +15,6 @@
 #define COL 20
 #define LIG 20
 
-
-void affichage_map(sol tab[COL][LIG],SDL_Surface *screen)
-{
-	SDL_Rect rcCase, rcCaseDest;
-
-	rcCase.x = 0;
-	rcCase.y = 0;
-	rcCase.h = 32;
-	rcCase.w = 32;
-
-	rcCaseDest.x = 0;
-	rcCaseDest.y = 0;
-	rcCaseDest.h = 32;
-	rcCaseDest.w = 32;
-
-	int loc,gil;
-	for(loc=0;loc<COL;loc++)
-	{
-		rcCaseDest.x = 32*loc;
-		for(gil=0;gil<LIG;gil++)
-		{
-			rcCaseDest.y = 32*gil;
-			SDL_BlitSurface(&tab[loc][gil].s, &rcCase, screen, &rcCaseDest);
-		}
-	}
-}
-
 void deplacement_chemin(sol tab[COL][LIG], SDL_Surface *screen, SDL_Surface *perso,SDL_Rect *rcDepla,
 		SDL_Rect rcDeplaS, liste_point *L, int buttx, int butty, NODE node[COL][LIG], int *cond)
 {
