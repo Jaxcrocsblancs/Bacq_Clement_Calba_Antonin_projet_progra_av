@@ -39,4 +39,11 @@ struct object
 };
 typedef  struct object object;
 
+
+struct perso
+{
+	SDL_Rect rcSens;
+	SDL_Rect rcDest;
+	SDL_Surface *perso;
+
 #endif
