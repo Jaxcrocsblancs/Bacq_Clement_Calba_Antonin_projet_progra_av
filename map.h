@@ -14,35 +14,36 @@
 #define COL 20
 #define LIG 20
 
-struct sol
+struct map_objt
 {
 	SDL_Surface s;
-	int id;
+	int a;
 };
-typedef struct sol sol;
+typedef struct map_objt map_objt;
 
 struct NODE
 {
 	int walkable; // si on a accès a la case
 
+	int onopen; // liste ouverte
+	int onclosed; // liste fermé
+
 	int g; // cout de l'opération a un temps t
 	int h; // cout restant des opération a un temps t
 	int f; // cout total
-	int onclosed;
+
 	int parentx;
 	int parenty;
 }; // tableau representant la map
 
 typedef struct NODE NODE;
 
-liste_point chemin(sol tab[COL][LIG],int startx, int starty, int endx, int endy);
-
 liste_point findpath(int startx, int starty, int endx, int endy,NODE node[COL][LIG]);
 liste_point triPath(liste_point L,NODE node[COL][LIG]);
-void initnodes(sol tab[COL][LIG],NODE node[COL][LIG]);
-int Walkable(sol tab[COL][LIG],int col, int lig);
-void remplisTab(sol tab[COL][LIG]);
-liste_point Astar(sol tab[COL][LIG], NODE node[COL][LIG],int startx, int starty, int endx, int endy);
+void initnodes(map_objt tab[COL][LIG],NODE node[COL][LIG]);
+int Walkable(map_objt tab[COL][LIG],int col, int lig);
+void remplisTab(int tab[COL][LIG]);
+liste_point Astar(map_objt tab[COL][LIG], NODE node[COL][LIG],int startx, int starty, int endx, int endy);
 
 
 #endif /* MAP_H_ */
