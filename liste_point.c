@@ -112,7 +112,7 @@ void afficher_point_liste(liste_point L)
 	{
 		return;
 	}
-	printf("(%d, %d)\n",prem(L).col,prem(L).lig);
+	fprintf(stdin,"(%d, %d)\n",prem(L).col,prem(L).lig);
 	return afficher_point_liste(reste(L));
 }
 
