@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
   freopen("CON", "w", stdout);
   freopen("CON", "r", stdin);
   freopen("CON", "w", stderr);
-
+    printf("test\n");
   SDL_Surface* screen;
   SDL_Rect coord;
   image image;

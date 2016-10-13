@@ -8,7 +8,6 @@
 #include "SDL.h"
 #include "include.h"
 #include "map.h"
-#include "chemin.c"
 #include <assert.h>
 
 #define SCREEN_WIDTH 640
@@ -86,7 +85,7 @@ void deplacement_personnage(sol tab[COL][LIG], SDL_Surface *screen, SDL_Surface 
 	}
 }
 
-void move_build(sol tab[COL][LIG], SDL_Surface *screen, SDL_Surface *perso,SDL_Surface *CaseR,SDL_Rect *rcDepla,
+void deplacement_constr(sol tab[COL][LIG], SDL_Surface *screen, SDL_Surface *perso,SDL_Surface *CaseR,SDL_Rect *rcDepla,
 		SDL_Rect rcDeplaS, int buttx, int butty, NODE node[COL][LIG],int *condBuild, liste_point *L)
 {
 	int dx,dy;
@@ -98,33 +97,32 @@ void move_build(sol tab[COL][LIG], SDL_Surface *screen, SDL_Surface *perso,SDL_S
 			*L = Astar(tab,node,rcDepla->x/32,rcDepla->y/32,buttx,butty);
 			*condBuild = 2;
 		}
+		if(est_vide(*L))
+		{
+			*condBuild = 0;
+			return;
+		}
 		if(est_vide(reste(*L)))
 		{
 			tab[prem(*L).col][prem(*L).lig].id = 0;
-			
+			tab[prem(*L).col][prem(*L).lig].s = *CaseR;
 			*L = l_vide();
 			*condBuild = 0;
+			return;
 		}
-		if(!est_vide(*L))
-		{
-			dx = prem(*L).col;
-			dy = prem(*L).lig;
+		dx = prem(*L).col;
+		dy = prem(*L).lig;
 
-			if(tab[dx][dy].id == 1)
-			{
-				rcDepla->x = dx * 32;
-				rcDepla->y = dy * 32;
-				*L = reste(*L);
-			}
-			else
-			{
-				*L = Astar(tab,node,rcDepla->x/32,rcDepla->y/32,buttx,butty);
-				move_build(tab,screen,perso,CaseR,rcDepla,rcDeplaS,buttx,butty,node,condBuild,L);
-			}
+		if(tab[dx][dy].id == 1)
+		{
+			rcDepla->x = dx * 32;
+			rcDepla->y = dy * 32;
+			*L = reste(*L);
 		}
 		else
 		{
-			*condBuild = 0;
+			*L = Astar(tab,node,rcDepla->x/32,rcDepla->y/32,buttx,butty);
+			deplacement_constr(tab,screen,perso,CaseR,rcDepla,rcDeplaS,buttx,butty,node,condBuild,L);
 		}
 	}
 }
@@ -244,7 +242,7 @@ int main(int argc, char *argv[])
 
 		affichage_map(tab,screen);
 		deplacement_personnage(tab,screen,perso,&rcDepla,rcDeplaS,&L,buttx/32,butty/32,node,&cond);
-		move_build(tab,screen,perso,CaseR,&rcDepla,rcDeplaS,buttRx/32,buttRy/32,node,&condBuild,&L);
+		deplacement_constr(tab,screen,perso,CaseR,&rcDepla,rcDeplaS,buttRx/32,buttRy/32,node,&condBuild,&L);
 		SDL_BlitSurface(perso, &rcDeplaS, screen, &rcDepla);
 		SDL_UpdateRect(screen, 0, 0, 0, 0);
 		SDL_Delay(100);
