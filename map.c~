@@ -9,11 +9,15 @@
 
 int Walkable(sol tab[COL][LIG], int col, int lig)
 {
+<<<<<<< HEAD
+	if(tab[col][lig].id < 100)
+=======
 	if(tab[col][lig].id == 1)
+>>>>>>> 883f5c99e107cd40afcb916c82d59194a5a60dc4
 	{
-		return 0;
+		return 1;
 	}
-	return 1;
+	return 0;
 }
 
 void initnodes(sol tab[COL][LIG], NODE node[COL][LIG])

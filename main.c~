@@ -132,6 +132,8 @@ int main(/*int argc, char *argv[]*/)
 	  case SDL_MOUSEBUTTONDOWN:
 	    {
 	      switch (event.button.button)
+<<<<<<< HEAD
+=======
 		{
 		default:
 		  {
@@ -139,9 +141,7 @@ int main(/*int argc, char *argv[]*/)
 		  }
 		case SDL_BUTTON_LEFT:
 		  {
-		    buttx = event.motion.x / (taille*zoom);
-		    butty = event.motion.y / (taille*zoom);
-		    if (sol[(-coord.x+event.motion.x)/(taille*zoom)][(-coord.y+event.motion.y)/(taille*zoom)].id > 0)
+		    if (sol[(-coord.x+event.motion.x)/(taille*zoom)][(-coord.y+event.motion.y)/(taille*zoom)].id)
 		      {
 			sol[(-coord.x+event.motion.x)/(taille*zoom)][(-coord.y+event.motion.y)/(taille*zoom)].item.id = sol[(-coord.x+event.motion.x)/(taille*zoom)][(-coord.y+event.motion.y)/(taille*zoom)].id;
 			sol[(-coord.x+event.motion.x)/(taille*zoom)][(-coord.y+event.motion.y)/(taille*zoom)].id = 0;
@@ -151,13 +151,50 @@ int main(/*int argc, char *argv[]*/)
 		case SDL_BUTTON_RIGHT:
 		  {
 		  
-
-		    cond = 1;
+		    buttx = event.motion.x / (taille*zoom);
+		    butty = event.motion.y / (taille*zoom);
+		    if (sol[buttx][butty].id !=1)
+		      cond = 1;
 		    break;
 		  }
 		}
 	      break;
 	    }
+	  case SDL_MOUSEBUTTONUP:
+	    {
+	      switch (event.button.button)
+>>>>>>> 883f5c99e107cd40afcb916c82d59194a5a60dc4
+		{
+		default:
+		  {
+		    break;
+		  }
+		case SDL_BUTTON_LEFT:
+		  {
+<<<<<<< HEAD
+		    if (sol[(-coord.x+event.motion.x)/(taille*zoom)][(-coord.y+event.motion.y)/(taille*zoom)].id > 0)
+		      {
+			sol[(-coord.x+event.motion.x)/(taille*zoom)][(-coord.y+event.motion.y)/(taille*zoom)].item.id = sol[(-coord.x+event.motion.x)/(taille*zoom)][(-coord.y+event.motion.y)/(taille*zoom)].id;
+			sol[(-coord.x+event.motion.x)/(taille*zoom)][(-coord.y+event.motion.y)/(taille*zoom)].id = 0;
+		      }
+=======
+>>>>>>> 883f5c99e107cd40afcb916c82d59194a5a60dc4
+		    break;
+		  }
+		case SDL_BUTTON_RIGHT:
+		  {
+<<<<<<< HEAD
+		    buttx = event.motion.x / (taille*zoom);
+		    butty = event.motion.y / (taille*zoom);
+		    cond = 1;
+=======
+>>>>>>> 883f5c99e107cd40afcb916c82d59194a5a60dc4
+		    break;
+		  }
+		}
+	      break;
+	    }
+<<<<<<< HEAD
 	  case SDL_MOUSEBUTTONUP:
 	    {
 	      switch (event.button.button)
@@ -177,6 +214,8 @@ int main(/*int argc, char *argv[]*/)
 		}
 	      break;
 	    }
+=======
+>>>>>>> 883f5c99e107cd40afcb916c82d59194a5a60dc4
 	  }
 	      //deplacement_constr(sol,screen,&perso.rcDest,perso.rcSens,buttx,butty,node,&cond,&L);
       tic+=1;

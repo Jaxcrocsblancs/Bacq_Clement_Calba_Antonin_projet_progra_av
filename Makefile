@@ -1,25 +1,22 @@
-SRC = main.c procedural.c affichage.c SDL_rotozoom.c deplacement.c liste_point.c map.c
-INC = include.h procedural.h define.h affichage.h SDL_rotozoom.h deplacement.h liste_point.h map.h
+SYSCONF_LINK = gcc
+CPPFLAGS     = `sdl-config --cflags` -std=c99 -Wall -Wextra -g
+LDFLAGS      =
+LIBS         =  `sdl-config --libs` -lm
 
-# SRC = $(wildcard *.c)
-# INC = $(wildcard *.h)
+DESTDIR = ./obj/Debug/
+TARGET  = project
 
-OBJ = $(SRC:.c=.o)
-BIN = projet
+OBJECTS := $(addprefix $(DESTDIR),$(patsubst %.c,%.o,$(wildcard *.c)))
 
-CPPFLAGS = `sdl-config --cflags`
-CFLAGS   = -std=c99 -Wall -Wextra -g
-LDFLAGS  = `sdl-config --libs` -lm
+all: $(DESTDIR)$(TARGET)
 
-.PHONY: all clean
+$(DESTDIR)$(TARGET): $(OBJECTS)
+	$(SYSCONF_LINK) -Wall $(LDFLAGS) -o $(DESTDIR)$(TARGET) $(OBJECTS) $(LIBS)
 
-all: $(BIN)
-
-$(OBJ): $(INC)
-
-$(BIN): $(OBJ)
-	$(CC) $^ $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $(TARGET_ARCH) -o $@
+$(OBJECTS): $(DESTDIR)%.o: %.c
+	$(SYSCONF_LINK) -Wall $(CPPFLAGS) -c $(CFLAGS) $< -o $@
 
 clean:
-	rm -f $(OBJ)
-	rm -f $(BIN)
+	-rm -f $(OBJECTS)
+	-rm -f $(TARGET)
+

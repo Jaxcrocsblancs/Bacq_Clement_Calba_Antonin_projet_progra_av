@@ -139,6 +139,35 @@ int main(/*int argc, char *argv[]*/)
 		  }
 		case SDL_BUTTON_LEFT:
 		  {
+		    if (sol[(-coord.x+event.motion.x)/(taille*zoom)][(-coord.y+event.motion.y)/(taille*zoom)].id)
+		      {
+			sol[(-coord.x+event.motion.x)/(taille*zoom)][(-coord.y+event.motion.y)/(taille*zoom)].item.id = sol[(-coord.x+event.motion.x)/(taille*zoom)][(-coord.y+event.motion.y)/(taille*zoom)].id;
+			sol[(-coord.x+event.motion.x)/(taille*zoom)][(-coord.y+event.motion.y)/(taille*zoom)].id = 0;
+		      }
+		    break;
+		  }
+		case SDL_BUTTON_RIGHT:
+		  {
+		  
+		    buttx = event.motion.x / (taille*zoom);
+		    butty = event.motion.y / (taille*zoom);
+		    if (sol[buttx][butty].id !=1)
+		      cond = 1;
+		    break;
+		  }
+		}
+	      break;
+	    }
+	  case SDL_MOUSEBUTTONUP:
+	    {
+	      switch (event.button.button)
+		{
+		default:
+		  {
+		    break;
+		  }
+		case SDL_BUTTON_LEFT:
+		  {
 		    if (sol[(-coord.x+event.motion.x)/(taille*zoom)][(-coord.y+event.motion.y)/(taille*zoom)].id > 0)
 		      {
 			sol[(-coord.x+event.motion.x)/(taille*zoom)][(-coord.y+event.motion.y)/(taille*zoom)].item.id = sol[(-coord.x+event.motion.x)/(taille*zoom)][(-coord.y+event.motion.y)/(taille*zoom)].id;
