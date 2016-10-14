@@ -11,7 +11,6 @@ void deplacement_chemin(sol tab[COL][LIG], SDL_Surface *screen,SDL_Rect *rcDepla
                         int buttx, int butty, NODE node[COL][LIG], int *cond, int zoom)
 {
 	int dx,dy;
-
 	if(!est_vide(*L))
 	{
 		dx = prem(*L).col;
@@ -47,7 +46,6 @@ void deplacement_personnage(sol tab[COL][LIG], SDL_Surface *screen, SDL_Rect *rc
 		{
 			*L = Astar(tab,node,rcDepla->x/taille,rcDepla->y/taille,buttx,butty);
 			*cond = 2;
-			//afficherNode(node);
 		}
 		deplacement_chemin(tab,screen,rcDepla,rcDeplaS,L,buttx,butty,node,cond, zoom);
 	}

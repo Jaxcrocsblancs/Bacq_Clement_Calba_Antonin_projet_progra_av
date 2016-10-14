@@ -141,10 +141,10 @@ int main(int argc, char *argv[])
 		}
 	      case SDL_BUTTON_LEFT:
 		{
-		  if (sol[(-coord.y+event.motion.y)/(taille*zoom)][(-coord.x+event.motion.x)/(taille*zoom)].id)
+		  if (sol[(-coord.x+event.motion.x)/(taille*zoom)][(-coord.y+event.motion.y)/(taille*zoom)].id)
 		    {
-		      sol[(-coord.y+event.motion.y)/(taille*zoom)][(-coord.x+event.motion.x)/(taille*zoom)].item.id = sol[(-coord.y+event.motion.y)/(taille*zoom)][(-coord.x+event.motion.x)/(taille*zoom)].id;
-		      sol[(-coord.y+event.motion.y)/(taille*zoom)][(-coord.x+event.motion.x)/(taille*zoom)].id = 0;
+		      sol[(-coord.x+event.motion.x)/(taille*zoom)][(-coord.y+event.motion.y)/(taille*zoom)].item.id = sol[(-coord.x+event.motion.x)/(taille*zoom)][(-coord.y+event.motion.y)/(taille*zoom)].id;
+		      sol[(-coord.x+event.motion.x)/(taille*zoom)][(-coord.y+event.motion.y)/(taille*zoom)].id = 0;
 		    }
 		  break;
 		}
@@ -152,8 +152,9 @@ int main(int argc, char *argv[])
 		{
 		  buttx = event.motion.x / (taille*zoom);
 		  butty = event.motion.y / (taille*zoom);
-		  //printf("x:%d y:%d, node.walkable: %d, sol.id: %d\n",buttx, butty,node[buttx][butty].walkable,sol[buttx][butty]);
-		  cond = 1;
+		  printf("%d\n",sol[buttx][butty].id);
+		  if (sol[buttx][butty].id !=1)
+		    cond = 1;
 		  break;
 		}
 	      }
@@ -182,7 +183,7 @@ int main(int argc, char *argv[])
       deplacement_personnage(sol, screen, &perso.rcDest, perso.rcSens, &L, buttx, butty, node, &cond, zoom);
       //deplacement_constr(sol,screen,&perso.rcDest,perso.rcSens,buttx,butty,node,&cond,&L);
       tic+=1;
-      affichage_map(sol,screen, zoom, image, coord);
+      affichage_map(sol, screen, zoom, image, coord);
       SDL_BlitSurface(perso.perso, &perso.rcSens, screen, &perso.rcDest);
       SDL_UpdateRect(screen, 0, 0, 0, 0);
     }

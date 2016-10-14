@@ -21,22 +21,22 @@ void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image,
 	int col,lig;
 	for(col=0;col<COL;col++)
 	  {
-	    rcCaseDest.y = taille*zoom*col +coord_init.y;
+	    rcCaseDest.x = taille*zoom*col +coord_init.x;
 	    for(lig=0;lig<LIG;lig++)
 	      {
-            rcCaseDest.x = taille*zoom*lig +coord_init.x;
+            rcCaseDest.y = taille*zoom*lig +coord_init.y;
             SDL_BlitSurface(image.herbe, &rcCase, screen, &rcCaseDest);
 	      }
 	  }
 
 	for(col=0;col<COL;col++)
 	  {
-	    rcCaseDest.y = taille*zoom*col + coord_init.y;
-	    if (rcCaseDest.y> -taille*zoom)
+	    rcCaseDest.x = taille*zoom*col + coord_init.x;
+	    if (rcCaseDest.x> -taille*zoom)
             for(lig=0;lig<LIG;lig++)
               {
-                rcCaseDest.x = taille*zoom*lig + coord_init.x;
-                if (rcCaseDest.x> -taille*zoom)
+                rcCaseDest.y= taille*zoom*lig + coord_init.y;
+                if (rcCaseDest.y> -taille*zoom)
                 {
                 switch (tab[col][lig].id)
                     {
@@ -45,9 +45,9 @@ void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image,
                             rcCase.x = 5*taille*zoom;
                             rcCase.y = 0*taille*zoom;
                             rcCase.h = 2*taille*zoom;
-                            rcCaseDest.y = taille*zoom*(col-1) + coord_init.y;
+                            rcCaseDest.y = taille*zoom*(lig-1) + coord_init.y;
                             SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
-                            rcCaseDest.y = taille*zoom*col + coord_init.y;
+                            rcCaseDest.y = taille*zoom*lig + coord_init.y;
                             rcCase.h = taille*zoom;
                             break;
                         }
@@ -153,10 +153,10 @@ void affichage_surface(SDL_Surface *screen, SDL_Surface *s,SDL_Rect rcCase, SDL_
 
 void affichage_tab(sol tab[COL][LIG])
 {
-  int col,lig;
-  for (lig=0;lig<COL;lig++)
+  int col,lig;  
+  for (lig=0;lig<LIG;lig++)
     {
-      for (col=0;col<LIG;col++)
+      for (col=0;col<COL;col++)
         printf("%d ",tab[col][lig].id);
       printf("\n");
     }
@@ -166,9 +166,9 @@ void affichage_tab(sol tab[COL][LIG])
 void affichage_tab_object(sol tab[COL][LIG])
 {
   int col,lig;
-  for (col=0;col<COL;col++)
+  for (lig=0;lig<LIG;lig++)
     {
-      for (lig=0;lig<LIG;lig++)
+      for (col=0;col<COL;col++)
         printf("%d ",tab[col][lig].item.id);
       printf("\n");
     }
