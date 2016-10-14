@@ -194,13 +194,13 @@ perso init_perso()
 
     rcDest.x = 0;
     rcDest.y = 0;
-    rcDest.h = 32;
-    rcDest.w = 32;
+    rcDest.h = taille;
+    rcDest.w = taille;
 
     rcSens.x = 0;
     rcSens.y = 0;
-    rcSens.h = 32;
-    rcSens.w = 32;
+    rcSens.h = taille;
+    rcSens.w = taille;
 
     image = SDL_LoadBMP ("image/plante.bmp");
 
@@ -217,4 +217,9 @@ image zoom_image(image image, float zoom)
   image.plante = rotozoomSurface(image.plante, 0, zoom, 1);
   SDL_SetColorKey(image.plante, SDL_SRCCOLORKEY, SDL_MapRGB(image.plante->format, 255, 0, 255));
   return image;
+}
+perso zoom_perso(perso perso, float zoom)
+{
+    perso.perso = rotozoomSurface(perso.perso, 0, zoom, 1);
+    return perso;
 }

@@ -110,6 +110,7 @@ void afficher_point_liste(liste_point L)
 {
 	if(est_vide(L))
 	{
+	    printf("l_vide\n");
 		return;
 	}
 	printf("(%d, %d)\n",prem(L).col,prem(L).lig);

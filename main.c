@@ -18,18 +18,20 @@ int main(int argc, char *argv[])
   liste_point L;
   NODE node[COL][LIG];
   sol sol[COL][LIG];
-  int seed, tic;
-  int zoom;
-  int buttx,butty,cond;
+  int seed, tic, zoom, buttx, butty, cond;
+  SDL_Event event;
 
-  tic=0;
-  image=image_init();
+  L = l_vide();
+  tic = 0;
+  image = image_init();
+
   printf("donner la graine: \n");
   scanf("%d",&seed);
   srand (seed);
   init_tab(sol);
   generation_procedural(sol);
-  affichage_tab(sol);
+
+  srand(time);
 
   /* initialize SDL */
   SDL_Init(SDL_INIT_VIDEO);
@@ -42,13 +44,12 @@ int main(int argc, char *argv[])
 
   coord.x = 0;
   coord.y = 0;
-  zoom=1;
+  zoom = 1;
 
   int done = 0;
   while (done == 0)
     {
-      SDL_Event event;
-      SDL_WaitEvent(&event);
+      SDL_PollEvent(&event);
       switch (event.type)
         {
         default:
@@ -70,24 +71,39 @@ int main(int argc, char *argv[])
                     break;
                 case SDLK_z:
                     {
-                    if (zoom==1)
+                    if (zoom == 1)
                       {
-                        zoom=2;
-                        image=zoom_image(image, (float)zoom);
+                        zoom = 2;
+                        image = zoom_image(image, (float)zoom);
+                        perso = zoom_perso(perso, (float)zoom);
+                        perso.rcSens.h = taille *2;
+                        perso.rcSens.w = taille *2;
+                        perso.rcDest.h = taille *2;
+                        perso.rcDest.w = taille *2;
                       }
                     else
                       {
                         if (zoom==2)
                         {
-                            image=zoom_image(image, (float)zoom);
-                            zoom=4;
+                            image = zoom_image(image, (float)zoom);
+                            perso = zoom_perso(perso, (float)zoom);
+                            zoom = 4;
+                            perso.rcSens.h = taille *4;
+                            perso.rcSens.w = taille *4;
+                            perso.rcDest.h = taille *4;
+                            perso.rcDest.w = taille *4;
                         }
                         else
                         {
-                            image=image_init();
+                            image = image_init();
+                            perso = init_perso();
                             zoom=1;
                             coord.x=0;
                             coord.y=0;
+                            perso.rcSens.x = 0;
+                            perso.rcSens.y = 0;
+                            perso.rcDest.h = 0;
+                            perso.rcDest.w = 0;
                         }
                       }
                         break;
@@ -112,10 +128,8 @@ int main(int argc, char *argv[])
               }
         case SDL_MOUSEMOTION:
             {
-
                 break;
             }
-
         case SDL_MOUSEBUTTONDOWN:
             {
                 switch (event.button.button)
@@ -130,44 +144,40 @@ int main(int argc, char *argv[])
                         {
                             case 1:
                                 {
-                                printf("j'ai un arbre\n");
                                 sol[(-coord.y+event.motion.y)/(taille*zoom)][(-coord.x+event.motion.x)/(taille*zoom)].id = 0;
                                 sol[(-coord.y+event.motion.y)/(taille*zoom)][(-coord.x+event.motion.x)/(taille*zoom)].item.id = 1;
                                 break;
                                 }
                             case 2:
                                 {
-                                printf("j'ai des patates\n");
                                 sol[(-coord.y+event.motion.y)/(taille*zoom)][(-coord.x+event.motion.x)/(taille*zoom)].id = 0;
                                 sol[(-coord.y+event.motion.y)/(taille*zoom)][(-coord.x+event.motion.x)/(taille*zoom)].item.id = 2;
                                 break;
                                 }
                             case 3:
                                 {
-                                printf("j'ai des fraises\n");
                                 sol[(-coord.y+event.motion.y)/(taille*zoom)][(-coord.x+event.motion.x)/(taille*zoom)].id = 0;
                                 sol[(-coord.y+event.motion.y)/(taille*zoom)][(-coord.x+event.motion.x)/(taille*zoom)].item.id = 3;
                                 break;
                                 }
                             case 4:
                                 {
-                                printf("j'ai des navets\n");
                                 sol[(-coord.y+event.motion.y)/(taille*zoom)][(-coord.x+event.motion.x)/(taille*zoom)].id = 0;
                                 sol[(-coord.y+event.motion.y)/(taille*zoom)][(-coord.x+event.motion.x)/(taille*zoom)].item.id = 4;
                                 break;
                                 }
 
-                        printf("bas\n");
+
                         break;
                         }
+                        break;
                     }
                 case SDL_BUTTON_RIGHT:
                     {
-                        buttx = event.motion.x / 32 * 32;
-                        butty = event.motion.y / 32 * 32;
+                        buttx = event.motion.x / (taille*zoom);
+                        butty = event.motion.y / (taille*zoom);
+                        printf("x:%d y:%d, node.walkable: %d, sol.id: %d\n",buttx, butty,node[buttx][butty].walkable,sol[buttx][butty]);
                         cond = 1;
-                        printf("%d %d\n", (-coord.x+event.motion.x)/(taille*zoom), (-coord.y+event.motion.y)/(taille*zoom));
-                        printf("droite bas\n");
                         break;
                     }
                 }
@@ -183,26 +193,23 @@ int main(int argc, char *argv[])
                     }
                 case SDL_BUTTON_LEFT:
                     {
-                        printf("%d %d\n", (-coord.x+event.motion.x)/(taille*zoom), (-coord.y+event.motion.y)/(taille*zoom));
-                        printf("haut\n");
                         break;
                     }
                 case SDL_BUTTON_RIGHT:
                     {
-                        printf("%d %d\n", (-coord.x+event.motion.x)/(taille*zoom), (-coord.y+event.motion.y)/(taille*zoom));
-                        printf("haut droite\n");
                         break;
                     }
                 }
                 break;
             }
         }
+      deplacement_personnage(sol, screen, &perso.rcDest, perso.rcSens, &L, buttx, butty, node, &cond, zoom);
+      //deplacement_constr(sol,screen,&perso.rcDest,perso.rcSens,buttx,butty,node,&cond,&L);
       tic+=1;
-      SDL_Delay(25);
       affichage_map(sol,screen, zoom, image, coord);
-      deplacement_personnage(sol, screen, &perso.rcDest, perso.rcSens, &L, buttx/taille, butty/taille, node, &cond);
       SDL_BlitSurface(perso.perso, &perso.rcSens, screen, &perso.rcDest);
-      SDL_Flip(screen);
+      SDL_UpdateRect(screen, 0, 0, 0, 0);
+      SDL_Delay(100);
     }
   return 0;
 }

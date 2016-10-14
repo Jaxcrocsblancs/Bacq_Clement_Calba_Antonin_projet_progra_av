@@ -11,12 +11,15 @@
 #include "include.h"
 
 void deplacement_chemin(sol tab[COL][LIG], SDL_Surface *screen,SDL_Rect *rcDepla,
-		SDL_Rect rcDeplaS, liste_point *L, int buttx, int butty, NODE node[COL][LIG], int *cond);
+		SDL_Rect rcDeplaS, liste_point *L, int buttx, int butty, NODE node[COL][LIG], int *cond, int zoom);
 
 void deplacement_personnage(sol tab[COL][LIG], SDL_Surface *screen,SDL_Rect *rcDepla,
-		SDL_Rect rcDeplaS, liste_point *L, int buttx, int butty, NODE node[COL][LIG], int *cond);
+		SDL_Rect rcDeplaS, liste_point *L, int buttx, int butty, NODE node[COL][LIG], int *cond, int zoom);
 
-void deplacement_constr(sol tab[COL][LIG], SDL_Surface *screen,SDL_Surface *CaseR,SDL_Rect *rcDepla,
-		SDL_Rect rcDeplaS, int buttx, int butty, NODE node[COL][LIG],int *condBuild, liste_point *L);
+void deplacement_constr(sol tab[COL][LIG], SDL_Surface *screen,SDL_Rect *rcDepla,
+		SDL_Rect rcDeplaS, int buttx, int butty, NODE node[COL][LIG],int *condBuild, liste_point *L, int zoom);
 
+
+void constr_chemin(sol tab[COL][LIG], SDL_Surface *screen,SDL_Rect *rcDepla, SDL_Rect rcDeplaS, int buttx, int butty,
+                    NODE node[COL][LIG],int *condBuild, liste_point *L, int zoom);
 #endif /* DEPLACEMENT_H_ */

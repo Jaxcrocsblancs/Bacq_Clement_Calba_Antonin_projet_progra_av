@@ -9,22 +9,6 @@
 #ifndef MAP_H_
 #define MAP_H_
 
-struct NODE
-{
-	int walkable; // si on a accès a la case
-
-	int onopen; // liste ouverte
-	int onclosed; // liste fermé
-
-	int g; // cout de l'opération a un temps t
-	int h; // cout restant des opération a un temps t
-	int f; // cout total
-
-	int parentx;
-	int parenty;
-}; // tableau representant la map
-
-typedef struct NODE NODE;
 
 liste_point findpath(int startx, int starty, int endx, int endy,NODE node[COL][LIG]);
 liste_point triPath(liste_point L,NODE node[COL][LIG]);
