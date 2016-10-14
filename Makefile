@@ -8,7 +8,7 @@ OBJ = $(SRC:.c=.o)
 BIN = projet
 
 CPPFLAGS = `sdl-config --cflags`
-CFLAGS   = -std=c99 -Wall -Wextra
+CFLAGS   = -std=c99 -Wall -Wextra -g
 LDFLAGS  = `sdl-config --libs` -lm
 
 .PHONY: all clean

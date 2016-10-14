@@ -24,11 +24,11 @@ object proba_object(int nb, object procedu, int dist)
 {
   int plus;
   if (dist == 1)
-    plus = 12;
+    plus = 15;
   if (dist == 2)
-    plus = 7;
+    plus = 10;
   if (dist == 3)
-    plus = 4;
+    plus = 5;
   if (dist == 4)
     plus = 1;
 
@@ -65,157 +65,47 @@ int proba(object procedu)
 
 void generation_procedural(sol tab[COL][LIG])
 {
-  int col, lig;
+  int col, lig, dc, dl;
   object procedu;
   for (col=0;col<COL;col++)
     for (lig=0;lig<LIG;lig++)
       {
 	tab[col][lig].id=0;
 	//initialisation variable structure object
-	procedu.chene=10;
-	procedu.salade=10;
-	procedu.fraisier=10;
-	procedu.ble=10;
-
-	if (col>1)
+	procedu.chene=20;
+	procedu.salade=20;
+	procedu.fraisier=20;
+	procedu.ble=20;
+	for (dl=-2; dl<3; dl++) 
 	  {
-	    if (lig>1)
-	      procedu=proba_object(tab[col-2][lig-2].id,procedu, 4);
-	    if (lig>0)
-	      procedu=proba_object(tab[col-2][lig-1].id,procedu, 3);
-	    proba_object(tab[col-2][lig].id,procedu, 2);
-	    if (lig<LIG-2)
-	      procedu=proba_object(tab[col-2][lig+1].id,procedu, 3);
-	    if (lig<LIG-1)
-	      procedu=proba_object(tab[col-2][lig+2].id,procedu, 4);
+	    for (dc=-2; dc<3; dc++) 
+	      {
+		if (!dl || !dc) continue; // on traite pas la case elle meme
+		if (col+dc < 0 || col+dc > COL-1) continue; // on veut pas sortir du tableau
+		if (lig+dl < 0 || lig+dl > LIG-1) continue;
+		procedu=proba_object(tab[col+dc][lig+dl].id,procedu, abs(dc)+abs(dl));
+		tab[col][lig].id=proba(procedu);
+	      }
 	  }
-
-	if (col>0)
-	  {
-	    if (lig>1)
-	      procedu=proba_object(tab[col-1][lig-2].id,procedu, 3);
-	    if (lig>0)
-	      procedu=proba_object(tab[col-1][lig-1].id,procedu, 2);
-	    proba_object(tab[col-1][lig].id,procedu, 1);
-	    if (lig<LIG-2)
-	      procedu=proba_object(tab[col-1][lig+1].id,procedu, 2);
-	    if (lig<LIG-1)
-	      procedu=proba_object(tab[col-1][lig+2].id,procedu, 3);
-	  }
-
-	if (lig>1)
-	  procedu=proba_object(tab[col][lig-2].id,procedu, 2);
-	if (lig>0)
-	  procedu=proba_object(tab[col][lig-1].id,procedu, 1);
-	if (lig<LIG-2)
-	  procedu=proba_object(tab[col][lig+1].id,procedu, 1);
-	if (lig<LIG-1)
-	  procedu=proba_object(tab[col][lig+2].id,procedu, 2);
-
-	if (col<COL-2)
-	  {
-	    if (lig>1)
-	      procedu=proba_object(tab[col+1][lig-2].id,procedu, 3);
-	    if (lig>0)
-	      procedu=proba_object(tab[col+1][lig-1].id,procedu, 2);
-
-	    proba_object(tab[col+1][lig].id,procedu, 1);
-
-	    if (lig<LIG-2)
-	      procedu=proba_object(tab[col+1][lig+1].id,procedu, 2);
-	    if (lig<LIG-1)
-	      procedu=proba_object(tab[col+1][lig+2].id,procedu, 3);
-	  }
-
-	if (col<COL-1)
-	  {
-	    if (lig>1)
-	      procedu=proba_object(tab[col+2][lig-2].id,procedu, 4);
-	    if (lig>0)
-	      procedu=proba_object(tab[col+2][lig-1].id,procedu, 3);
-	    proba_object(tab[col+2][lig].id,procedu, 2);
-	    if (lig<LIG-2)
-	      procedu=proba_object(tab[col+2][lig+1].id,procedu, 3);
-	    if (lig<LIG-1)
-	      procedu=proba_object(tab[col+2][lig+2].id,procedu, 4);
-	  }
-	tab[col][lig].id=proba(procedu);
       }
 
-  //Dans l'autre sens
   for (col=COL;col>0;col--)
     for (lig=LIG;lig>0;lig--)
       {
 	tab[col][lig].id=0;
 	//initialisation variable structure object
-	procedu.chene= 0;
-	procedu.salade= 0;
-	procedu.fraisier= 0;
-	procedu.ble= 0;
-
-	if (col>1)
-	  {
-	    if (lig>1)
-	      procedu=proba_object(tab[col-2][lig-2].id,procedu, 4);
-	    if (lig>0)
-	      procedu=proba_object(tab[col-2][lig-1].id,procedu, 3);
-	    proba_object(tab[col-2][lig].id,procedu, 2);
-	    if (lig<LIG-2)
-	      procedu=proba_object(tab[col-2][lig+1].id,procedu, 3);
-	    if (lig<LIG-1)
-	      procedu=proba_object(tab[col-2][lig+2].id,procedu, 4);
+	procedu.chene=0;
+	procedu.salade=0;
+	procedu.fraisier=0;
+	procedu.ble=0;
+	for (dl=-2; dl<3; dl++) {
+	  for (dc=-2; dc<3; dc++) {
+	    if (!dl || !dc) continue; // on traite pas la case elle meme
+	    if (col+dc < 0 || col+dc > COL-1) continue; // on veut pas sortir du tableau
+	    if (lig+dl < 0 || lig+dl > LIG-1) continue;
+	    procedu=proba_object(tab[col+dc][lig+dl].id,procedu, abs(dc)+abs(dl));
+	    tab[col][lig].id=proba(procedu);
 	  }
-
-	if (col>0)
-	  {
-	    if (lig>1)
-	      procedu=proba_object(tab[col-1][lig-2].id,procedu, 3);
-	    if (lig>0)
-	      procedu=proba_object(tab[col-1][lig-1].id,procedu, 2);
-	    proba_object(tab[col-1][lig].id,procedu, 1);
-	    if (lig<LIG-2)
-	      procedu=proba_object(tab[col-1][lig+1].id,procedu, 2);
-	    if (lig<LIG-1)
-	      procedu=proba_object(tab[col-1][lig+2].id,procedu, 3);
-	  }
-
-	if (lig>1)
-	  procedu=proba_object(tab[col][lig-2].id,procedu, 2);
-	if (lig>0)
-	  procedu=proba_object(tab[col][lig-1].id,procedu, 1);
-	if (lig<LIG-2)
-	  procedu=proba_object(tab[col][lig+1].id,procedu, 1);
-	if (lig<LIG-1)
-	  procedu=proba_object(tab[col][lig+2].id,procedu, 2);
-
-	if (col<COL-2)
-	  {
-	    if (lig>1)
-	      procedu=proba_object(tab[col+1][lig-2].id,procedu, 3);
-	    if (lig>0)
-	      procedu=proba_object(tab[col+1][lig-1].id,procedu, 2);
-
-	    proba_object(tab[col+1][lig].id,procedu, 1);
-
-	    if (lig<LIG-2)
-	      procedu=proba_object(tab[col+1][lig+1].id,procedu, 2);
-	    if (lig<LIG-1)
-	      procedu=proba_object(tab[col+1][lig+2].id,procedu, 3);
-	  }
-
-	if (col<COL-1)
-	  {
-	    if (lig>1)
-	      procedu=proba_object(tab[col+2][lig-2].id,procedu, 4);
-	    if (lig>0)
-	      procedu=proba_object(tab[col+2][lig-1].id,procedu, 3);
-	    proba_object(tab[col+2][lig].id,procedu, 2);
-	    if (lig<LIG-2)
-	      procedu=proba_object(tab[col+2][lig+1].id,procedu, 3);
-	    if (lig<LIG-1)
-	      procedu=proba_object(tab[col+2][lig+2].id,procedu, 4);
-	  }
-	tab[col][lig].id = proba(procedu);
-
+	}
       }
 }
