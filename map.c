@@ -22,7 +22,7 @@ int Walkable(sol tab[COL][LIG], int col, int lig)
 void initnodes(sol tab[COL][LIG], NODE node[COL][LIG])
 {
 	int x,y;
-	affichage_tab(tab);
+	//affichage_tab(tab);
 	for(x=0;x<COL;x++)
 	{
 		for(y=0;y<LIG;y++)

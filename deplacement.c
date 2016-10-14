@@ -16,18 +16,19 @@ void deplacement_chemin(sol tab[COL][LIG], SDL_Surface *screen,SDL_Rect *rcDepla
 	{
 		dx = prem(*L).col;
 		dy = prem(*L).lig;
-
+		printf("sol[%d][%d].id = %d, node[%d][%d].walkabla = %d\n",dx,dy,tab[dx][dy].id,dx,dy,node[dx][dy].walkable);
+		printf("\n");
 		if(node[dx][dy].walkable == 0)
 		{
 			rcDepla->x = dx * taille*zoom;
 			rcDepla->y = dy * taille*zoom;
-			*L = reste(*L);
+  			*L = reste(*L);
 		}
 		else
 		{
-            printf("bloquer %d %d %D\n", tab[dx][dy].id, dx, dy);
-			*L = Astar(tab,node,rcDepla->x/taille,rcDepla->y/taille,buttx,butty);
-			deplacement_chemin(tab,screen,rcDepla,rcDeplaS,L,buttx,butty,node,cond,zoom);
+ 	 		  printf("bloquer %d %d %D\n", tab[dx][dy].id, dx, dy);
+	  		 *L = Astar(tab,node,rcDepla->x/taille,rcDepla->y/taille,buttx,butty);
+	 		  deplacement_chemin(tab,screen,rcDepla,rcDeplaS,L,buttx,butty,node,cond,zoom);
 		}
 	}
 	else
@@ -46,8 +47,7 @@ void deplacement_personnage(sol tab[COL][LIG], SDL_Surface *screen, SDL_Rect *rc
 		{
 			*L = Astar(tab,node,rcDepla->x/taille,rcDepla->y/taille,buttx,butty);
 			*cond = 2;
-			afficherNode(node);
-            afficher_point_liste(*L);
+			//afficherNode(node);
 		}
 		deplacement_chemin(tab,screen,rcDepla,rcDeplaS,L,buttx,butty,node,cond, zoom);
 	}

@@ -154,9 +154,9 @@ void affichage_surface(SDL_Surface *screen, SDL_Surface *s,SDL_Rect rcCase, SDL_
 void affichage_tab(sol tab[COL][LIG])
 {
   int col,lig;
-  for (col=0;col<COL;col++)
+  for (lig=0;lig<COL;lig++)
     {
-      for (lig=0;lig<LIG;lig++)
+      for (col=0;col<LIG;col++)
         printf("%d ",tab[col][lig].id);
       printf("\n");
     }
