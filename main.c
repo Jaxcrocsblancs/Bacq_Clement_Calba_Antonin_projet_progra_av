@@ -7,9 +7,9 @@
 
 int main(int argc, char *argv[])
 {
-  freopen("CON", "w", stdout);
+  /*freopen("CON", "w", stdout);
   freopen("CON", "r", stdin);
-  freopen("CON", "w", stderr);
+  freopen("CON", "w", stderr);*/
 
   if (SDL_Init (SDL_INIT_EVERYTHING))
     fprintf(stderr,"Couldn't initialize SDL: %s\n", SDL_GetError());

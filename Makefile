@@ -1,5 +1,5 @@
-SRC = main.c procedural.c affichage.c SDL_rotozoom.c
-INC = include.h procedural.h define.h affichage.h SDL_rotozoom.h
+SRC = main.c procedural.c affichage.c SDL_rotozoom.c deplacement.c liste_point.c map.c
+INC = include.h procedural.h define.h affichage.h SDL_rotozoom.h deplacement.h liste_point.h map.h
 
 # SRC = $(wildcard *.c)
 # INC = $(wildcard *.h)

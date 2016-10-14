@@ -77,17 +77,16 @@ void generation_procedural(sol tab[COL][LIG])
 	procedu.fraisier=20;
 	procedu.ble=20;
 	for (dl=-2; dl<3; dl++) 
-	  {
-	    for (dc=-2; dc<3; dc++) 
-	      {
-		if (!dl || !dc) continue; // on traite pas la case elle meme
-		if (col+dc < 0 || col+dc > COL-1) continue; // on veut pas sortir du tableau
-		if (lig+dl < 0 || lig+dl > LIG-1) continue;
-		procedu=proba_object(tab[col+dc][lig+dl].id,procedu, abs(dc)+abs(dl));
-		tab[col][lig].id=proba(procedu);
-	      }
-	  }
+	  for (dc=-2; dc<3; dc++) 
+	    {
+	      if (!dl || !dc) continue; // on traite pas la case elle meme
+	      if (col+dc < 0 || col+dc > COL-1) continue; // on veut pas sortir du tableau
+	      if (lig+dl < 0 || lig+dl > LIG-1) continue;
+	      procedu=proba_object(tab[col+dc][lig+dl].id,procedu, abs(dc)+abs(dl));
+	      tab[col][lig].id=proba(procedu);
+	    }
       }
+      
 
   for (col=COL;col>0;col--)
     for (lig=LIG;lig>0;lig--)
@@ -98,14 +97,15 @@ void generation_procedural(sol tab[COL][LIG])
 	procedu.salade=0;
 	procedu.fraisier=0;
 	procedu.ble=0;
-	for (dl=-2; dl<3; dl++) {
-	  for (dc=-2; dc<3; dc++) {
-	    if (!dl || !dc) continue; // on traite pas la case elle meme
-	    if (col+dc < 0 || col+dc > COL-1) continue; // on veut pas sortir du tableau
-	    if (lig+dl < 0 || lig+dl > LIG-1) continue;
-	    procedu=proba_object(tab[col+dc][lig+dl].id,procedu, abs(dc)+abs(dl));
-	    tab[col][lig].id=proba(procedu);
-	  }
-	}
+	for (dl=-2; dl<3; dl++) 
+	  for (dc=-2; dc<3; dc++) 
+	    {
+	      if (!dl || !dc) continue; // on traite pas la case elle meme
+	      if (col+dc < 0 || col+dc > COL-1) continue; // on veut pas sortir du tableau
+	      if (lig+dl < 0 || lig+dl > LIG-1) continue;
+	      procedu=proba_object(tab[col+dc][lig+dl].id,procedu, abs(dc)+abs(dl));
+	      tab[col][lig].id=proba(procedu);
+	    }
       }
+ 
 }
