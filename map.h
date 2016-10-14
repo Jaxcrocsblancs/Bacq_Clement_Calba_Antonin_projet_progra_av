@@ -15,7 +15,7 @@ liste_point triPath(liste_point L,NODE node[COL][LIG]);
 void initnodes(sol tab[COL][LIG],NODE node[COL][LIG]);
 int Walkable(sol tab[COL][LIG],int col, int lig);
 void remplisTab(int tab[COL][LIG]);
-liste_point Astar(sol tab[COL][LIG], NODE node[COL][LIG],int startx, int starty, int endx, int endy);
+liste_point Astar(sol tab[COL][LIG], int startx, int starty, int endx, int endy);
 
 
 #endif /* MAP_H_ */
