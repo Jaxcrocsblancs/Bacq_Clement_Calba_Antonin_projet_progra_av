@@ -1,0 +1,297 @@
+/*
+ * liste_point.c
+ *
+ *  Created on: 29 sept. 20taille
+ *      Author: cleme
+ */
+
+#include "include.h"
+
+
+point_cout remplisPoint(int col, int lig, int f)
+{
+  // Reservation de la place memoire neccessaire pour une cellule :
+  point_cout p ;
+
+  p.col = col;
+  p.lig = lig;
+  p.f = f;
+
+  return p;
+}
+
+liste_point l_vide (void)
+{
+  return NULL;
+}
+
+bool est_vide(liste_point L)
+{
+  return L == NULL;
+}
+
+point_cout prem(liste_point L)
+{
+  return L->premier;
+}
+
+liste_point reste(liste_point L)
+{
+  return L->reste;
+}
+
+void ecrire_prem (point_cout a, liste_point L)
+{
+  L->premier = a ;
+}
+
+void ecrire_reste (liste_point R, liste_point L)
+{
+  L->reste = R ;
+}
+
+liste_point cons(point_cout a, liste_point L)
+{
+  liste_point M ;
+
+  // Reservation de la place memoire neccessaire pour une cellule :
+  M = malloc (sizeof (*M)) ;
+
+  ecrire_prem(a,M);
+  ecrire_reste(L,M);
+  return M;
+}
+
+int presenceR(point_cout a, liste_point L)
+{
+  if(est_vide(L))
+    {
+      printf("non present\n");
+      return 0;
+    }
+  if( (prem(L).col == a.col) & (prem(L).lig == a.lig) )
+    {
+      printf("present\n");
+      return 1;
+    }
+  return presenceR(a,reste(L));
+}
+
+
+
+liste_point supprimerR(point_cout a, liste_point L) // MERCI MARCEAU
+{
+  if(est_vide(L))
+    {
+      return l_vide();
+    }
+
+  if((a.col == prem(L).col) & (a.lig == prem(L).lig) )
+    {
+      return supprimerR(a,reste(L));
+    }
+  return cons(prem(L),supprimerR(a,reste(L))) ;
+}
+
+point_cout plusPetitF(point_cout max,liste_point L)
+{
+  if(est_vide(L))
+    {
+      return max;
+    }
+  if(prem(L).f < max.f)
+    {  
+      max = prem(L);
+    }
+  return plusPetitF(max,reste(L));
+
+}
+
+void afficher_point_liste(liste_point L)
+{
+  if(est_vide(L))
+    {
+      printf("l_vide\n");
+      return;
+    }
+  printf("(%d, %d)\n",prem(L).col,prem(L).lig);
+  return afficher_point_liste(reste(L));
+}
+
+liste_point renverser_liste(liste_point L)
+{
+  liste_point R, M ;
+  R = l_vide () ;
+  M = L ;
+  while (!est_vide(M))
+    {
+      R = cons (prem(M), R) ;
+      M = reste (M) ;
+    }
+  return R ;
+
+}
+
+
+
+
+/*************************/
+/* liste_caractere.h     */
+/* auteur : Calba Antonin*/
+/* version : 1           */
+/* date : 26/04/16       */
+/*************************/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+typedef struct Liste *liste ;
+
+struct Liste
+{
+  char premier ;
+  liste suivant ;
+} ;
+
+/* SIGNATURES DES OPERATIONS PRIMITIVES */
+/* issues du type abstrait */
+liste l_vide ();
+liste cons (char x, liste L) ;
+bool est_vide (liste L) ;
+char prem (liste L) ;
+liste reste (liste L) ;
+/* autres opérations primitives */
+void liberer_liste (liste L) ;
+void ecrire_prem (char x, liste L) ;
+void ecrire_reste (liste R, liste L) ;
+
+/* IMPLANTATION DES OPERATIONS PRIMITIVES */
+/* Constructeurs */
+liste l_vide ()
+{
+  return NULL ;
+}
+
+liste cons (char x, liste L)
+{
+  liste M ;
+  // Réservation de la place mémoire nécessaire pour une cellule :
+  M = malloc (sizeof (*M)) ;
+  M->premier = x ; // On peut aussi écrire " M->premier = x ; "
+  M->suivant = L ;
+  return M ;
+}
+
+/* Accès */
+bool est_vide (liste L)
+{
+  return L == NULL ;
+}
+
+char prem (liste L)
+{
+  if (est_vide (L))
+    {
+      printf ("Calcul de prem sur liste vide !\n") ;
+      exit (0) ;
+    }
+  return L->premier ;
+}
+
+liste reste (liste L)
+{
+  return L->suivant ;
+}
+
+/* Autres opérations primitives (hors type-abstrait) */
+void liberer_liste (liste L)
+{
+  if (est_vide (L))
+    {
+      return ;
+    }
+  liberer_liste (reste (L)) ;
+  free(L) ;
+}
+
+void ecrire_prem (char x, liste L)
+{
+  L->premier = x ;
+}
+
+void ecrire_reste (liste R, liste L)
+{
+  L->suivant = R ;
+}
+
+/* OPERATIONS NON PRIMITIVES */
+unsigned int longueurR (liste L)
+{
+  if (est_vide (L))
+    return 0 ;
+  return 1 + longueurR (reste (L)) ;
+}
+
+unsigned int longueurI (liste L)
+{
+  unsigned int lg ;
+  lg = 0 ;
+  while (!est_vide (L))
+    {
+      lg = lg + 1 ;
+      L = reste (L) ;
+    }
+  return lg ;
+}
+
+void afficher_liste (liste L)
+{
+  printf ("(") ;
+  while (!est_vide (L))
+    {
+      printf ("%c%s",
+	      prem (L),
+	      (est_vide (reste(L)) ? "" : " ")) ;
+      L = reste (L) ;
+    }
+  printf (")") ;
+}
+
+liste renverser (liste L)
+{
+  liste R, M ;
+  R = l_vide () ;
+  M = L ;
+  while (!est_vide(M))
+    {
+      R = cons (prem(M), R) ;
+      M = reste (M) ;
+    }
+  return R ;
+}
+
+/* Opération non destructrice */
+liste repeter_elements (liste L)
+{
+  char x ;
+  if (est_vide (L))
+    {
+      return l_vide () ;
+    }
+  x = prem (L) ;
+  return cons (x, cons (x, repeter_elements (reste(L)))) ;
+}
+
+/* Opération destructrice */
+void repeter_elements_D (liste L)
+{
+  char x ;
+  if (est_vide (L))
+    {
+      return ; /* quitter la procédure */
+    }
+  x = prem (L) ;
+  ecrire_reste (cons (x, reste (L)), L) ;
+  repeter_elements_D (reste (reste (L))) ;
+}
