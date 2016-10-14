@@ -9,8 +9,7 @@
 
 perso deplacement_chemin(sol tab[COL][LIG], SDL_Surface *screen,perso perso, liste_point *L, int buttx, int butty, int *cond, int zoom)
 {
-  int dx,dy;
-
+  int dx, dy;
   if(!est_vide(*L))
     {
       dx = prem(*L).col;
