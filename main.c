@@ -16,9 +16,9 @@ int main(/*int argc, char *argv[]*/)
 
   /* create window */
   SDL_Surface *screen = NULL;
-  SDL_Rect coord;
+    SDL_Rect coord;
   SDL_Event event;
-  image image;
+   image image;
   perso perso;
   liste_point L;
   sol sol[COL][LIG];
@@ -26,16 +26,16 @@ int main(/*int argc, char *argv[]*/)
 
   L = l_vide();
   tic = 0;
-  image = image_init();
 
   printf("donner la graine: \n");
   //scanf("%d",&seed);
   seed=1;
 
+
   screen = SDL_SetVideoMode(COL*taille, LIG*taille, 24, 0);
   if (!screen)
     fprintf(stderr,"SetVideoMode error: %s\n", SDL_GetError());
-
+  
   srand (seed);
   init_tab(sol);
   generation_procedural(sol);
@@ -47,10 +47,11 @@ int main(/*int argc, char *argv[]*/)
   zoom = 1;
   done = 0;
   cond = 0;
-
+  
   while (done == 0)
     {
-      SDL_PollEvent(&event);
+         SDL_PollEvent(&event);
+      
 	switch (event.type)
 	  {
 	  default:
@@ -69,7 +70,7 @@ int main(/*int argc, char *argv[]*/)
 		   break;
 		 case SDLK_q:
 		   done = 1;
-		   break;
+		   break;  
 		 case SDLK_z:
 		   {
 		     if (zoom == 1)
@@ -108,7 +109,7 @@ int main(/*int argc, char *argv[]*/)
 			   }
 		       }
 		     break;
-		   }
+		     }
 	       case SDLK_DOWN:
 		 if (-(zoom-1)*LIG*taille < coord.y)
 		   coord.y-=taille*zoom;
@@ -177,12 +178,12 @@ int main(/*int argc, char *argv[]*/)
 	      break;
 	    }
 	  }
-      //deplacement_constr(sol,screen,&perso.rcDest,perso.rcSens,buttx,butty,node,&cond,&L);
+	      //deplacement_constr(sol,screen,&perso.rcDest,perso.rcSens,buttx,butty,node,&cond,&L);
       tic+=1;
       perso = deplacement_personnage(sol, screen,perso, &L, buttx, butty, &cond, zoom);
-      affichage_map(sol, screen, zoom, image, coord);
-      SDL_BlitSurface(perso.perso, &perso.rcSens, screen, &perso.rcDest);
-      SDL_UpdateRect(screen, 0, 0, 0, 0);
+            affichage_map(sol, screen, zoom, image, coord);
+            SDL_BlitSurface(perso.perso, &perso.rcSens, screen, &perso.rcDest);
+            SDL_UpdateRect(screen, 0, 0, 0, 0);
     }
   return 0;
 }

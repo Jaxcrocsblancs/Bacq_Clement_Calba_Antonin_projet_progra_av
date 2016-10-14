@@ -21,7 +21,6 @@ perso deplacement_chemin(sol tab[COL][LIG], SDL_Surface *screen,perso perso, lis
 	  perso.rcDest.x = dx * taille * zoom;
 	  perso.rcDest.y = dy * taille * zoom;
 	  *L = reste(*L);
-	  SDL_Delay(100);
 	}
       else
 	{
@@ -46,7 +45,6 @@ perso deplacement_personnage(sol tab[COL][LIG], SDL_Surface *screen,perso perso,
 	{
 	  *L = Astar(tab,perso.rcDest.x/ (taille*zoom),perso.rcDest.y/ (taille*zoom),buttx,butty);
 	  *cond = 2;
-	  afficher_point_liste(*L);
 	}
       return deplacement_chemin(tab,screen, perso, L, buttx, butty, cond, zoom);
     }

@@ -81,7 +81,6 @@ liste_point findpath(int startx, int starty, int endx, int endy,NODE node[COL][L
 	currentx = startx;
 	currenty = starty;
 
-	printf("startx %d starty %d\n",startx, starty);
 	node[startx][starty].walkable = 0; // ajoute un noeud de node a la liste ouverte
 	pStart = remplisPoint(startx, starty, 0);
 	LF = cons(pStart,LF);
@@ -117,9 +116,7 @@ liste_point findpath(int startx, int starty, int endx, int endy,NODE node[COL][L
 		      }
 	    if(est_vide(LO))
 	      {
-		fprintf(stdin,"Gros FAIL\n");
-		printf("currentx = %d, currenty = %d\n",currentx,currenty);
-		return l_vide();
+		return l_vide();/// ATTENTION PEUT ETRE UN PROBLEME
 	      }
 	    if(!est_vide(LO))
 	      {
@@ -134,7 +131,6 @@ liste_point findpath(int startx, int starty, int endx, int endy,NODE node[COL][L
 
 
 	  }//END while
-	node[startx][starty].walkable = 1;
 	LF = triPath(LF,node);
 	return renverser_liste(LF);
 } //END function
@@ -144,6 +140,5 @@ liste_point Astar(sol tab[COL][LIG] ,int startx, int starty, int endx, int endy)
 {
   NODE node[COL][LIG];
   initnodes(tab,node);
-  afficherNode(node);
   return findpath(startx,starty,endx,endy,node);
 }

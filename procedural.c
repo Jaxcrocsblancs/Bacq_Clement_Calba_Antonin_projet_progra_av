@@ -87,9 +87,9 @@ void generation_procedural(sol tab[COL][LIG])
 	    }
       }
       
-
-  for (col=COL;col>0;col--)
-    for (lig=LIG;lig>0;lig--)
+ 
+  for (col=COL-1;col>=0;col--)
+    for (lig=LIG-1;lig>=0;lig--)
       {
 	tab[col][lig].id=0;
 	//initialisation variable structure object
