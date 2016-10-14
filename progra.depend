@@ -2,8 +2,8 @@
 1476384259 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\affichage.c
 	"include.h"
 
-1476370522 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\include.h
-	<SDL/SDL.h>
+1476436111 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\include.h
+	<SDL.h>
 	<stdlib.h>
 	<stdio.h>
 	<time.h>
@@ -215,14 +215,14 @@
 1476384425 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\affichage.h
 	"struct.h"
 
-1476332328 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\sdl_rotozoom.h
+1476436111 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\sdl_rotozoom.h
 	<math.h>
-	"SDL/SDL.h"
+	"SDL.h"
 
 1476434004 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\main.c
 	"include.h"
 
-1476332328 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\procedural.c
+1476436111 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\procedural.c
 	"include.h"
 
 1476332328 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\sdl_rotozoom.c
@@ -251,6 +251,6 @@
 1476433565 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\deplacement.h
 	"include.h"
 
-1476383958 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\map.c
+1476435051 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\map.c
 	"include.h"
 

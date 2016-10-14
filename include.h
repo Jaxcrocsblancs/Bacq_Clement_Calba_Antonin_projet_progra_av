@@ -1,7 +1,7 @@
 #ifndef INCLUDE_H
 #define INCLUDE_H
 
-#include <SDL/SDL.h>
+#include <SDL.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
