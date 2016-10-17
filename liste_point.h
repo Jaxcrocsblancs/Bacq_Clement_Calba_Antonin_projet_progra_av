@@ -4,28 +4,10 @@
  *  Created on: 29 sept. 2016
  *      Author: cleme
  */
+#include "include.h"
 
 #ifndef LISTE_POINT_H_
 #define LISTE_POINT_H_
-
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-
-struct point_cout
-{
-	int col;
-	int lig;
-	int f; // cout total
-};
-typedef struct point_cout point_cout;
-
-typedef struct Liste_point *liste_point;
-struct Liste_point
-{
-	point_cout premier;
-	liste_point reste;
-};
 
 
 liste_point l_vide () ;
