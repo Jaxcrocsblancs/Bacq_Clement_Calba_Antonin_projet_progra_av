@@ -15,6 +15,9 @@
 #include "map.h"
 #include "liste_point.h"
 #include "deplacement.h"
+<<<<<<< HEAD
 #include "actionMenu.h"
+=======
+>>>>>>> 883f5c99e107cd40afcb916c82d59194a5a60dc4
 
 #endif

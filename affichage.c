@@ -204,18 +204,25 @@ perso init_perso()
     rcSens.h = taille;
     rcSens.w = taille;
 
+<<<<<<< HEAD
     image = SDL_LoadBMP ("image/test.bmp");
     SDL_SetColorKey(image, SDL_SRCCOLORKEY, SDL_MapRGB(image->format, 255, 0, 255));
+=======
+    image = SDL_LoadBMP ("image/plante.bmp");
+>>>>>>> 883f5c99e107cd40afcb916c82d59194a5a60dc4
 
     p.rcDest = rcDest;
     p.rcSens = rcSens;
     p.perso = image;
 
+<<<<<<< HEAD
 	p.item.id = 0;
 	p.item.nb = 0;
 
 	p.cptSens.x = 0;
 	p.cptSens.y = 0;
+=======
+>>>>>>> 883f5c99e107cd40afcb916c82d59194a5a60dc4
     return p;
 }
 
@@ -231,9 +238,12 @@ perso zoom_perso(perso perso, float zoom)
     perso.perso = rotozoomSurface(perso.perso, 0, zoom, 1);
     return perso;
 }
+<<<<<<< HEAD
 
 
 
 
 
 
+=======
+>>>>>>> 883f5c99e107cd40afcb916c82d59194a5a60dc4

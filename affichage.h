@@ -9,5 +9,8 @@ void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image,
 image image_init();
 void affichage_tab_object(sol tab[COL][LIG]);
 perso init_perso();
+<<<<<<< HEAD
 perso affichage_perso(perso perso, liste_point L, int zoom);
+=======
+>>>>>>> 883f5c99e107cd40afcb916c82d59194a5a60dc4
 #endif
