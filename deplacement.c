@@ -49,3 +49,25 @@ perso deplacement_personnage(sol tab[COL][LIG], SDL_Surface *screen,perso perso,
     }
   return perso;
 }
+
+perso ramasse_objets(sol tab[COL][LIG], perso perso, int zoom)
+{
+    int memid, memnb;
+    if (tab[perso.rcDest.x/(taille*zoom)][perso.rcDest.y/(taille*zoom)].item.id == perso.id && perso.id !=0)
+    {
+      perso.nb += tab[perso.rcDest.x/(taille*zoom)][perso.rcDest.y/(taille*zoom)].item.nb;
+      tab[perso.rcDest.x/(taille*zoom)][perso.rcDest.y/(taille*zoom)].item.id = 0;
+    }
+
+    else
+    {
+        memid = tab[perso.rcDest.x/(taille*zoom)][perso.rcDest.y/(taille*zoom)].item.id;
+        memnb = tab[perso.rcDest.x/(taille*zoom)][perso.rcDest.y/(taille*zoom)].item.nb;
+        tab[perso.rcDest.x/(taille*zoom)][perso.rcDest.y/(taille*zoom)].item.id = perso.id;
+        tab[perso.rcDest.x/(taille*zoom)][perso.rcDest.y/(taille*zoom)].item.nb = perso.nb;
+        perso.id = memid;
+        perso.nb = memnb;
+    }
+    return perso;
+}
+

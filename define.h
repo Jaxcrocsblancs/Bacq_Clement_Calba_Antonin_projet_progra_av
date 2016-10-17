@@ -4,6 +4,6 @@
 /* et Calba Antonin      */
 /*************************/
 
-#define COL 20
-#define LIG 20
+#define COL 200
+#define LIG 200
 #define taille 32

@@ -27,6 +27,7 @@ struct image
 {
   SDL_Surface* herbe;
   SDL_Surface* plante;
+  SDL_Surface* alpha;
 };
 
 struct object
@@ -56,6 +57,9 @@ struct perso
     SDL_Rect rcDest;
     SDL_Rect rcSens;
     SDL_Surface *perso;
+    char porter;
+    int nb;
+    int id;
 };
 
 struct NODE
