@@ -225,6 +225,9 @@ perso init_perso()
 	p.cptSens.x = 0;
 	p.cptSens.y = 0;
 
+    p.pos.x = 0;
+    p.pos.y = 0;
+
     return p;
 }
 

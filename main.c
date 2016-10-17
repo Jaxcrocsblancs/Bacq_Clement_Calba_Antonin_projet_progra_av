@@ -110,8 +110,6 @@ int main(int argc, char *argv[])
 			 perso = zoom_perso(perso, (float)zoom);
 			 perso.rcSens.h = taille *2;
 			 perso.rcSens.w = taille *2;
-			 perso.rcDest.h = taille *2;
-			 perso.rcDest.w = taille *2;
 		       }
 		     else
 		       {
@@ -122,8 +120,6 @@ int main(int argc, char *argv[])
 			     zoom = 4;
 			     perso.rcSens.h = taille *4;
 			     perso.rcSens.w = taille *4;
-			     perso.rcDest.h = taille *4;
-			     perso.rcDest.w = taille *4;
 			   }
 			 else
 			   {
@@ -134,8 +130,6 @@ int main(int argc, char *argv[])
 			     coord.y=0;
 			     perso.rcSens.x = 0;
 			     perso.rcSens.y = 0;
-			     perso.rcDest.h = 0;
-			     perso.rcDest.w = 0;
 			   }
 		       }
 		     break;
@@ -144,7 +138,6 @@ int main(int argc, char *argv[])
              if (-(zoom)*(LIG*taille) + largeur < coord.y)
              {
                 coord.y-=taille*zoom;
-                perso.rcDest.y-= taille*zoom;
              }
 
 
@@ -153,21 +146,19 @@ int main(int argc, char *argv[])
              if (coord.y<0)
              {
                 coord.y+=taille*zoom;
-                perso.rcDest.y += taille*zoom;
              }
              break;
 	       case SDLK_LEFT:
              if (coord.x<0)
                {
                 coord.x+=taille*zoom;
-                perso.rcDest.x += taille*zoom;
-               }
+                          }
              break;
 	       case SDLK_RIGHT:
            if  (-(zoom)*(COL*taille)+ hauteur < coord.x)
                {
                 coord.x-=taille*zoom;
-                perso.rcDest.x -= taille*zoom;
+
                }
              break;
 	       }
@@ -222,11 +213,12 @@ int main(int argc, char *argv[])
 	  }
 	  tic+=1;
 	  affichage_map(sol, screen, zoom, image, coord, hauteur, largeur);
-	  perso = actionMenu(action,sol,screen,perso,&L,buttx,butty,&cond,zoom,&click, coord);
-      printf("buttx: %d butty: %d \n",buttx,butty);
-	  printf("persox:%d persoy:%d     \n",perso.rcDest.x/(taille*zoom) - coord.x/(taille*zoom) ,perso.rcDest.y/(taille*zoom)- coord.y/(taille*zoom));
-	  if (perso.rcDest.x >=0 && perso.rcDest.y >=0 && perso.rcDest.y < -coord.y + largeur && perso.rcDest.x < -coord.x + largeur)
-        SDL_BlitSurface(perso.perso, &perso.rcSens, screen, &perso.rcDest);
+	  perso = actionMenu(action,sol,screen,perso,&L,buttx,butty,&cond,zoom,&click);
+	  perso.rcDest.x = perso.pos.x * taille * zoom + coord.x;
+	  perso.rcDest.y = perso.pos.y * taille * zoom + coord.y;
+	  printf("persox: %d   persoy:  %d\n",perso.pos.x,perso.pos.y);
+	  printf("buttx:  %d   butty:   %d\n",buttx,butty);
+      SDL_BlitSurface(perso.perso, &perso.rcSens, screen, &perso.rcDest);
 	  SDL_UpdateRect(screen, 0, 0, 0, 0);
 	}
 

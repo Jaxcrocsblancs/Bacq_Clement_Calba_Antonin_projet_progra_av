@@ -56,7 +56,6 @@ struct cptSens
 {
     int x;
     int y;
-
 };
 
 struct perso
@@ -66,6 +65,7 @@ struct perso
     cptSens cptSens;
     SDL_Surface *perso;
     item item;
+    cptSens pos;
 };
 
 struct NODE

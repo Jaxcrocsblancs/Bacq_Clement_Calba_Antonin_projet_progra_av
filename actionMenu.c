@@ -7,9 +7,9 @@
 #include "include.h"
 #include <assert.h>
 
-void couper(sol tab[COL][LIG],int buttx, int butty, perso perso, int zoom, int *click, SDL_Rect coord)
+void couper(sol tab[COL][LIG],int buttx, int butty, perso perso, int zoom, int *click)
 {
-	if((perso.rcDest.x / (taille*zoom) + coord.x/(taille*zoom)== buttx) && (perso.rcDest.y / (taille*zoom)+ coord.y/(taille*zoom) == butty))
+	if((perso.pos.x  == buttx) && (perso.pos.y == butty))
 	{
 	    if (tab[buttx][butty].id > 0) // ne marche pas avec le zoom
 	    {
@@ -20,9 +20,9 @@ void couper(sol tab[COL][LIG],int buttx, int butty, perso perso, int zoom, int *
 	}
 }
 
-perso ramasser(sol tab[COL][LIG], perso perso, int buttx, int butty, int zoom, int *click, SDL_Rect coord)
+perso ramasser(sol tab[COL][LIG], perso perso, int buttx, int butty, int zoom, int *click)
 {
-	if((perso.rcDest.x / (taille*zoom)+ coord.x/(taille*zoom) == buttx) && (perso.rcDest.y / (taille*zoom)+ coord.y/(taille*zoom) == butty))
+	if((perso.pos.x == buttx) && (perso.pos.y == butty))
 	{
 		if(tab[buttx][butty].item.id == perso.item.id || perso.item.id == 0)
 		{
@@ -37,9 +37,9 @@ perso ramasser(sol tab[COL][LIG], perso perso, int buttx, int butty, int zoom, i
 	return perso;
 }
 
-perso deposer(sol tab[COL][LIG], perso perso, int buttx, int butty, int zoom, int *click, SDL_Rect coord)
+perso deposer(sol tab[COL][LIG], perso perso, int buttx, int butty, int zoom, int *click)
 {
-	if((perso.rcDest.x / (taille*zoom) + coord.x/(taille*zoom)== buttx) && (perso.rcDest.y / (taille*zoom)+ coord.y/(taille*zoom) == butty))
+	if((perso.pos.x== buttx) && (perso.pos.y== butty))
 	{
 		if((tab[buttx][butty].item.id == perso.item.id || tab[buttx][butty].item.id == 0) && perso.item.id != 0)
 		{
@@ -53,21 +53,21 @@ perso deposer(sol tab[COL][LIG], perso perso, int buttx, int butty, int zoom, in
 	return perso;
 }
 
-perso actionMenu(int action, sol tab[COL][LIG], SDL_Surface *screen,perso perso, liste_point *L, int buttx, int butty, int *cond, int zoom, int *click, SDL_Rect coord)
+perso actionMenu(int action, sol tab[COL][LIG], SDL_Surface *screen,perso perso, liste_point *L, int buttx, int butty, int *cond, int zoom, int *click)
 {
-	perso = deplacement_personnage(tab,screen,perso,L,buttx,butty,cond,zoom,coord);
+	perso = deplacement_personnage(tab,screen,perso,L,buttx,butty,cond,zoom);
 	if(*click != 0)
 	{
 		switch(action)
 		{
 		case 1:
-			couper(tab,buttx,butty,perso,zoom,click, coord);
+			couper(tab,buttx,butty,perso,zoom,click);
 			break;
 		case 2:
-			perso = ramasser(tab,perso,buttx,butty,zoom,click, coord);
+			perso = ramasser(tab,perso,buttx,butty,zoom,click);
 			break;
 		case 3:
-			perso = deposer(tab,perso,buttx,butty,zoom,click, coord);
+			perso = deposer(tab,perso,buttx,butty,zoom,click);
 			break;
 		}
 	}
