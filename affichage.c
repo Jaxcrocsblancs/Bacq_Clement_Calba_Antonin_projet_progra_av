@@ -121,42 +121,43 @@ void affichage_surface(SDL_Surface *screen, SDL_Surface *s,SDL_Rect rcCase, SDL_
   SDL_BlitSurface(s, &rcCase, screen, &rcCaseDest);
 }
 
-/*void affichage_perso(SDL_Surface *screen, SDL_Surface *perso,SDL_Rect rcDepla, SDL_Rect rcDeplaS,liste_point L,int cpt)
+perso affichage_perso(perso perso, liste_point L, int zoom)
 {
   if(!est_vide(L))
     {
-      if(prem(L).col * 32 > rcDepla.x)
-	{
-	  rcDeplaS.x = (4+cpt)*32;
-	}
-      if(prem(L).col * 32 < rcDepla.x)
-	{
-	  rcDeplaS.x = (6+cpt)*32;
-	}
-      if(prem(L).lig * 32 < rcDepla.y)
-	{
-	  rcDeplaS.x = (2+cpt)*32;
-	}
-      if(prem(L).lig * 32 > rcDepla.y)
-	{
-	  rcDeplaS.x = (0+cpt)*32;
-				    }
+		  if(prem(L).col * (taille * zoom) > perso.rcDest.x)
+		{
+		  perso.rcSens.x = (perso.cptSens.x + 4) * (taille * zoom);
+		}
+		  if(prem(L).col * (taille * zoom) < perso.rcDest.x)
+		{
+		  perso.rcSens.x = (-perso.cptSens.x + 7) * (taille * zoom);
+		}
+		  if(prem(L).lig * (taille * zoom) < perso.rcDest.y)
+		{
+		  perso.rcSens.x = (perso.cptSens.x + 2) * (taille * zoom);
+		}
+		  if(prem(L).lig * (taille * zoom) > perso.rcDest.y)
+		{
+		  perso.rcSens.x = (perso.cptSens.x + 0) * (taille * zoom);
+		}
+		  perso.rcSens.y = perso.cptSens.y * (taille * zoom);
 
-      rcDepla.x = prem(L).col * 32;
-      rcDepla.y = prem(L).lig * 32;
-      SDL_BlitSurface(perso, &rcDeplaS, screen, &rcDepla);
-      if(!est_vide(reste(L)))
-	{
-	  L = reste(L);
-	}
-      cpt++;
-      if(cpt == 2)
-	{
-	  cpt = 0;
-	}
+		  perso.cptSens.x += 1;
+
+		  if(perso.cptSens.x == 2)
+		  {
+			  perso.cptSens.x = 0;
+			  perso.cptSens.y += 1;
+			  if(perso.cptSens.y == 2)
+			  {
+				  perso.cptSens.y = 0;
+			  }
+		  }
     }
+  return perso;
 }
-*/
+
 
 void affichage_tab(sol tab[COL][LIG])
 {
@@ -212,14 +213,18 @@ perso init_perso()
     rcSens.h = taille;
     rcSens.w = taille;
 
-    image = SDL_LoadBMP ("image/plante.bmp");
+    image = SDL_LoadBMP ("image/test.bmp");
     SDL_SetColorKey(image, SDL_SRCCOLORKEY, SDL_MapRGB(image->format, 255, 0, 255));
     p.rcDest = rcDest;
     p.rcSens = rcSens;
     p.perso = image;
 
-    p.id = 0;
-    p.nb = 0;
+	p.item.id = 0;
+	p.item.nb = 0;
+
+	p.cptSens.x = 0;
+	p.cptSens.y = 0;
+
     return p;
 }
 
@@ -235,3 +240,4 @@ perso zoom_perso(perso perso, float zoom)
     perso.perso = rotozoomSurface(perso.perso, 0, zoom, 1);
     return perso;
 }
+

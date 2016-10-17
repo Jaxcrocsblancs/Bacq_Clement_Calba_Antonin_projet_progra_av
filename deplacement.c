@@ -7,53 +7,54 @@
 
 #include "include.h"
 
-perso deplacement_chemin(sol tab[COL][LIG], SDL_Surface *screen,perso perso, liste_point *L, int buttx, int butty, int *cond, int zoom)
+perso deplacement_chemin(sol tab[COL][LIG], SDL_Surface *screen,perso perso, liste_point *L, int buttx, int butty, int *cond, int zoom, SDL_Rect coord)
 {
   int dx, dy;
   if(!est_vide(*L))
     {
       dx = prem(*L).col;
       dy = prem(*L).lig;
-
-      if(tab[dx][dy].id != 1)
+	  perso = affichage_perso(perso,*L,zoom);
+      if(tab[dx][dy].id < 100)
 	{
-	  perso.rcDest.x = dx * taille * zoom;
-	  perso.rcDest.y = dy * taille * zoom;
+	  perso.rcDest.x = dx * taille * zoom - coord.x /(taille*zoom);
+	  perso.rcDest.y = dy * taille * zoom - coord.y /(taille*zoom);
 	  *L = reste(*L);
 	}
       else
 	{
 	  *L = Astar(tab,perso.rcDest.x,perso.rcDest.y,buttx,butty);
-	  deplacement_chemin(tab, screen, perso, L, buttx ,butty ,cond ,zoom);
+	  deplacement_chemin(tab, screen, perso, L, buttx ,butty ,cond ,zoom, coord);
 	  return perso;
 	}
     }
   else
     {
+	  perso.rcSens.x = 0;
       *cond = 0;
     }
   return perso;
 }
 
 
-perso deplacement_personnage(sol tab[COL][LIG], SDL_Surface *screen,perso perso, liste_point *L, int buttx, int butty, int *cond, int zoom)
+perso deplacement_personnage(sol tab[COL][LIG], SDL_Surface *screen,perso perso, liste_point *L, int buttx, int butty, int *cond, int zoom, SDL_Rect coord)
 {
   if(*cond > 0)
     {
       if(*cond == 1)
-	{
-	  *L = Astar(tab,perso.rcDest.x/ (taille*zoom),perso.rcDest.y/ (taille*zoom),buttx,butty);
-	  *cond = 2;
-	}
-      return deplacement_chemin(tab,screen, perso, L, buttx, butty, cond, zoom);
+        {
+          *L = Astar(tab,perso.rcDest.x/(taille*zoom) - coord.x/(taille*zoom),perso.rcDest.y/(taille*zoom) - coord.y/(taille*zoom),buttx,butty);
+          *cond = 2;
+        }
+      return deplacement_chemin(tab,screen, perso, L, buttx, butty, cond, zoom,coord);
     }
   return perso;
 }
-
+/*
 perso ramasse_objets(sol tab[COL][LIG], perso perso, int zoom)
 {
     int memid, memnb;
-    if (tab[perso.rcDest.x/(taille*zoom)][perso.rcDest.y/(taille*zoom)].item.id == perso.id && perso.id !=0)
+    if (tab[perso.rcDest.x/(taille*zoom)][perso.rcDest.y/(taille*zoom)].item.id == perso.item.id && perso.item.id !=0)
     {
       perso.nb += tab[perso.rcDest.x/(taille*zoom)][perso.rcDest.y/(taille*zoom)].item.nb;
       tab[perso.rcDest.x/(taille*zoom)][perso.rcDest.y/(taille*zoom)].item.id = 0;
@@ -70,4 +71,4 @@ perso ramasse_objets(sol tab[COL][LIG], perso perso, int zoom)
     }
     return perso;
 }
-
+*/

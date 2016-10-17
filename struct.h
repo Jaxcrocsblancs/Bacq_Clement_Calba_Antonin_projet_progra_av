@@ -9,6 +9,7 @@ typedef struct object object;
 typedef struct point_cout point_cout;
 typedef struct Liste_point *liste_point;
 typedef struct perso perso;
+typedef struct cptSens cptSens;
 
 struct item
 {
@@ -38,7 +39,6 @@ struct object
   int ble;
 };
 
-
 struct point_cout
 {
 	int col;
@@ -52,14 +52,20 @@ struct Liste_point
 	liste_point reste;
 };
 
+struct cptSens
+{
+    int x;
+    int y;
+
+};
+
 struct perso
 {
     SDL_Rect rcDest;
     SDL_Rect rcSens;
+    cptSens cptSens;
     SDL_Surface *perso;
-    char porter;
-    int nb;
-    int id;
+    item item;
 };
 
 struct NODE
