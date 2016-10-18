@@ -16,8 +16,7 @@ void init_tab(sol tab[COL][LIG])
                 tab[col][lig].item.id=0;
                 tab[col][lig].item.nb=0;
                 tab[col][lig].item.nom="";
-                if (lig == LIG-1)
-                    tab[col][lig].id = 1;
+                tab[col][lig].ordre=0;
             }
 }
 

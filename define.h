@@ -5,5 +5,5 @@
 /*************************/
 
 #define COL 100
-#define LIG 20
+#define LIG 100
 #define taille 32

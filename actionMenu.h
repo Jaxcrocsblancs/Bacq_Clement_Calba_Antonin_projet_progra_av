@@ -11,8 +11,8 @@
 #include "include.h"
 
 perso actionMenu(int action, sol tab[COL][LIG], SDL_Surface *screen,perso perso, liste_point *L, int buttx, int butty, int *cond, int zoom, int *click);
-void couper(sol tab[COL][LIG],int buttx, int butty, perso perso, int zoom, int *click);
-perso ramasser(sol tab[COL][LIG], perso perso, int buttx, int butty, int zoom, int *click);
-perso deposer(sol tab[COL][LIG], perso perso, int buttx, int butty, int zoom, int *click);
-
+void couper(sol tab[COL][LIG],int buttx, int butty, perso perso, int zoom, int *click,int action);
+perso ramasser(sol tab[COL][LIG], perso perso, int buttx, int butty, int zoom, int *click,int action);
+perso deposer(sol tab[COL][LIG], perso perso, int buttx, int butty, int zoom, int *click,int action);
+perso cherche_action(sol tab[COL][LIG], perso perso, int *cond, int action);
 #endif /* ACTIONMENU_H_ */

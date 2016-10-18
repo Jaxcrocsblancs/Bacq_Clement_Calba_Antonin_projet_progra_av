@@ -19,6 +19,7 @@ int main(int argc, char *argv[])
     videoInfo=SDL_GetVideoInfo();
     maxW=videoInfo->current_w;
     maxH=videoInfo->current_h;
+
     printf("w %d h %d\n", maxW, maxH);
   /* create window */
   SDL_Surface *screen = NULL;
@@ -33,7 +34,7 @@ int main(int argc, char *argv[])
   tic = 0;
 
   printf("donner la graine: \n");
-  //scanf("%d",&seed);
+ // scanf("%d",&seed);
   seed=1;
 
   int hauteur, largeur;
@@ -41,10 +42,10 @@ int main(int argc, char *argv[])
     hauteur = COL * taille;
 
   if ( maxW < hauteur)
-    hauteur = maxW - 4*taille;
+    hauteur = maxW ;
 
   if ( maxH < largeur)
-    largeur = maxH - 4*taille;
+    largeur = maxH ;
 
     hauteur = hauteur/(4*taille)*(4*taille);
     largeur = largeur/(4*taille)*(4*taille);
@@ -139,8 +140,6 @@ int main(int argc, char *argv[])
              {
                 coord.y-=taille*zoom;
              }
-
-
              break;
 	       case SDLK_UP:
              if (coord.y<0)
@@ -152,13 +151,12 @@ int main(int argc, char *argv[])
              if (coord.x<0)
                {
                 coord.x+=taille*zoom;
-                          }
+                }
              break;
 	       case SDLK_RIGHT:
            if  (-(zoom)*(COL*taille)+ hauteur < coord.x)
                {
                 coord.x-=taille*zoom;
-
                }
              break;
 	       }
@@ -174,18 +172,12 @@ int main(int argc, char *argv[])
 		  }
 		case SDL_BUTTON_LEFT:
 		  {
-		    buttx = event.motion.x / (taille*zoom) - coord.x/ (taille*zoom);
+            buttx = event.motion.x / (taille*zoom) - coord.x/ (taille*zoom);
 		    butty = event.motion.y / (taille*zoom) - coord.y/ (taille*zoom);
-			cond = 1;
-			click = 1;
 		    break;
 		  }
 		case SDL_BUTTON_RIGHT:
 		  {
-           /* if (ramasse == 0)
-            {
-                ramasse = 1;
-            }*/
 		    break;
 		  }
 		}
@@ -211,15 +203,16 @@ int main(int argc, char *argv[])
 		  break;
 		}
 	  }
+
 	  tic+=1;
 	  affichage_map(sol, screen, zoom, image, coord, hauteur, largeur);
 	  perso = actionMenu(action,sol,screen,perso,&L,buttx,butty,&cond,zoom,&click);
 	  perso.rcDest.x = perso.pos.x * taille * zoom + coord.x;
 	  perso.rcDest.y = perso.pos.y * taille * zoom + coord.y;
-	  printf("persox: %d   persoy:  %d\n",perso.pos.x,perso.pos.y);
-	  printf("buttx:  %d   butty:   %d\n",buttx,butty);
+      perso = cherche_action (sol, perso, &cond, action);
       SDL_BlitSurface(perso.perso, &perso.rcSens, screen, &perso.rcDest);
 	  SDL_UpdateRect(screen, 0, 0, 0, 0);
+	  SDL_Delay(50);
 	}
 
   return 0;
