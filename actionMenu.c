@@ -59,7 +59,7 @@ perso deposer(sol tab[COL][LIG], perso perso, int buttx, int butty, int zoom, in
 
 perso actionMenu(int action, sol tab[COL][LIG], SDL_Surface *screen,perso perso, liste_point *L, int buttx, int butty, int *cond, int zoom, int *click)
 {
-	perso = deplacement_personnage(tab,screen,perso,L,perso.but.x,perso.but.y,cond,zoom);
+
 		switch(action)
 		{
 		case 1:
@@ -70,7 +70,7 @@ perso actionMenu(int action, sol tab[COL][LIG], SDL_Surface *screen,perso perso,
 			couper(tab,buttx,butty,perso,zoom,click,action);
 			break;
 		case 2:
-            if (tab[buttx][butty].item.id > 0) // ne marche pas avec le zoom
+            if (tab[buttx][butty].item.id > 0 && (tab[buttx][butty].item.id == perso.item.id || perso.item.id == 0)) // ne marche pas avec le zoom
                 {
                 tab[buttx][butty].ordre = action;
                 }
@@ -88,20 +88,21 @@ perso cherche_action(sol tab[COL][LIG], perso perso, int *cond, int action)
 {
     int nb, dl, dc;
     if (*cond == 0)
-    for (nb=0;nb< COL-1;nb++)
-        for (dl=-nb; dl<nb; dl++)
-            for (dc=-nb; dc<nb; dc++)
+    for (nb=1;nb< COL-1;nb++)
+        for (dl=-nb; dl<nb+1; dl++)
+            for (dc=-nb; dc<nb+1; dc++)
             {
                 if (perso.but.x != perso.pos.x && perso.but.y != perso.pos.y) continue;
-                if (abs(dl)+abs(dc) != nb)continue;
-                if (!dl || !dc) continue; // on traite pas la case elle meme
+                if (abs(dl)+abs(dc) != nb) continue;
                 if (perso.pos.x+dc < 0 || perso.pos.x+dc > COL-1) continue; // on veut pas sortir du tableau
                 if (perso.pos.y+dl < 0 || perso.pos.y+dl > LIG-1) continue;
                 if (tab[perso.pos.x+dc][perso.pos.y+dl].ordre != action) continue;
+                if (action != 2 || (tab[perso.pos.x+dc][perso.pos.y+dl].item.id == perso.item.id || perso.item.id == 0));
                 if (tab[perso.pos.x+dc][perso.pos.y+dl].ordre < 1000) tab[perso.pos.x+dc][perso.pos.y+dl].ordre += 1000;
                 perso.but.x = perso.pos.x+dc;
                 perso.but.y = perso.pos.y+dl;
                 *cond = 1;
+                return perso;
             }
     return perso;
 }

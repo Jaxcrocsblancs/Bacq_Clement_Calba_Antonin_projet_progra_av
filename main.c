@@ -29,7 +29,8 @@ int main(int argc, char *argv[])
   perso perso;
   liste_point L;
   sol sol[COL][LIG];
-  int seed, tic, zoom, buttx, butty, cond, done, click, action;
+  int seed, tic, zoom, buttx, butty, cond, done, click, action, gauche_maintenu,gauche_maintenu_x,gauche_maintenu_y ;
+                  int x, y;
   L = l_vide();
   tic = 0;
 
@@ -70,6 +71,9 @@ int main(int argc, char *argv[])
   click = 0;
   buttx = 0;
   butty = 0;
+  gauche_maintenu = 0;
+  gauche_maintenu_x = 0;
+  gauche_maintenu_y = 0;
   while (done == 0)
     {
          SDL_PollEvent(&event);
@@ -165,24 +169,36 @@ int main(int argc, char *argv[])
 	  case SDL_MOUSEBUTTONDOWN:
 	    {
 	      switch (event.button.button)
-		{
-		default:
-		  {
-		    break;
-		  }
-		case SDL_BUTTON_LEFT:
-		  {
-            buttx = event.motion.x / (taille*zoom) - coord.x/ (taille*zoom);
-		    butty = event.motion.y / (taille*zoom) - coord.y/ (taille*zoom);
-		    break;
-		  }
-		case SDL_BUTTON_RIGHT:
-		  {
-		    break;
-		  }
-		}
-	      break;
+            {
+            default:
+              {
+                break;
+              }
+            case SDL_BUTTON_LEFT:
+              {
+                if (gauche_maintenu == 0)
+                {
+                 gauche_maintenu = 1;
+                 gauche_maintenu_x = event.motion.x / (taille*zoom) - coord.x/ (taille*zoom);
+                 gauche_maintenu_y = event.motion.y / (taille*zoom) - coord.y/ (taille*zoom);
+                }
+                break;
+              }
+            case SDL_BUTTON_RIGHT:
+              {
+                break;
+              }
+            }
 	    }
+      case SDL_MOUSEMOTION:
+          {
+              if (gauche_maintenu == 1)
+              {
+              buttx = event.motion.x / (taille*zoom) - coord.x/ (taille*zoom);
+              butty = event.motion.y / (taille*zoom) - coord.y/ (taille*zoom);
+              }
+              break;
+          }
 	  case SDL_MOUSEBUTTONUP:
 	    {
 	      switch (event.button.button)
@@ -193,6 +209,7 @@ int main(int argc, char *argv[])
 		  }
 		case SDL_BUTTON_LEFT:
 		  {
+            gauche_maintenu = 0;
 		    break;
 		  }
 		case SDL_BUTTON_RIGHT:
@@ -203,13 +220,37 @@ int main(int argc, char *argv[])
 		  break;
 		}
 	  }
+   if (gauche_maintenu == 0)
+   {
+    if (gauche_maintenu_x - buttx < 0)
+        for (x = gauche_maintenu_x; x <=  buttx ; x++)
+             if (gauche_maintenu_y - butty <0 )
+                for (y = gauche_maintenu_y; y <=  butty ; y++)
+                    perso = actionMenu(action,sol,screen,perso,&L,x,y,&cond,zoom,&click);
+            else
+                for (y = gauche_maintenu_y; y >=  butty ; y--)
+                    perso = actionMenu(action,sol,screen,perso,&L,x,y,&cond,zoom,&click);
+    else
+        for (x = gauche_maintenu_x; x >=  buttx ; x--)
+            if (gauche_maintenu_y - butty <0 )
+                for (y = gauche_maintenu_y; y <=  butty ; y++)
+                    perso = actionMenu(action,sol,screen,perso,&L,x,y,&cond,zoom,&click);
+            else
+                for (y = gauche_maintenu_y; y >=  butty ; y--)
+                    perso = actionMenu(action,sol,screen,perso,&L,x,y,&cond,zoom,&click);
+    gauche_maintenu_x = 0;
+    gauche_maintenu_y = 0;
+    buttx = 0;
+    butty = 0;
+   }
 
 	  tic+=1;
 	  affichage_map(sol, screen, zoom, image, coord, hauteur, largeur);
-	  perso = actionMenu(action,sol,screen,perso,&L,buttx,butty,&cond,zoom,&click);
+      perso = cherche_action (sol, perso, &cond, action);
 	  perso.rcDest.x = perso.pos.x * taille * zoom + coord.x;
 	  perso.rcDest.y = perso.pos.y * taille * zoom + coord.y;
-      perso = cherche_action (sol, perso, &cond, action);
+	  perso = deplacement_personnage(sol , screen ,perso,  &L, perso.but.x ,perso.but.y, &cond,  zoom);
+	  perso = actionMenu(action,sol,screen,perso,&L,perso.but.x,perso.but.y,&cond,zoom,&click);
       SDL_BlitSurface(perso.perso, &perso.rcSens, screen, &perso.rcDest);
 	  SDL_UpdateRect(screen, 0, 0, 0, 0);
 	  SDL_Delay(50);

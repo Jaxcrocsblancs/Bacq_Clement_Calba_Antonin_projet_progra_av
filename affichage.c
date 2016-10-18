@@ -235,8 +235,10 @@ perso init_perso()
 
     p.pos.x = 0;
     p.pos.y = 0;
+
     p.but.x = 0;
     p.but.y = 0;
+
     return p;
 }
 
