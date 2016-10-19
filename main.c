@@ -7,13 +7,20 @@
 
 int main(/*int argc, char *argv[]*/)
 {
-  /*freopen("CON", "w", stdout);
-    freopen("CON", "r", stdin);
-    freopen("CON", "w", stderr);*/
+  /* freopen("CON", "w", stdout);
+  freopen("CON", "r", stdin);
+  freopen("CON", "w", stderr);*/
 
   if (SDL_Init (SDL_INIT_EVERYTHING))
     fprintf(stderr,"Couldn't initialize SDL: %s\n", SDL_GetError());
 
+  const SDL_VideoInfo *videoInfo;
+  int maxW, maxH;
+  videoInfo=SDL_GetVideoInfo();
+  maxW=videoInfo->current_w;
+  maxH=videoInfo->current_h;
+
+  printf("w %d h %d\n", maxW, maxH);
   /* create window */
   SDL_Surface *screen = NULL;
   SDL_Rect coord;
@@ -22,32 +29,51 @@ int main(/*int argc, char *argv[]*/)
   perso perso;
   liste_point L;
   sol sol[COL][LIG];
-  int seed, tic, zoom, buttx, butty, cond, done;
-
+  int seed, tic, zoom, buttx, butty, cond, done, click, action, gauche_maintenu,gauche_maintenu_x, gauche_maintenu_y ;
   L = l_vide();
   tic = 0;
 
   printf("donner la graine: \n");
-  //scanf("%d",&seed);
+  // scanf("%d",&seed);
   seed=1;
 
+  int hauteur, largeur;
+  largeur = LIG * taille;
+  hauteur = COL * taille;
 
-  screen = SDL_SetVideoMode(COL*taille, LIG*taille, 24, 0);
+  if ( maxW < hauteur)
+    hauteur = maxW - 4*taille ;
+
+  if ( maxH < largeur)
+    largeur = maxH - 4*taille;
+
+  hauteur = hauteur/(4*taille)*(4*taille);
+  largeur = largeur/(4*taille)*(4*taille);
+  screen = SDL_SetVideoMode(hauteur, largeur, 24, 0);
   if (!screen)
     fprintf(stderr,"SetVideoMode error: %s\n", SDL_GetError());
-  
+
   srand (seed);
   init_tab(sol);
   generation_procedural(sol);
+
   image = image_init();
   perso = init_perso();
-
   coord.x = 0;
   coord.y = 0;
   zoom = 1;
   done = 0;
   cond = 0;
-  
+  L = l_vide();
+
+  action = 1;
+  click = 0;
+  buttx = 0;
+  butty = 0;
+  gauche_maintenu = 0;
+  gauche_maintenu_x = 0;
+  gauche_maintenu_y = 0;
+
   while (done == 0)
     {
       SDL_PollEvent(&event);
@@ -70,7 +96,19 @@ int main(/*int argc, char *argv[]*/)
 		break;
 	      case SDLK_q:
 		done = 1;
-		break;  
+		break;
+	      case SDLK_F1:
+		action = 1;
+		break;
+	      case SDLK_F2:
+		action = 2;
+		break;
+	      case SDLK_F3:
+		action = 3;
+		break;
+	      case SDLK_F5:
+		action = 5;
+		break;
 	      case SDLK_z:
 		{
 		  if (zoom == 1)
@@ -80,8 +118,6 @@ int main(/*int argc, char *argv[]*/)
 		      perso = zoom_perso(perso, (float)zoom);
 		      perso.rcSens.h = taille *2;
 		      perso.rcSens.w = taille *2;
-		      perso.rcDest.h = taille *2;
-		      perso.rcDest.w = taille *2;
 		    }
 		  else
 		    {
@@ -92,8 +128,6 @@ int main(/*int argc, char *argv[]*/)
 			  zoom = 4;
 			  perso.rcSens.h = taille *4;
 			  perso.rcSens.w = taille *4;
-			  perso.rcDest.h = taille *4;
-			  perso.rcDest.w = taille *4;
 			}
 		      else
 			{
@@ -104,27 +138,33 @@ int main(/*int argc, char *argv[]*/)
 			  coord.y=0;
 			  perso.rcSens.x = 0;
 			  perso.rcSens.y = 0;
-			  perso.rcDest.h = 0;
-			  perso.rcDest.w = 0;
 			}
 		    }
 		  break;
 		}
 	      case SDLK_DOWN:
-		if (-(zoom-1)*LIG*taille < coord.y)
-		  coord.y-=taille*zoom;
+		if (-(zoom)*(LIG*taille) + largeur < coord.y)
+		  {
+		    coord.y-=taille*zoom;
+		  }
 		break;
 	      case SDLK_UP:
 		if (coord.y<0)
-		  coord.y+=taille*zoom;
+		  {
+		    coord.y+=taille*zoom;
+		  }
 		break;
 	      case SDLK_LEFT:
 		if (coord.x<0)
-		  coord.x+=taille*zoom;
+		  {
+		    coord.x+=taille*zoom;
+		  }
 		break;
 	      case SDLK_RIGHT:
-		if  (-(zoom-1)*COL*taille < coord.x)
-		  coord.x-=taille*zoom;
+		if  (-(zoom)*(COL*taille)+ hauteur < coord.x)
+		  {
+		    coord.x-=taille*zoom;
+		  }
 		break;
 	      }
 	    break;
@@ -139,25 +179,29 @@ int main(/*int argc, char *argv[]*/)
 		}
 	      case SDL_BUTTON_LEFT:
 		{
-		  if (sol[(-coord.x+event.motion.x)/(taille*zoom)][(-coord.y+event.motion.y)/(taille*zoom)].id)
+		  if (gauche_maintenu == 0)
 		    {
-		      sol[(-coord.x+event.motion.x)/(taille*zoom)][(-coord.y+event.motion.y)/(taille*zoom)].item.id = sol[(-coord.x+event.motion.x)/(taille*zoom)][(-coord.y+event.motion.y)/(taille*zoom)].id;
-		      sol[(-coord.x+event.motion.x)/(taille*zoom)][(-coord.y+event.motion.y)/(taille*zoom)].id = 0;
-		      sol[(-coord.x+event.motion.x)/(taille*zoom)][(-coord.y+event.motion.y)/(taille*zoom)].item.nb = 4;
+		      gauche_maintenu = 1;
+		      gauche_maintenu_x = event.motion.x / (taille*zoom) - coord.x/ (taille*zoom);
+		      gauche_maintenu_y = event.motion.y / (taille*zoom) - coord.y/ (taille*zoom);
 		    }
 		  break;
 		}
 	      case SDL_BUTTON_RIGHT:
 		{
-		  
-		  buttx = event.motion.x / (taille*zoom);
-		  butty = event.motion.y / (taille*zoom);
-		    cond = 1;
 		  break;
 		}
 	      }
-	    break;
 	  }
+	case SDL_MOUSEMOTION:
+          {
+	    if (gauche_maintenu == 1)
+              {
+		buttx = event.motion.x / (taille*zoom) - coord.x/ (taille*zoom);
+		butty = event.motion.y / (taille*zoom) - coord.y/ (taille*zoom);
+              }
+	    break;
+          }
 	case SDL_MOUSEBUTTONUP:
 	  {
 	    switch (event.button.button)
@@ -168,6 +212,7 @@ int main(/*int argc, char *argv[]*/)
 		}
 	      case SDL_BUTTON_LEFT:
 		{
+		  gauche_maintenu = 0;
 		  break;
 		}
 	      case SDL_BUTTON_RIGHT:
@@ -178,12 +223,19 @@ int main(/*int argc, char *argv[]*/)
 	    break;
 	  }
 	}
-      //deplacement_constr(sol,screen,&perso.rcDest,perso.rcSens,buttx,butty,node,&cond,&L);
+      perso = rectangle(gauche_maintenu, &gauche_maintenu_x, &gauche_maintenu_y, &buttx, &butty, perso, action, sol, &click);
       tic+=1;
-      perso = deplacement_personnage(sol, screen,perso, &L, buttx, butty, &cond, zoom);
-      affichage_map(sol, screen, zoom, image, coord);
-      SDL_BlitSurface(perso.perso, &perso.rcSens, screen, &perso.rcDest);
+      affichage_map(sol, screen, zoom, image, coord, hauteur, largeur);
+      perso = cherche_action (sol, perso, &cond, action);
+      perso.rcDest.x = perso.pos.x * taille * zoom + coord.x;
+      perso.rcDest.y = perso.pos.y * taille * zoom + coord.y;
+      perso = deplacement_personnage(sol , screen ,perso,  &L, perso.but.x ,perso.but.y, &cond,  zoom);
+      perso = actionMenu(action,sol,perso,perso.but.x,perso.but.y,&click);
+      if (sol[perso.pos.x][perso.pos.y].id != 21)
+        SDL_BlitSurface(perso.perso, &perso.rcSens, screen, &perso.rcDest);
       SDL_UpdateRect(screen, 0, 0, 0, 0);
+      //SDL_Delay(50);
     }
+
   return 0;
 }

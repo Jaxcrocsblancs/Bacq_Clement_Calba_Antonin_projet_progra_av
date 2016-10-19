@@ -9,6 +9,7 @@ typedef struct object object;
 typedef struct point_cout point_cout;
 typedef struct Liste_point *liste_point;
 typedef struct perso perso;
+typedef struct cptSens cptSens;
 
 struct item
 {
@@ -21,12 +22,15 @@ struct sol
 {
   int id;
   item item;
+  int ordre;
 };
 
 struct image
 {
   SDL_Surface* herbe;
   SDL_Surface* plante;
+  SDL_Surface* alpha;
+  SDL_Surface* mine;
 };
 
 struct object
@@ -36,7 +40,6 @@ struct object
   int fraisier;
   int ble;
 };
-
 
 struct point_cout
 {
@@ -51,11 +54,21 @@ struct Liste_point
 	liste_point reste;
 };
 
+struct cptSens
+{
+    int x;
+    int y;
+};
+
 struct perso
 {
     SDL_Rect rcDest;
     SDL_Rect rcSens;
+    cptSens cptSens;
     SDL_Surface *perso;
+    item item;
+    cptSens pos;
+    cptSens but;
 };
 
 struct NODE

@@ -45,6 +45,9 @@
 		<Unit filename="SDL_rotozoom.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="actionMenu.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="affichage.c">
 			<Option compilerVar="CC" />
 		</Unit>
