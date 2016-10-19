@@ -15,7 +15,7 @@ perso deplacement_chemin(sol tab[COL][LIG], SDL_Surface *screen,perso perso, lis
       dx = prem(*L).col;
       dy = prem(*L).lig;
 
-      if(tab[dx][dy].id != 1)
+      if(tab[dx][dy].id < 100)
 	{
 	  perso.rcDest.x = dx * taille * zoom;
 	  perso.rcDest.y = dy * taille * zoom;
