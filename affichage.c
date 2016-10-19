@@ -78,6 +78,21 @@ void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image,
                                 SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
                                 break;
                             }
+                            case 21:
+                                {
+                                rcCase.x = 3*taille*zoom;
+                                rcCase.y = 3*taille*zoom;
+                                rcCase.h = 3*taille*zoom;
+                                rcCase.w = 3*taille*zoom;
+                                rcCaseDest.y = taille*zoom*(lig-1) + coord_init.y;
+                                rcCaseDest.x = taille*zoom*(col-1) + coord_init.x;
+                                SDL_BlitSurface(image.mine, &rcCase, screen, &rcCaseDest);
+                                rcCaseDest.x = taille*zoom*col + coord_init.x;
+                                rcCaseDest.y = taille*zoom*lig + coord_init.y;
+                                rcCase.h = taille*zoom;
+                                rcCase.w = taille*zoom;
+                                break;
+                                }
                         }
                     switch (tab[col][lig].item.id)
                         {
@@ -109,8 +124,23 @@ void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image,
                                 SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
                                 break;
                             }
+                            case 20:
+                            {
+                                rcCase.x = 3*taille*zoom;
+                                rcCase.y = 4*taille*zoom;
+                                SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+                                break;
+                            }
+                            case 21:
+                                {
+                                rcCase.x = 3*taille*zoom;
+                                rcCase.y = 3*taille*zoom;
+                                SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+                                break;
+
+                                }
                       }
-                    if (tab[col][lig].ordre != 0)
+                    if (tab[col][lig].ordre != 0 && tab[col][lig].ordre != 5)
                         {
                             rcCase.x = 0;
                             rcCase.y = 0;
@@ -198,8 +228,10 @@ image image_init()
     image.herbe = SDL_LoadBMP ("image/herbe.bmp");
     image.plante = SDL_LoadBMP ("image/plante.bmp");
     image.alpha = SDL_LoadBMP ("image/attente.bmp");
+    image.mine = SDL_LoadBMP ("image/porte_mine.bmp");
     SDL_SetColorKey(image.plante, SDL_SRCCOLORKEY, SDL_MapRGB(image.plante->format, 255, 0, 255));
     SDL_SetColorKey(image.alpha, SDL_SRCCOLORKEY, SDL_MapRGB(image.alpha->format, 255, 0, 255));
+    SDL_SetColorKey(image.mine, SDL_SRCCOLORKEY, SDL_MapRGB(image.mine->format, 255, 0, 255));
     SDL_SetAlpha(image.alpha,SDL_SRCALPHA, 128 );
     return image;
 }
@@ -246,7 +278,12 @@ image zoom_image(image image, float zoom)
 {
   image.herbe = rotozoomSurface(image.herbe, 0, zoom, 1);
   image.plante = rotozoomSurface(image.plante, 0, zoom, 1);
+  image.alpha = rotozoomSurface(image.alpha, 0, zoom, 1);
+  image.mine = rotozoomSurface(image.mine, 0, zoom, 1);
   SDL_SetColorKey(image.plante, SDL_SRCCOLORKEY, SDL_MapRGB(image.plante->format, 255, 0, 255));
+  SDL_SetColorKey(image.alpha, SDL_SRCCOLORKEY, SDL_MapRGB(image.alpha->format, 255, 0, 255));
+  SDL_SetColorKey(image.mine, SDL_SRCCOLORKEY, SDL_MapRGB(image.mine->format, 255, 0, 255));
+  SDL_SetAlpha(image.alpha,SDL_SRCALPHA, 128 );
   return image;
 }
 perso zoom_perso(perso perso, float zoom)

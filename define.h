@@ -6,4 +6,5 @@
 
 #define COL 20
 #define LIG 20
+
 #define taille 32

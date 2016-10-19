@@ -15,4 +15,5 @@ void couper(sol tab[COL][LIG],int buttx, int butty, perso perso, int zoom, int *
 perso ramasser(sol tab[COL][LIG], perso perso, int buttx, int butty, int zoom, int *click,int action);
 perso deposer(sol tab[COL][LIG], perso perso, int buttx, int butty, int zoom, int *click,int action);
 perso cherche_action(sol tab[COL][LIG], perso perso, int *cond, int action);
+void miner(sol tab[COL][LIG], perso perso, int buttx, int butty, int *click,int action);
 #endif /* ACTIONMENU_H_ */

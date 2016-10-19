@@ -106,6 +106,9 @@ int main(int argc, char *argv[])
 		 case SDLK_3:
 			 action = 3;
 			 break;
+         case SDLK_5:
+             action = 5;
+             break;
 		 case SDLK_z:
 		   {
 		     if (zoom == 1)
@@ -243,7 +246,6 @@ int main(int argc, char *argv[])
     buttx = 0;
     butty = 0;
    }
-
 	  tic+=1;
 	  affichage_map(sol, screen, zoom, image, coord, hauteur, largeur);
       perso = cherche_action (sol, perso, &cond, action);
@@ -251,7 +253,8 @@ int main(int argc, char *argv[])
 	  perso.rcDest.y = perso.pos.y * taille * zoom + coord.y;
 	  perso = deplacement_personnage(sol , screen ,perso,  &L, perso.but.x ,perso.but.y, &cond,  zoom);
 	  perso = actionMenu(action,sol,screen,perso,&L,perso.but.x,perso.but.y,&cond,zoom,&click);
-      SDL_BlitSurface(perso.perso, &perso.rcSens, screen, &perso.rcDest);
+	  if (sol[perso.pos.x][perso.pos.y].id != 21)
+        SDL_BlitSurface(perso.perso, &perso.rcSens, screen, &perso.rcDest);
 	  SDL_UpdateRect(screen, 0, 0, 0, 0);
 	  SDL_Delay(50);
 	}
