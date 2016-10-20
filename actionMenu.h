@@ -9,8 +9,8 @@
 #define ACTIONMENU_H_
 
 #include "include.h"
-
-perso actionMenu(int gauche_maintenu, int action, sol tab[COL][LIG],perso perso, int buttx, int butty);
+void actionMenu(int action, sol tab[COL][LIG],perso perso, int buttx, int butty);
+perso actionPerso(sol tab[COL][LIG],perso perso, int buttx, int butty);
 void couper(sol tab[COL][LIG], perso perso);
 perso ramasser(sol tab[COL][LIG], perso perso);
 perso deposer(sol tab[COL][LIG], perso perso, int buttx, int butty, int action);

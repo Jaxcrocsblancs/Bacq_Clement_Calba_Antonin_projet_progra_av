@@ -92,9 +92,8 @@ void planter(sol tab[COL][LIG], perso perso, int buttx, int butty, int action)
 
 
 }
-perso actionMenu(int gauche_maintenu, int action, sol tab[COL][LIG],perso perso, int buttx, int butty)
+void actionMenu(int action, sol tab[COL][LIG],perso perso, int buttx, int butty)
 {
-if (perso.action != 1 || (buttx != perso.pos.x && butty != perso.pos.y))
   switch(action)
     {
     case 1:
@@ -122,11 +121,15 @@ if (perso.action != 1 || (buttx != perso.pos.x && butty != perso.pos.y))
             tab[buttx][butty].ordre = action;
         break;
     case 8:
-        if(tab[buttx][butty].id == 0 && tab[buttx][butty].ordre == 0)
-            tab[buttx][butty].ordre = action;
-        break;
+      if(tab[buttx][butty].id == 0 && tab[buttx][butty].ordre == 0)
+	tab[buttx][butty].ordre = action;
+      break;
     }
+ return;
+}
 
+perso actionPerso(sol tab[COL][LIG],perso perso, int buttx, int butty)
+{
     switch(perso.action)
     {
         case 1:
@@ -192,18 +195,18 @@ perso rectangle(int gauche_maintenu, int *gauche_maintenu_x, int *gauche_mainten
 	for (x = *gauche_maintenu_x; x <=  *buttx ; x++)
 	  if (*gauche_maintenu_y - *butty <0 )
 	    for (y = *gauche_maintenu_y; y <=  *butty ; y++)
-	      perso = actionMenu(gauche_maintenu, action,sol,perso,x,y);
+	      actionMenu(action,sol,perso,x,y);
 	  else
 	    for (y = *gauche_maintenu_y; y >=  *butty ; y--)
-	      perso = actionMenu(gauche_maintenu,action,sol,perso,x,y);
+	      actionMenu(action,sol,perso,x,y);
       else
 	for (x = *gauche_maintenu_x; x >=  *buttx ; x--)
 	  if (*gauche_maintenu_y - *butty <0 )
 	    for (y = *gauche_maintenu_y; y <=  *butty ; y++)
-	      perso = actionMenu(gauche_maintenu,action,sol,perso,x,y);
+	      actionMenu(action,sol,perso,x,y);
 	  else
 	    for (y = *gauche_maintenu_y; y >=  *butty ; y--)
-	      perso = actionMenu(gauche_maintenu,action,sol,perso,x,y);
+	      actionMenu(action,sol,perso,x,y);
       *gauche_maintenu_x = 0;
       *gauche_maintenu_y = 0;
       *buttx = -1;

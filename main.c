@@ -5,11 +5,11 @@
 /*************************/
 #include "include.h"
 
-int main(int argc, char *argv[])
-{
+int main(/*int argc, char *argv[]*/)
+{/*
   freopen("CON", "w", stdout);
   freopen("CON", "r", stdin);
-  freopen("CON", "w", stderr);
+  freopen("CON", "w", stderr);*/
 
   if (SDL_Init (SDL_INIT_EVERYTHING))
     fprintf(stderr,"Couldn't initialize SDL: %s\n", SDL_GetError());
@@ -29,9 +29,9 @@ int main(int argc, char *argv[])
   perso perso;
   liste_point L;
   sol sol[COL][LIG];
-  int seed, tic, zoom, buttx, butty, cond, done, action, gauche_maintenu,gauche_maintenu_x, gauche_maintenu_y ;
+  int seed, temps, zoom, buttx, butty, cond, done, action, gauche_maintenu,gauche_maintenu_x, gauche_maintenu_y ;
   L = l_vide();
-  tic = 0;
+  temps = 0;
 
   printf("donner la graine: \n");
   // scanf("%d",&seed);
@@ -67,8 +67,6 @@ int main(int argc, char *argv[])
   L = l_vide();
 
   action = 1;
-  buttx = NULL;
-  butty = NULL;
   gauche_maintenu = 0;
   gauche_maintenu_x = 0;
   gauche_maintenu_y = 0;
@@ -240,18 +238,21 @@ int main(int argc, char *argv[])
 	    break;
 	  }
 	}
-      tic+=1;
       perso = rectangle(gauche_maintenu, &gauche_maintenu_x, &gauche_maintenu_y, &buttx, &butty, perso, action, sol);
       affichage_map(sol, screen, zoom, image, coord, hauteur, largeur);
-      perso = cherche_action (sol, perso, &cond);
+
+      if (temps != SDL_GetTicks()/100)
+	{
+	  perso = cherche_action (sol, perso, &cond);
+	  perso = deplacement_personnage(sol , screen ,perso,  &L, perso.but.x ,perso.but.y, &cond,  zoom);
+	  perso = actionPerso(sol,perso, buttx, butty);
+	  temps +=1;
+	}
       perso.rcDest.x = perso.pos.x * taille * zoom + coord.x;
       perso.rcDest.y = perso.pos.y * taille * zoom + coord.y;
-      perso = deplacement_personnage(sol , screen ,perso,  &L, perso.but.x ,perso.but.y, &cond,  zoom);
-      perso = actionMenu(gauche_maintenu,action,sol,perso,perso.but.x,perso.but.y);
       if (sol[perso.pos.x][perso.pos.y].id != 21)
         SDL_BlitSurface(perso.perso, &perso.rcSens, screen, &perso.rcDest);
       SDL_UpdateRect(screen, 0, 0, 0, 0);
-    //  SDL_Delay(100);
     }
 
   return 0;
