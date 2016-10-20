@@ -69,6 +69,7 @@ struct perso
     item item;
     cptSens pos;
     cptSens but;
+    int action;
 };
 
 struct NODE

@@ -1,10 +1,8 @@
-/*
- * map.c
- *
- *  Created on: 26 sept. 2016
- *      Author: cleme
- */
-
+/*************************/
+/* main.c                */
+/* auteur : Bacq Clement */
+/* et Calba Antonin      */
+/*************************/
 #include "include.h"
 
 int Walkable(sol tab[COL][LIG], int col, int lig)

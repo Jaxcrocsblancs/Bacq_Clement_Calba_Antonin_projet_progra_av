@@ -121,5 +121,5 @@ void generation_procedural(sol tab[COL][LIG])
     tab[4][2].id = 120;
     tab[4][3].id = 120;
     tab[4][4].id = 120;
-    tab[3][3].ordre = 5;
+    tab[3][3].ordre = 9;
 }

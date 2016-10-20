@@ -78,6 +78,34 @@ void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image,
                                 SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
                                 break;
                             }
+                              case 5:
+                            {
+                                rcCase.x = 6*taille*zoom;
+                                rcCase.y = 1*taille*zoom;
+                                SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+                                break;
+                            }
+                             case 6:
+                            {
+                                rcCase.x = 0*taille*zoom;
+                                rcCase.y = 1*taille*zoom;
+                                SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+                                break;
+                            }
+                             case 7:
+                            {
+                                rcCase.x = 1*taille*zoom;
+                                rcCase.y = 1*taille*zoom;
+                                SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+                                break;
+                            }
+                             case 8:
+                            {
+                                rcCase.x = 2*taille*zoom;
+                                rcCase.y = 1*taille*zoom;
+                                SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+                                break;
+                            }
                             case 21:
                                 {
                                 rcCase.x = 3*taille*zoom;
@@ -140,7 +168,7 @@ void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image,
 
                                 }
                       }
-                    if (tab[col][lig].ordre != 0 && tab[col][lig].ordre != 5)
+                    if (tab[col][lig].ordre != 0 && tab[col][lig].id != 21)
                         {
                             rcCase.x = 0;
                             rcCase.y = 0;
@@ -203,7 +231,7 @@ void affichage_tab(sol tab[COL][LIG])
   for (lig=0;lig<LIG;lig++)
     {
       for (col=0;col<COL;col++)
-        printf("%d ",tab[col][lig].id);
+        printf("%d ",tab[col][lig].ordre);
       printf("\n");
     }
   printf("\n");
@@ -258,6 +286,7 @@ perso init_perso()
     p.rcDest = rcDest;
     p.rcSens = rcSens;
     p.perso = image;
+    p.action = 0;
 
 	p.item.id = 0;
 	p.item.nb = 0;

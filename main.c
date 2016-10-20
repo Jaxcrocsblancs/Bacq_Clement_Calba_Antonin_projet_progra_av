@@ -5,11 +5,11 @@
 /*************************/
 #include "include.h"
 
-int main(/*int argc, char *argv[]*/)
+int main(int argc, char *argv[])
 {
-  /* freopen("CON", "w", stdout);
+  freopen("CON", "w", stdout);
   freopen("CON", "r", stdin);
-  freopen("CON", "w", stderr);*/
+  freopen("CON", "w", stderr);
 
   if (SDL_Init (SDL_INIT_EVERYTHING))
     fprintf(stderr,"Couldn't initialize SDL: %s\n", SDL_GetError());
@@ -29,7 +29,7 @@ int main(/*int argc, char *argv[]*/)
   perso perso;
   liste_point L;
   sol sol[COL][LIG];
-  int seed, tic, zoom, buttx, butty, cond, done, click, action, gauche_maintenu,gauche_maintenu_x, gauche_maintenu_y ;
+  int seed, tic, zoom, buttx, butty, cond, done, action, gauche_maintenu,gauche_maintenu_x, gauche_maintenu_y ;
   L = l_vide();
   tic = 0;
 
@@ -67,9 +67,8 @@ int main(/*int argc, char *argv[]*/)
   L = l_vide();
 
   action = 1;
-  click = 0;
-  buttx = 0;
-  butty = 0;
+  buttx = NULL;
+  butty = NULL;
   gauche_maintenu = 0;
   gauche_maintenu_x = 0;
   gauche_maintenu_y = 0;
@@ -77,7 +76,7 @@ int main(/*int argc, char *argv[]*/)
   while (done == 0)
     {
       SDL_PollEvent(&event);
-      
+
       switch (event.type)
 	{
 	default:
@@ -106,8 +105,23 @@ int main(/*int argc, char *argv[]*/)
 	      case SDLK_F3:
 		action = 3;
 		break;
-	      case SDLK_F5:
+        case SDLK_F4:
+		action = 4;
+		break;
+        case SDLK_F5:
 		action = 5;
+		break;
+		case SDLK_F6:
+		action = 6;
+		break;
+		case SDLK_F7:
+		action = 7;
+		break;
+		case SDLK_F8:
+		action = 8;
+		break;
+		case SDLK_F9:
+		action = 9;
 		break;
 	      case SDLK_z:
 		{
@@ -132,12 +146,15 @@ int main(/*int argc, char *argv[]*/)
 		      else
 			{
 			  image = image_init();
-			  perso = init_perso();
+			  perso.perso = SDL_LoadBMP ("image/test.bmp");
+              SDL_SetColorKey(perso.perso, SDL_SRCCOLORKEY, SDL_MapRGB(perso.perso->format, 255, 0, 255));;
 			  zoom=1;
 			  coord.x=0;
 			  coord.y=0;
 			  perso.rcSens.x = 0;
 			  perso.rcSens.y = 0;
+			  perso.rcSens.w = taille;
+			  perso.rcSens.h = taille;
 			}
 		    }
 		  break;
@@ -197,8 +214,8 @@ int main(/*int argc, char *argv[]*/)
           {
 	    if (gauche_maintenu == 1)
               {
-		buttx = event.motion.x / (taille*zoom) - coord.x/ (taille*zoom);
-		butty = event.motion.y / (taille*zoom) - coord.y/ (taille*zoom);
+                buttx = event.motion.x / (taille*zoom) - coord.x/ (taille*zoom);
+                butty = event.motion.y / (taille*zoom) - coord.y/ (taille*zoom);
               }
 	    break;
           }
@@ -206,35 +223,35 @@ int main(/*int argc, char *argv[]*/)
 	  {
 	    switch (event.button.button)
 	      {
-	      default:
-		{
-		  break;
-		}
-	      case SDL_BUTTON_LEFT:
-		{
-		  gauche_maintenu = 0;
-		  break;
-		}
-	      case SDL_BUTTON_RIGHT:
-		{
-		  break;
-		}
+              default:
+                {
+                  break;
+                }
+              case SDL_BUTTON_LEFT:
+                {
+                  gauche_maintenu = 0;
+                  break;
+                }
+              case SDL_BUTTON_RIGHT:
+                {
+                  break;
+                }
 	      }
 	    break;
 	  }
 	}
-      perso = rectangle(gauche_maintenu, &gauche_maintenu_x, &gauche_maintenu_y, &buttx, &butty, perso, action, sol, &click);
       tic+=1;
+      perso = rectangle(gauche_maintenu, &gauche_maintenu_x, &gauche_maintenu_y, &buttx, &butty, perso, action, sol);
       affichage_map(sol, screen, zoom, image, coord, hauteur, largeur);
-      perso = cherche_action (sol, perso, &cond, action);
+      perso = cherche_action (sol, perso, &cond);
       perso.rcDest.x = perso.pos.x * taille * zoom + coord.x;
       perso.rcDest.y = perso.pos.y * taille * zoom + coord.y;
       perso = deplacement_personnage(sol , screen ,perso,  &L, perso.but.x ,perso.but.y, &cond,  zoom);
-      perso = actionMenu(action,sol,perso,perso.but.x,perso.but.y,&click);
+      perso = actionMenu(gauche_maintenu,action,sol,perso,perso.but.x,perso.but.y);
       if (sol[perso.pos.x][perso.pos.y].id != 21)
         SDL_BlitSurface(perso.perso, &perso.rcSens, screen, &perso.rcDest);
       SDL_UpdateRect(screen, 0, 0, 0, 0);
-      //SDL_Delay(50);
+    //  SDL_Delay(100);
     }
 
   return 0;
