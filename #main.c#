@@ -247,7 +247,7 @@ int main(/*int argc, char *argv[]*/)
 	  perso = cherche_action (sol, perso, &cond);
 	  perso = deplacement_personnage(sol , screen ,perso,  &L, perso.but.x ,perso.but.y, &cond,  zoom);
 	  perso = actionPerso(sol,perso, &plantation);
-	  plantation = pousser(sol, plantation);
+
 	  temps +=1;
 	}
       afficher_point_liste(plantation);
