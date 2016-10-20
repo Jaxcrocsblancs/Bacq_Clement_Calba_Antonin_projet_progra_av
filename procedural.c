@@ -16,6 +16,8 @@ void init_tab(sol tab[COL][LIG])
                 tab[col][lig].item.id=0;
                 tab[col][lig].item.nb=0;
                 tab[col][lig].item.nom="";
+                if (lig == LIG-1)
+                    tab[col][lig].id = 1;
             }
 }
 
@@ -76,8 +78,8 @@ void generation_procedural(sol tab[COL][LIG])
 	procedu.salade=20;
 	procedu.fraisier=20;
 	procedu.ble=20;
-	for (dl=-2; dl<3; dl++) 
-	  for (dc=-2; dc<3; dc++) 
+	for (dl=-2; dl<3; dl++)
+	  for (dc=-2; dc<3; dc++)
 	    {
 	      if (!dl || !dc) continue; // on traite pas la case elle meme
 	      if (col+dc < 0 || col+dc > COL-1) continue; // on veut pas sortir du tableau
@@ -86,8 +88,8 @@ void generation_procedural(sol tab[COL][LIG])
 	      tab[col][lig].id=proba(procedu);
 	    }
       }
-      
- 
+
+
   for (col=COL-1;col>=0;col--)
     for (lig=LIG-1;lig>=0;lig--)
       {
@@ -97,8 +99,8 @@ void generation_procedural(sol tab[COL][LIG])
 	procedu.salade=0;
 	procedu.fraisier=0;
 	procedu.ble=0;
-	for (dl=-2; dl<3; dl++) 
-	  for (dc=-2; dc<3; dc++) 
+	for (dl=-2; dl<3; dl++)
+	  for (dc=-2; dc<3; dc++)
 	    {
 	      if (!dl || !dc) continue; // on traite pas la case elle meme
 	      if (col+dc < 0 || col+dc > COL-1) continue; // on veut pas sortir du tableau
@@ -107,5 +109,5 @@ void generation_procedural(sol tab[COL][LIG])
 	      tab[col][lig].id=proba(procedu);
 	    }
       }
- 
+
 }

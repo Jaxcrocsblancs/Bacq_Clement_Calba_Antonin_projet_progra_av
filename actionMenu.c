@@ -9,7 +9,7 @@
 
 void couper(sol tab[COL][LIG],int buttx, int butty, perso perso, int zoom, int *click)
 {
-	if((perso.rcDest.x / (taille*zoom) == buttx) && (perso.rcDest.y / (taille*zoom) == butty))
+	if((perso.pos.x  == buttx) && (perso.pos.y == butty))
 	{
 	    if (tab[buttx][butty].id > 0) // ne marche pas avec le zoom
 	    {
@@ -22,7 +22,7 @@ void couper(sol tab[COL][LIG],int buttx, int butty, perso perso, int zoom, int *
 
 perso ramasser(sol tab[COL][LIG], perso perso, int buttx, int butty, int zoom, int *click)
 {
-	if((perso.rcDest.x / (taille*zoom) == buttx) && (perso.rcDest.y / (taille*zoom) == butty))
+	if((perso.pos.x == buttx) && (perso.pos.y == butty))
 	{
 		if(tab[buttx][butty].item.id == perso.item.id || perso.item.id == 0)
 		{
@@ -39,7 +39,7 @@ perso ramasser(sol tab[COL][LIG], perso perso, int buttx, int butty, int zoom, i
 
 perso deposer(sol tab[COL][LIG], perso perso, int buttx, int butty, int zoom, int *click)
 {
-	if((perso.rcDest.x / (taille*zoom) == buttx) && (perso.rcDest.y / (taille*zoom) == butty))
+	if((perso.pos.x== buttx) && (perso.pos.y== butty))
 	{
 		if((tab[buttx][butty].item.id == perso.item.id || tab[buttx][butty].item.id == 0) && perso.item.id != 0)
 		{

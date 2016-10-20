@@ -14,17 +14,16 @@ perso deplacement_chemin(sol tab[COL][LIG], SDL_Surface *screen,perso perso, lis
     {
       dx = prem(*L).col;
       dy = prem(*L).lig;
-<<<<<<< HEAD
 	  perso = affichage_perso(perso,*L,zoom);
       if(tab[dx][dy].id < 100)
 	{
-	  perso.rcDest.x = dx * taille * zoom;
-	  perso.rcDest.y = dy * taille * zoom;
+	  perso.pos.x = dx;
+	  perso.pos.y = dy;
 	  *L = reste(*L);
 	}
       else
 	{
-	  *L = Astar(tab,perso.rcDest.x,perso.rcDest.y,buttx,butty);
+	  *L = Astar(tab,perso.pos.x,perso.pos.y,buttx,butty);
 	  deplacement_chemin(tab, screen, perso, L, buttx ,butty ,cond ,zoom);
 	  return perso;
 	}
@@ -43,49 +42,33 @@ perso deplacement_personnage(sol tab[COL][LIG], SDL_Surface *screen,perso perso,
   if(*cond > 0)
     {
       if(*cond == 1)
-	{
-	  *L = Astar(tab,perso.rcDest.x/ (taille*zoom),perso.rcDest.y/ (taille*zoom),buttx,butty);
-	  *cond = 2;
-	}
+        {
+          *L = Astar(tab,perso.pos.x,perso.pos.y,buttx,butty);
+          *cond = 2;
+        }
       return deplacement_chemin(tab,screen, perso, L, buttx, butty, cond, zoom);
-=======
-
-      if(tab[dx][dy].id != 1)
-	{
-	  perso.rcDest.x = dx * taille * zoom;
-	  perso.rcDest.y = dy * taille * zoom;
-	  *L = reste(*L);
-	}
-      else
-	{
-	  *L = Astar(tab,perso.rcDest.x,perso.rcDest.y,buttx,butty);
-	  deplacement_chemin(tab, screen, perso, L, buttx ,butty ,cond ,zoom);
-	  return perso;
-	}
-    }
-  else
-    {
-      *cond = 0;
->>>>>>> 883f5c99e107cd40afcb916c82d59194a5a60dc4
     }
   return perso;
 }
-
-
-<<<<<<< HEAD
-
-=======
-perso deplacement_personnage(sol tab[COL][LIG], SDL_Surface *screen,perso perso, liste_point *L, int buttx, int butty, int *cond, int zoom)
+/*
+perso ramasse_objets(sol tab[COL][LIG], perso perso, int zoom)
 {
-  if(*cond > 0)
+    int memid, memnb;
+    if (tab[perso.rcDest.x/(taille*zoom)][perso.rcDest.y/(taille*zoom)].item.id == perso.item.id && perso.item.id !=0)
     {
-      if(*cond == 1)
-	{
-	  *L = Astar(tab,perso.rcDest.x/ (taille*zoom),perso.rcDest.y/ (taille*zoom),buttx,butty);
-	  *cond = 2;
-	}
-      return deplacement_chemin(tab,screen, perso, L, buttx, butty, cond, zoom);
+      perso.nb += tab[perso.rcDest.x/(taille*zoom)][perso.rcDest.y/(taille*zoom)].item.nb;
+      tab[perso.rcDest.x/(taille*zoom)][perso.rcDest.y/(taille*zoom)].item.id = 0;
     }
-  return perso;
+
+    else
+    {
+        memid = tab[perso.rcDest.x/(taille*zoom)][perso.rcDest.y/(taille*zoom)].item.id;
+        memnb = tab[perso.rcDest.x/(taille*zoom)][perso.rcDest.y/(taille*zoom)].item.nb;
+        tab[perso.rcDest.x/(taille*zoom)][perso.rcDest.y/(taille*zoom)].item.id = perso.id;
+        tab[perso.rcDest.x/(taille*zoom)][perso.rcDest.y/(taille*zoom)].item.nb = perso.nb;
+        perso.id = memid;
+        perso.nb = memnb;
+    }
+    return perso;
 }
->>>>>>> 883f5c99e107cd40afcb916c82d59194a5a60dc4
+*/
