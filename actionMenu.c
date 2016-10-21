@@ -86,7 +86,7 @@ void planter(sol tab[COL][LIG], perso perso, int action, liste_point *plantation
       tab[perso.but.x][perso.but.y].id = action;
       tab[perso.but.x][perso.but.y].ordre = 0;
       Case = remplisPoint(perso.but.x, perso.but.y, 0);
-      *plantation = cons(Case, *plantation); 
+      *plantation = cons(Case, *plantation);
     }
 }
 
@@ -108,6 +108,7 @@ liste_point pousser(sol tab[COL][LIG], liste_point plantation)
 
 void actionMenu(int action, sol tab[COL][LIG],perso perso, int buttx, int butty)
 {
+ if (buttx <1 || buttx > COL-2 || butty <1 || butty > LIG-2) return;
   switch(action)
     {
     case 1:
@@ -118,7 +119,7 @@ void actionMenu(int action, sol tab[COL][LIG],perso perso, int buttx, int butty)
       if (tab[buttx][butty].item.id > 0 && (tab[buttx][butty].item.id == perso.item.id || perso.item.id == 0)) // ne marche pas avec le zoom
         tab[buttx][butty].ordre = action;
       break;
-    case 3:  
+    case 3:
      if (tab[buttx][butty].item.id == 0  || tab[buttx][butty].item.id == perso.item.id) // ne marche pas avec le zoom
        tab[buttx][butty].ordre = action;
       break;
@@ -186,8 +187,8 @@ perso cherche_action(sol tab[COL][LIG], perso perso, int *cond)
                 {
                   if (perso.but.x != perso.pos.x && perso.but.y != perso.pos.y) continue;
                   if (abs(dl)+abs(dc) != nb) continue;
-                  if (perso.pos.x+dc < 0 || perso.pos.x+dc > COL-1) continue; // on veut pas sortir du tableau
-                  if (perso.pos.y+dl < 0 || perso.pos.y+dl > LIG-1) continue;
+                  if (perso.pos.x+dc < 1 || perso.pos.x+dc > COL-2) continue; // on veut pas sortir du tableau
+                  if (perso.pos.y+dl < 1 || perso.pos.y+dl > LIG-2) continue;
                   if (tab[perso.pos.x+dc][perso.pos.y+dl].id == 21) tab[perso.pos.x+dc][perso.pos.y+dl].ordre = 9;
                   if (tab[perso.pos.x+dc][perso.pos.y+dl].ordre != action) continue;
                   if (action == 2 && (tab[perso.pos.x+dc][perso.pos.y+dl].item.id != perso.item.id && perso.item.id != 0)) continue;

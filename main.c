@@ -5,11 +5,11 @@
 /*************************/
 #include "include.h"
 
-int main(/*int argc, char *argv[]*/)
-{/*
+int main(int argc, char *argv[])
+{
   freopen("CON", "w", stdout);
   freopen("CON", "r", stdin);
-  freopen("CON", "w", stderr);*/
+  freopen("CON", "w", stderr);
 
   if (SDL_Init (SDL_INIT_EVERYTHING))
     fprintf(stderr,"Couldn't initialize SDL: %s\n", SDL_GetError());
@@ -243,15 +243,14 @@ int main(/*int argc, char *argv[]*/)
       affichage_map(sol, screen, zoom, image, coord, hauteur, largeur);
 
       if (temps != SDL_GetTicks()/100)
-	{
-	  perso = cherche_action (sol, perso, &cond);
-	  perso = deplacement_personnage(sol , screen ,perso,  &L, perso.but.x ,perso.but.y, &cond,  zoom);
-	  perso = actionPerso(sol,perso, &plantation);
-	  plantation = pousser(sol, plantation);
-	  temps +=1;
-	}
-      afficher_point_liste(plantation);
-      printf("\n");
+        {
+          perso = cherche_action (sol, perso, &cond);
+          perso = deplacement_personnage(sol , screen ,perso,  &L, perso.but.x ,perso.but.y, &cond,  zoom);
+          perso = actionPerso(sol,perso, &plantation);
+          plantation = pousser(sol, plantation);
+          printf("perso.but.x: %d, perso.but.y: %d\n", perso.but.x, perso.but.y);
+          temps +=1;
+        }
       perso.rcDest.x = perso.pos.x * taille * zoom + coord.x;
       perso.rcDest.y = perso.pos.y * taille * zoom + coord.y;
       if (sol[perso.pos.x][perso.pos.y].id != 21)
