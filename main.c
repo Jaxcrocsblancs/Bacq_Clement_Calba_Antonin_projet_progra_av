@@ -206,13 +206,18 @@ int main(/*int argc, char *argv[]*/)
 		}
 	      case SDL_BUTTON_LEFT:
 		{
-		  if (event.motion.x < largeur)
+		  if (event.motion.y < hauteur)
+		    {
 		      if (gauche_maintenu == 0)
 			{
 			  gauche_maintenu = 1;
 			  gauche_maintenu_x = event.motion.x / (taille*zoom) - coord.x/ (taille*zoom);
 			  gauche_maintenu_y = event.motion.y / (taille*zoom) - coord.y/ (taille*zoom);
 			}
+		    }
+		  else 
+		    action= event.motion.x / (taille*2);
+		     
 		  break;
 		}
 	      case SDL_BUTTON_RIGHT:
@@ -223,7 +228,7 @@ int main(/*int argc, char *argv[]*/)
 	  }
 	case SDL_MOUSEMOTION:
           { 
-	    if (event.motion.x < largeur)
+	    if (event.motion.y < hauteur)
 	      if (gauche_maintenu == 1)
 		{
 		  buttx = event.motion.x / (taille*zoom) - coord.x/ (taille*zoom);
@@ -270,6 +275,7 @@ int main(/*int argc, char *argv[]*/)
       affichage_menu(screen, hauteur, largeur, image);
       SDL_UpdateRect(screen, 0, 0, 0, 0);
 //      SDL_Delay(100);
+      printf("action: %d\n",action);
 
     }
 
