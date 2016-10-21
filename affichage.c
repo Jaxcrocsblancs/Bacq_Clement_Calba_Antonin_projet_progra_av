@@ -5,7 +5,7 @@
 /*************************/
 #include "include.h"
 
-void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image, SDL_Rect coord_init)
+void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image, SDL_Rect coord_init, int hauteur, int largeur)
 {
 	SDL_Rect rcCase, rcCaseDest;
 
@@ -22,90 +22,170 @@ void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image,
 	for(col=0;col<COL;col++)
 	  {
 	    rcCaseDest.x = taille*zoom*col +coord_init.x;
-	    for(lig=0;lig<LIG;lig++)
-	      {
-            rcCaseDest.y = taille*zoom*lig +coord_init.y;
-            SDL_BlitSurface(image.herbe, &rcCase, screen, &rcCaseDest);
-	      }
+	    if (rcCaseDest.x >= 0 && rcCaseDest.x < -coord_init.x + hauteur)
+        {
+            for(lig=0;lig<LIG;lig++)
+              {
+                rcCaseDest.y = taille*zoom*lig +coord_init.y;
+                if (rcCaseDest.y >= 0 && rcCaseDest.y < -coord_init.y + largeur)
+                    SDL_BlitSurface(image.herbe, &rcCase, screen, &rcCaseDest);
+              }
+        }
 	  }
 
 	for(col=0;col<COL;col++)
 	  {
 	    rcCaseDest.x = taille*zoom*col + coord_init.x;
-	    if (rcCaseDest.x> -taille*zoom)
+
+	    if (rcCaseDest.x >= 0 && rcCaseDest.x < -coord_init.x + hauteur)
+        {
             for(lig=0;lig<LIG;lig++)
               {
                 rcCaseDest.y= taille*zoom*lig + coord_init.y;
-                if (rcCaseDest.y> -taille*zoom)
+                if (rcCaseDest.y >= 0 && rcCaseDest.y < -coord_init.y + largeur)
                 {
-                switch (tab[col][lig].id)
-                    {
-                        case 1:
+                    switch (tab[col][lig].id)
                         {
-                            rcCase.x = 5*taille*zoom;
-                            rcCase.y = 0*taille*zoom;
-                            rcCase.h = 2*taille*zoom;
-                            rcCaseDest.y = taille*zoom*(lig-1) + coord_init.y;
-                            SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
-                            rcCaseDest.y = taille*zoom*lig + coord_init.y;
-                            rcCase.h = taille*zoom;
-                            break;
+                            case 1:
+                            {
+                                rcCase.x = 5*taille*zoom;
+                                rcCase.y = 0*taille*zoom;
+                                rcCase.h = 2*taille*zoom;
+                                rcCaseDest.y = taille*zoom*(lig-1) + coord_init.y;
+                                SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+                                rcCaseDest.y = taille*zoom*lig + coord_init.y;
+                                rcCase.h = taille*zoom;
+                                break;
+                            }
+                            case 2:
+                            {
+                                rcCase.x = 6*taille*zoom;
+                                rcCase.y = 2*taille*zoom;
+                                SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+                                break;
+                            }
+                           case 3:
+                            {
+                                rcCase.x = 4*taille*zoom;
+                                rcCase.y = 2*taille*zoom;
+                                SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+                                break;
+                            }
+                            case 4:
+                            {
+                                rcCase.x = 5*taille*zoom;
+                                rcCase.y = 2*taille*zoom;
+                                SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+                                break;
+                            }
+                              case 5:
+                            {
+                                rcCase.x = 6*taille*zoom;
+                                rcCase.y = 1*taille*zoom;
+                                SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+                                break;
+                            }
+                             case 6:
+                            {
+                                rcCase.x = 0*taille*zoom;
+                                rcCase.y = 1*taille*zoom;
+                                SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+                                break;
+                            }
+                             case 7:
+                            {
+                                rcCase.x = 1*taille*zoom;
+                                rcCase.y = 1*taille*zoom;
+                                SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+                                break;
+                            }
+                             case 8:
+                            {
+                                rcCase.x = 2*taille*zoom;
+                                rcCase.y = 1*taille*zoom;
+                                SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+                                break;
+                            }
+                            case 21:
+                                {
+                                rcCase.x = 3*taille*zoom;
+                                rcCase.y = 3*taille*zoom;
+                                rcCase.h = 3*taille*zoom;
+                                rcCase.w = 3*taille*zoom;
+                                rcCaseDest.y = taille*zoom*(lig-1) + coord_init.y;
+                                rcCaseDest.x = taille*zoom*(col-1) + coord_init.x;
+                                SDL_BlitSurface(image.mine, &rcCase, screen, &rcCaseDest);
+                                rcCaseDest.x = taille*zoom*col + coord_init.x;
+                                rcCaseDest.y = taille*zoom*lig + coord_init.y;
+                                rcCase.h = taille*zoom;
+                                rcCase.w = taille*zoom;
+                                break;
+                                }
+                            case 101:
+                                rcCase.x = 2*taille*zoom;
+								rcCase.y = 6*taille*zoom;
+								SDL_BlitSurface(image.mur, &rcCase, screen, &rcCaseDest);
+
+                            	break;
                         }
-                        case 2:
+                    switch (tab[col][lig].item.id)
                         {
-                            rcCase.x = 6*taille*zoom;
-                            rcCase.y = 2*taille*zoom;
-                            SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
-                            break;
-                        }
-                       case 3:
+                            case 1:
+                            {
+                                rcCase.x = 2*taille*zoom;
+                                rcCase.y = 2*taille*zoom;
+                                SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+                                break;
+                            }
+                            case 2:
+                            {
+                                rcCase.x = 6*taille*zoom;
+                                rcCase.y = 3*taille*zoom;
+                                SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+                                break;
+                            }
+                            case 3:
+                            {
+                                rcCase.x = 7*taille*zoom;
+                                rcCase.y = 3*taille*zoom;
+                                SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+                                break;
+                            }
+                            case 4:
+                            {
+                                rcCase.x = 6*taille*zoom;
+                                rcCase.y = 4*taille*zoom;
+                                SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+                                break;
+                            }
+                            case 20:
+                            {
+                                rcCase.x = 3*taille*zoom;
+                                rcCase.y = 4*taille*zoom;
+                                SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+                                break;
+                            }
+                            case 21:
+                                {
+                                rcCase.x = 3*taille*zoom;
+                                rcCase.y = 3*taille*zoom;
+                                SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+                                break;
+
+                                }
+                      }
+                    if (tab[col][lig].ordre != 0 && tab[col][lig].id != 21)
                         {
-                            rcCase.x = 4*taille*zoom;
-                            rcCase.y = 2*taille*zoom;
-                            SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
-                            break;
+                            rcCase.x = 0;
+                            rcCase.y = 0;
+                            if (tab[col][lig].ordre > 1000)
+                                rcCase.x= taille;
+                            SDL_BlitSurface(image.alpha, &rcCase, screen, &rcCaseDest);
                         }
-                        case 4:
-                        {
-                            rcCase.x = 5*taille*zoom;
-                            rcCase.y = 2*taille*zoom;
-                            SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
-                            break;
-                        }
-                    }
-                switch (tab[col][lig].item.id)
-                    {
-                    case 1:
-                    {
-                        rcCase.x = 2*taille*zoom;
-                        rcCase.y = 2*taille*zoom;
-                        SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
-                        break;
-                    }
-                    case 2:
-                    {
-                        rcCase.x = 6*taille*zoom;
-                        rcCase.y = 3*taille*zoom;
-                        SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
-                        break;
-                    }
-                    case 3:
-                    {
-                        rcCase.x = 7*taille*zoom;
-                        rcCase.y = 3*taille*zoom;
-                        SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
-                        break;
-                    }
-                    case 4:
-                    {
-                        rcCase.x = 6*taille*zoom;
-                        rcCase.y = 4*taille*zoom;
-                        SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
-                        break;
-                    }
-                  }
+
                 }
               }
+	  }
 	  }
 }
 
@@ -114,50 +194,52 @@ void affichage_surface(SDL_Surface *screen, SDL_Surface *s,SDL_Rect rcCase, SDL_
   SDL_BlitSurface(s, &rcCase, screen, &rcCaseDest);
 }
 
-/*void affichage_perso(SDL_Surface *screen, SDL_Surface *perso,SDL_Rect rcDepla, SDL_Rect rcDeplaS,liste_point L,int cpt)
+perso affichage_perso(perso perso, liste_point L, int zoom)
 {
   if(!est_vide(L))
     {
-      if(prem(L).col * 32 > rcDepla.x)
-	{
-	  rcDeplaS.x = (4+cpt)*32;
-	}
-      if(prem(L).col * 32 < rcDepla.x)
-	{
-	  rcDeplaS.x = (6+cpt)*32;
-	}
-      if(prem(L).lig * 32 < rcDepla.y)
-	{
-	  rcDeplaS.x = (2+cpt)*32;
-	}
-      if(prem(L).lig * 32 > rcDepla.y)
-	{
-	  rcDeplaS.x = (0+cpt)*32;
-				    }
+		  if(prem(L).col * (taille * zoom) > perso.rcDest.x)
+		{
+		  perso.rcSens.x = (perso.cptSens.x + 4) * (taille * zoom);
+		}
+		  if(prem(L).col * (taille * zoom) < perso.rcDest.x)
+		{
+		  perso.rcSens.x = (-perso.cptSens.x + 7) * (taille * zoom);
+		}
+		  if(prem(L).lig * (taille * zoom) < perso.rcDest.y)
+		{
+		  perso.rcSens.x = (perso.cptSens.x + 2) * (taille * zoom);
+		}
+		  if(prem(L).lig * (taille * zoom) > perso.rcDest.y)
+		{
+		  perso.rcSens.x = (perso.cptSens.x + 0) * (taille * zoom);
+		}
+		  perso.rcSens.y = perso.cptSens.y * (taille * zoom);
 
-      rcDepla.x = prem(L).col * 32;
-      rcDepla.y = prem(L).lig * 32;
-      SDL_BlitSurface(perso, &rcDeplaS, screen, &rcDepla);
-      if(!est_vide(reste(L)))
-	{
-	  L = reste(L);
-	}
-      cpt++;
-      if(cpt == 2)
-	{
-	  cpt = 0;
-	}
+		  perso.cptSens.x += 1;
+
+		  if(perso.cptSens.x == 2)
+		  {
+			  perso.cptSens.x = 0;
+			  perso.cptSens.y += 1;
+			  if(perso.cptSens.y == 2)
+			  {
+				  perso.cptSens.y = 0;
+			  }
+		  }
     }
+  return perso;
 }
-*/
+
+
 
 void affichage_tab(sol tab[COL][LIG])
 {
-  int col,lig;  
+  int col,lig;
   for (lig=0;lig<LIG;lig++)
     {
       for (col=0;col<COL;col++)
-        printf("%d ",tab[col][lig].id);
+        printf("%d ",tab[col][lig].ordre);
       printf("\n");
     }
   printf("\n");
@@ -181,7 +263,13 @@ image image_init()
     image image;
     image.herbe = SDL_LoadBMP ("image/herbe.bmp");
     image.plante = SDL_LoadBMP ("image/plante.bmp");
+    image.alpha = SDL_LoadBMP ("image/attente.bmp");
     SDL_SetColorKey(image.plante, SDL_SRCCOLORKEY, SDL_MapRGB(image.plante->format, 255, 0, 255));
+    SDL_SetColorKey(image.alpha, SDL_SRCCOLORKEY, SDL_MapRGB(image.alpha->format, 255, 0, 255));
+    image.mine = SDL_LoadBMP ("image/porte_mine.bmp");
+    SDL_SetColorKey(image.mine, SDL_SRCCOLORKEY, SDL_MapRGB(image.mine->format, 255, 0, 255));
+    SDL_SetAlpha(image.alpha,SDL_SRCALPHA, 128 );
+    image.mur = SDL_LoadBMP ("image/test.bmp");
     return image;
 }
 
@@ -202,11 +290,25 @@ perso init_perso()
     rcSens.h = taille;
     rcSens.w = taille;
 
-    image = SDL_LoadBMP ("image/plante.bmp");
-
+    image = SDL_LoadBMP ("image/test.bmp");
+    SDL_SetColorKey(image, SDL_SRCCOLORKEY, SDL_MapRGB(image->format, 255, 0, 255));
     p.rcDest = rcDest;
     p.rcSens = rcSens;
     p.perso = image;
+    p.action = 0;
+
+	p.item.id = 0;
+	p.item.nb = 0;
+
+	p.cptSens.x = 0;
+	p.cptSens.y = 0;
+
+    p.pos.x = 0;
+    p.pos.y = 0;
+
+
+    p.but.x = 0;
+    p.but.y = 0;
 
     return p;
 }
@@ -215,7 +317,12 @@ image zoom_image(image image, float zoom)
 {
   image.herbe = rotozoomSurface(image.herbe, 0, zoom, 1);
   image.plante = rotozoomSurface(image.plante, 0, zoom, 1);
+  image.alpha = rotozoomSurface(image.alpha, 0, zoom, 1);
+  image.mine = rotozoomSurface(image.mine, 0, zoom, 1);
   SDL_SetColorKey(image.plante, SDL_SRCCOLORKEY, SDL_MapRGB(image.plante->format, 255, 0, 255));
+  SDL_SetColorKey(image.alpha, SDL_SRCCOLORKEY, SDL_MapRGB(image.alpha->format, 255, 0, 255));
+  SDL_SetColorKey(image.mine, SDL_SRCCOLORKEY, SDL_MapRGB(image.mine->format, 255, 0, 255));
+  SDL_SetAlpha(image.alpha,SDL_SRCALPHA, 128 );
   return image;
 }
 perso zoom_perso(perso perso, float zoom)
@@ -223,3 +330,4 @@ perso zoom_perso(perso perso, float zoom)
     perso.perso = rotozoomSurface(perso.perso, 0, zoom, 1);
     return perso;
 }
+

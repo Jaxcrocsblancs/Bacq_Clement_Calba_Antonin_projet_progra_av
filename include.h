@@ -15,5 +15,6 @@
 #include "map.h"
 #include "liste_point.h"
 #include "deplacement.h"
+#include "actionMenu.h"
 
 #endif
