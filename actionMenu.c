@@ -36,27 +36,23 @@ perso ramasser(sol tab[COL][LIG], perso perso)
   return perso;
 }
 
-perso deposer(sol tab[COL][LIG], perso perso, int buttx, int butty, int action)
+perso deposer(sol tab[COL][LIG], perso perso, int action)
 {
-
-  if((tab[buttx][butty].item.id == perso.item.id || tab[buttx][butty].item.id == 0)  )
+  if((perso.pos.x== perso.but.x) && (perso.pos.y== perso.but.y))
     {
-      if((perso.pos.x == buttx) && (perso.pos.y == butty))
-        {
-          tab[buttx][butty].item.id  = perso.item.id;
-          tab[buttx][butty].item.nb = perso.item.nb;
-          perso.item.id = 0;
-          perso.item.nb = 0;
-          tab[buttx][butty].ordre = 0;
-        }
+      tab[perso.but.x][perso.but.y].item.id  = perso.item.id;
+      tab[perso.but.x][perso.but.y].item.nb = perso.item.nb;
+      perso.item.id = 0;
+      perso.item.nb = 0;
+      tab[perso.but.x][perso.but.y].ordre = 0;
     }
   return perso;
 }
 
-void miner(sol tab[COL][LIG], perso perso, int buttx, int butty)
+void miner(sol tab[COL][LIG], perso perso)
 {
   int random_minerai;
-  if (perso.but.x == perso.pos.x && perso.but.y == perso.pos.y && tab[buttx][butty].id == 21 )
+  if (perso.but.x == perso.pos.x && perso.but.y == perso.pos.y && tab[perso.but.x][perso.but.y].id == 21 )
     {
       random_minerai = rand()%2+20;
       if(tab[perso.pos.x][perso.pos.y+2].item.id == random_minerai || tab[perso.pos.x][perso.pos.y+2].item.id == 0)
@@ -84,29 +80,34 @@ void miner(sol tab[COL][LIG], perso perso, int buttx, int butty)
 
 }
 
-void planter(sol tab[COL][LIG], perso perso, int buttx, int butty, int action)
+void planter(sol tab[COL][LIG], perso perso, int action, liste_point *plantation)
 {
-    if ((buttx == perso.pos.x) && (butty == perso.pos.y) && (perso.but.x == perso.pos.x) && (perso.but.y == perso.pos.y))
+  if ((perso.but.x == perso.pos.x) && (perso.but.y == perso.pos.y) && tab[perso.but.x][perso.but.y].ordre !=0)
     {
-        tab[buttx][butty].id = action;
-        tab[buttx][butty].ordre = 0;
+      point_cout Case;
+      tab[perso.but.x][perso.but.y].id = action;
+      tab[perso.but.x][perso.but.y].ordre = 0;
+      Case = remplisPoint(perso.but.x, perso.but.y, 0);
+      *plantation = cons(Case, *plantation);
     }
 }
 
-perso construire(sol tab[COL][LIG], perso perso, int buttx, int butty)
+
+perso construire(sol tab[COL][LIG], perso perso)
 {
 	int col,lig;
 	for(col=-1;col<=1;col++)
 		for(lig=-1;lig<=1;lig++)
 			if( ((col == 0)&&(lig != 0)) || ((col == 0)&&(lig != 0)))
-				if(perso.pos.x == buttx+col && perso.pos.y == butty+lig)
+				if(perso.pos.x == perso.but.x + col  && perso.pos.y == perso.but.y + lig)
 				{
-					assert(perso.item.id > 0);
+//					assert(0);
 					if(perso.item.nb >= 2)
 					{
-						tab[buttx][butty].id = 101;
-						tab[buttx][butty].ordre = 0;
-						perso.item.nb -= 2;
+						tab[perso.but.x][perso.but.y].id = 101;
+						tab[perso.but.x][perso.but.y].ordre = 0;
+						perso.item.nb -= 1;
+
 						if(perso.item.nb == 0)
 							perso.item.id = 0;
 					}
@@ -114,9 +115,25 @@ perso construire(sol tab[COL][LIG], perso perso, int buttx, int butty)
 	return perso;
 }
 
-perso actionMenu(int gauche_maintenu, int action, sol tab[COL][LIG],perso perso, int buttx, int butty)
+liste_point pousser(sol tab[COL][LIG], liste_point plantation)
 {
-if (perso.action != 1 || (buttx != perso.pos.x && butty != perso.pos.y))
+  point_cout bite;
+  if (est_vide(plantation))
+    return l_vide();
+  if (prem(plantation).f > 100)
+    {
+      tab[prem(plantation).col][prem(plantation).lig].id -= 4;
+      return pousser(tab,reste(plantation));
+    }
+  bite = prem(plantation);
+  bite.f += 1;
+  ecrire_prem(bite,plantation);
+  return cons(prem(plantation), pousser(tab, reste(plantation)));
+}
+
+void actionMenu(int action, sol tab[COL][LIG],perso perso, int buttx, int butty)
+{
+ if (buttx <1 || buttx > COL-2 || butty <1 || butty > LIG-2) return;
   switch(action)
     {
     case 1:
@@ -132,7 +149,7 @@ if (perso.action != 1 || (buttx != perso.pos.x && butty != perso.pos.y))
        tab[buttx][butty].ordre = action;
       break;
     case 4:
-    	if(tab[buttx][butty].item.id == 0)
+    	if(tab[buttx][butty].item.id == 0 && tab[buttx][butty].id < 100)
     		tab[buttx][butty].ordre = action;
     	break;
     case 5:
@@ -148,39 +165,44 @@ if (perso.action != 1 || (buttx != perso.pos.x && butty != perso.pos.y))
             tab[buttx][butty].ordre = action;
         break;
     case 8:
-        if(tab[buttx][butty].id == 0 && tab[buttx][butty].ordre == 0)
-            tab[buttx][butty].ordre = action;
-        break;
+      if(tab[buttx][butty].id == 0 && tab[buttx][butty].ordre == 0)
+	tab[buttx][butty].ordre = action;
+      break;
     }
+ return;
+}
+
+perso actionPerso(sol tab[COL][LIG],perso perso, liste_point *plantation)
+{
 
     switch(perso.action)
     {
-		case 1:
-			couper(tab,perso);
-			break;
-		case 2:
-			perso = ramasser(tab,perso);
-			break;
-		case 3:
-			perso = deposer(tab,perso, buttx, butty, perso.action);
-			break;
+        case 1:
+          couper(tab,perso);
+          break;
+        case 2:
+          perso = ramasser(tab,perso);
+          break;
+        case 3:
+          perso = deposer(tab,perso, perso.action);
+          break;
 		case 4:
-			perso = construire(tab,perso,buttx,butty);
+			perso = construire(tab,perso);
 			break;
-		case 5:
-		  planter(tab, perso, buttx, butty, perso.action);
-		  break;
-		case 6:
-		  planter(tab, perso, buttx, butty, perso.action);
-		  break;
-		case 7:
-          planter(tab, perso, buttx, butty, perso.action);
+        case 5:
+          planter(tab, perso, perso.action, plantation);
+          break;
+        case 6:
+          planter(tab, perso,  perso.action, plantation);
+          break;
+        case 7:
+          planter(tab, perso,  perso.action, plantation);
           break;
         case 8:
-          planter(tab, perso, buttx, butty, perso.action);
+          planter(tab, perso, perso.action, plantation);
           break;
         case 9:
-          miner(tab, perso, buttx, butty);
+          miner(tab, perso);
           break;
     }
   return perso;
@@ -197,8 +219,8 @@ perso cherche_action(sol tab[COL][LIG], perso perso, int *cond)
                 {
                   if (perso.but.x != perso.pos.x && perso.but.y != perso.pos.y) continue;
                   if (abs(dl)+abs(dc) != nb) continue;
-                  if (perso.pos.x+dc < 0 || perso.pos.x+dc > COL-1) continue; // on veut pas sortir du tableau
-                  if (perso.pos.y+dl < 0 || perso.pos.y+dl > LIG-1) continue;
+                  if (perso.pos.x+dc < 1 || perso.pos.x+dc > COL-2) continue; // on veut pas sortir du tableau
+                  if (perso.pos.y+dl < 1 || perso.pos.y+dl > LIG-2) continue;
                   if (tab[perso.pos.x+dc][perso.pos.y+dl].id == 21) tab[perso.pos.x+dc][perso.pos.y+dl].ordre = 9;
                   if (tab[perso.pos.x+dc][perso.pos.y+dl].ordre != action) continue;
                   if (action == 2 && (tab[perso.pos.x+dc][perso.pos.y+dl].item.id != perso.item.id && perso.item.id != 0)) continue;
@@ -221,22 +243,22 @@ perso rectangle(int gauche_maintenu, int *gauche_maintenu_x, int *gauche_mainten
 	for (x = *gauche_maintenu_x; x <=  *buttx ; x++)
 	  if (*gauche_maintenu_y - *butty <0 )
 	    for (y = *gauche_maintenu_y; y <=  *butty ; y++)
-	      perso = actionMenu(gauche_maintenu, action,sol,perso,x,y);
+	      actionMenu(action,sol,perso,x,y);
 	  else
 	    for (y = *gauche_maintenu_y; y >=  *butty ; y--)
-	      perso = actionMenu(gauche_maintenu,action,sol,perso,x,y);
+	      actionMenu(action,sol,perso,x,y);
       else
 	for (x = *gauche_maintenu_x; x >=  *buttx ; x--)
 	  if (*gauche_maintenu_y - *butty <0 )
 	    for (y = *gauche_maintenu_y; y <=  *butty ; y++)
-	      perso = actionMenu(gauche_maintenu,action,sol,perso,x,y);
+	      actionMenu(action,sol,perso,x,y);
 	  else
 	    for (y = *gauche_maintenu_y; y >=  *butty ; y--)
-	      perso = actionMenu(gauche_maintenu,action,sol,perso,x,y);
+	      actionMenu(action,sol,perso,x,y);
       *gauche_maintenu_x = 0;
       *gauche_maintenu_y = 0;
-      *buttx = -1;
-      *butty = -1;
+      *buttx = 0;
+      *butty = 0;
     }
   return perso;
 }

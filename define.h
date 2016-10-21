@@ -5,6 +5,6 @@
 /*************************/
 
 
-#define COL 50
-#define LIG 50
+#define COL 30
+#define LIG 30
 #define taille 32
