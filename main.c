@@ -5,11 +5,11 @@
 /*************************/
 #include "include.h"
 
-int main(int argc, char *argv[])
+int main(/*int argc, char *argv[]*/)
 {
-  freopen("CON", "w", stdout);
-  freopen("CON", "r", stdin);
-  freopen("CON", "w", stderr);
+  /* freopen("CON", "w", stdout);
+     freopen("CON", "r", stdin);
+     freopen("CON", "w", stderr);*/
 
   if (SDL_Init (SDL_INIT_EVERYTHING))
     fprintf(stderr,"Couldn't initialize SDL: %s\n", SDL_GetError());
@@ -29,7 +29,8 @@ int main(int argc, char *argv[])
   perso perso;
   liste_point L, plantation;
   sol sol[COL][LIG];
-  int seed, temps, zoom, buttx, butty, cond, done, action, gauche_maintenu,gauche_maintenu_x, gauche_maintenu_y ;
+  int seed, zoom, buttx, butty, cond, done, action, gauche_maintenu,gauche_maintenu_x, gauche_maintenu_y, p;
+  unsigned int  temps;
   L = l_vide();
   plantation = l_vide();
   temps = 0;
@@ -50,7 +51,7 @@ int main(int argc, char *argv[])
 
   hauteur = hauteur/(4*taille)*(4*taille);
   largeur = largeur/(4*taille)*(4*taille);
-  screen = SDL_SetVideoMode(hauteur, largeur, 24, 0);
+  screen = SDL_SetVideoMode(hauteur, largeur+2*taille, 24, 0);
   if (!screen)
     fprintf(stderr,"SetVideoMode error: %s\n", SDL_GetError());
 
@@ -71,7 +72,7 @@ int main(int argc, char *argv[])
   gauche_maintenu = 0;
   gauche_maintenu_x = 0;
   gauche_maintenu_y = 0;
-
+  p=1;
   while (done == 0)
     {
       SDL_PollEvent(&event);
@@ -104,24 +105,31 @@ int main(int argc, char *argv[])
 	      case SDLK_F3:
 		action = 3;
 		break;
-        case SDLK_F4:
+	      case SDLK_F4:
 		action = 4;
 		break;
-        case SDLK_F5:
+	      case SDLK_F5:
 		action = 5;
 		break;
-		case SDLK_F6:
+	      case SDLK_F6:
 		action = 6;
 		break;
-		case SDLK_F7:
+	      case SDLK_F7:
 		action = 7;
 		break;
-		case SDLK_F8:
+	      case SDLK_F8:
 		action = 8;
 		break;
-		case SDLK_F9:
+	      case SDLK_F9:
 		action = 9;
 		break;
+	      case SDLK_p:
+		if (p)
+		  p=0;
+		else
+		  p=1;
+		break;
+
 	      case SDLK_z:
 		{
 		  if (zoom == 1)
@@ -146,7 +154,7 @@ int main(int argc, char *argv[])
 			{
 			  image = image_init();
 			  perso.perso = SDL_LoadBMP ("image/test.bmp");
-              SDL_SetColorKey(perso.perso, SDL_SRCCOLORKEY, SDL_MapRGB(perso.perso->format, 255, 0, 255));;
+			  SDL_SetColorKey(perso.perso, SDL_SRCCOLORKEY, SDL_MapRGB(perso.perso->format, 255, 0, 255));;
 			  zoom=1;
 			  coord.x=0;
 			  coord.y=0;
@@ -195,12 +203,13 @@ int main(int argc, char *argv[])
 		}
 	      case SDL_BUTTON_LEFT:
 		{
-		  if (gauche_maintenu == 0)
-		    {
-		      gauche_maintenu = 1;
-		      gauche_maintenu_x = event.motion.x / (taille*zoom) - coord.x/ (taille*zoom);
-		      gauche_maintenu_y = event.motion.y / (taille*zoom) - coord.y/ (taille*zoom);
-		    }
+		  if (event.motion.x < largeur)
+		      if (gauche_maintenu == 0)
+			{
+			  gauche_maintenu = 1;
+			  gauche_maintenu_x = event.motion.x / (taille*zoom) - coord.x/ (taille*zoom);
+			  gauche_maintenu_y = event.motion.y / (taille*zoom) - coord.y/ (taille*zoom);
+			}
 		  break;
 		}
 	      case SDL_BUTTON_RIGHT:
@@ -210,12 +219,13 @@ int main(int argc, char *argv[])
 	      }
 	  }
 	case SDL_MOUSEMOTION:
-          {
-	    if (gauche_maintenu == 1)
-              {
-                buttx = event.motion.x / (taille*zoom) - coord.x/ (taille*zoom);
-                butty = event.motion.y / (taille*zoom) - coord.y/ (taille*zoom);
-              }
+          { 
+	    if (event.motion.x < largeur)
+	      if (gauche_maintenu == 1)
+		{
+		  buttx = event.motion.x / (taille*zoom) - coord.x/ (taille*zoom);
+		  butty = event.motion.y / (taille*zoom) - coord.y/ (taille*zoom);
+		}
 	    break;
           }
 	case SDL_MOUSEBUTTONUP:
@@ -242,19 +252,19 @@ int main(int argc, char *argv[])
       perso = rectangle(gauche_maintenu, &gauche_maintenu_x, &gauche_maintenu_y, &buttx, &butty, perso, action, sol);
       affichage_map(sol, screen, zoom, image, coord, hauteur, largeur);
 
-      if (temps != SDL_GetTicks()/100)
+      if (temps != SDL_GetTicks()/100 && p)
         {
           perso = cherche_action (sol, perso, &cond);
           perso = deplacement_personnage(sol , screen ,perso,  &L, perso.but.x ,perso.but.y, &cond,  zoom);
           perso = actionPerso(sol,perso, &plantation);
           plantation = pousser(sol, plantation);
-          printf("perso.but.x: %d, perso.but.y: %d\n", perso.but.x, perso.but.y);
-          temps +=1;
+          temps = SDL_GetTicks()/100;
         }
       perso.rcDest.x = perso.pos.x * taille * zoom + coord.x;
       perso.rcDest.y = perso.pos.y * taille * zoom + coord.y;
       if (sol[perso.pos.x][perso.pos.y].id != 21)
         SDL_BlitSurface(perso.perso, &perso.rcSens, screen, &perso.rcDest);
+      affichage_menu(screen, hauteur, largeur, image);
       SDL_UpdateRect(screen, 0, 0, 0, 0);
     }
 

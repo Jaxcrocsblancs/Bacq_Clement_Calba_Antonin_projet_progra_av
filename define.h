@@ -4,7 +4,7 @@
 /* et Calba Antonin      */
 /*************************/
 
-#define COL 50
-#define LIG 50
+#define COL 100
+#define LIG 100
 
 #define taille 32

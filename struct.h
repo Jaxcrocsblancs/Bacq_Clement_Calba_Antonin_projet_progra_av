@@ -31,6 +31,7 @@ struct image
   SDL_Surface* plante;
   SDL_Surface* alpha;
   SDL_Surface* mine;
+  SDL_Surface* menu;
 };
 
 struct object

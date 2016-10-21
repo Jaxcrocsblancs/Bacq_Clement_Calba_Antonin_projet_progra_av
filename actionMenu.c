@@ -8,14 +8,13 @@
 void couper(sol tab[COL][LIG], perso perso)
 {
   if (tab[perso.but.x][perso.but.y].id > 0 && tab[perso.but.x][perso.but.y].id<20) // ne marche pas avec le zoom
-    {
-      if((perso.pos.x  == perso.but.x) && (perso.pos.y == perso.but.y))
-        {
-	  tab[perso.but.x][perso.but.y].item.id = tab[perso.but.x][perso.but.y].id;
-	  tab[perso.but.x][perso.but.y].id = 0;
-	  tab[perso.but.x][perso.but.y].ordre = 0;
-	}
-    }
+    if((perso.pos.x  == perso.but.x) && (perso.pos.y == perso.but.y))
+      {
+	tab[perso.but.x][perso.but.y].item.id = tab[perso.but.x][perso.but.y].id;
+	tab[perso.but.x][perso.but.y].id = 0; 
+	tab[perso.but.x][perso.but.y].item.nb = 4;
+	tab[perso.but.x][perso.but.y].ordre = 0;
+      }
 }
 
 perso ramasser(sol tab[COL][LIG], perso perso)
@@ -92,7 +91,7 @@ void planter(sol tab[COL][LIG], perso perso, int action, liste_point *plantation
 
 liste_point pousser(sol tab[COL][LIG], liste_point plantation)
 {
-  point_cout bite;
+  point_cout mem;
   if (est_vide(plantation))
     return l_vide();
   if (prem(plantation).f > 100)
@@ -100,9 +99,9 @@ liste_point pousser(sol tab[COL][LIG], liste_point plantation)
       tab[prem(plantation).col][prem(plantation).lig].id -= 4;
       return pousser(tab,reste(plantation));
     }
-  bite = prem(plantation);
-  bite.f += 1;
-  ecrire_prem(bite,plantation);
+  mem = prem(plantation);
+  mem.f += 1;
+  ecrire_prem(mem,plantation);
   return cons(prem(plantation), pousser(tab, reste(plantation)));
 }
 
