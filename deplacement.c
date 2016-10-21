@@ -13,7 +13,7 @@ perso deplacement_chemin(sol tab[COL][LIG], SDL_Surface *screen,perso perso, lis
     {
       dx = prem(*L).col;
       dy = prem(*L).lig;
-      perso = affichage_perso(perso,*L,zoom);
+	  perso = affichage_perso(perso,*L,zoom);
       if(tab[dx][dy].id < 100)
 	{
 	  perso.pos.x = dx;
@@ -49,3 +49,5 @@ perso deplacement_personnage(sol tab[COL][LIG], SDL_Surface *screen,perso perso,
     }
   return perso;
 }
+
+

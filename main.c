@@ -12,6 +12,7 @@ int main(/*int argc, char *argv[]*/)
      freopen("CON", "w", stderr);*/
 
   if (SDL_Init (SDL_INIT_EVERYTHING))
+
     fprintf(stderr,"Couldn't initialize SDL: %s\n", SDL_GetError());
 
   const SDL_VideoInfo *videoInfo;
@@ -40,6 +41,7 @@ int main(/*int argc, char *argv[]*/)
   seed=1;
 
   int hauteur, largeur;
+
   largeur = LIG * taille;
   hauteur = COL * taille;
 
@@ -69,6 +71,7 @@ int main(/*int argc, char *argv[]*/)
   L = l_vide();
 
   action = 1;
+
   gauche_maintenu = 0;
   gauche_maintenu_x = 0;
   gauche_maintenu_y = 0;
@@ -266,6 +269,8 @@ int main(/*int argc, char *argv[]*/)
         SDL_BlitSurface(perso.perso, &perso.rcSens, screen, &perso.rcDest);
       affichage_menu(screen, hauteur, largeur, image);
       SDL_UpdateRect(screen, 0, 0, 0, 0);
+//      SDL_Delay(100);
+
     }
 
   return 0;

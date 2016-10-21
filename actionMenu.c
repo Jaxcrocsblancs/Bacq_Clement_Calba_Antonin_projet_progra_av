@@ -4,17 +4,21 @@
 /* et Calba Antonin      */
 /*************************/
 #include "include.h"
+#include "assert.h"
 
 void couper(sol tab[COL][LIG], perso perso)
 {
   if (tab[perso.but.x][perso.but.y].id > 0 && tab[perso.but.x][perso.but.y].id<20) // ne marche pas avec le zoom
-    if((perso.pos.x  == perso.but.x) && (perso.pos.y == perso.but.y))
-      {
-	tab[perso.but.x][perso.but.y].item.id = tab[perso.but.x][perso.but.y].id;
-	tab[perso.but.x][perso.but.y].id = 0; 
-	tab[perso.but.x][perso.but.y].item.nb = 4;
-	tab[perso.but.x][perso.but.y].ordre = 0;
-      }
+    {
+      if((perso.pos.x  == perso.but.x) && (perso.pos.y == perso.but.y))
+	{
+	  tab[perso.but.x][perso.but.y].item.id = tab[perso.but.x][perso.but.y].id;
+	  tab[perso.but.x][perso.but.y].id = 0;
+	  tab[perso.but.x][perso.but.y].ordre = 0;
+	  tab[perso.but.x][perso.but.y].item.nb = 4;
+	}
+    }
+
 }
 
 perso ramasser(sol tab[COL][LIG], perso perso)
@@ -22,13 +26,13 @@ perso ramasser(sol tab[COL][LIG], perso perso)
   if(tab[perso.but.x][perso.but.y].item.id == perso.item.id || perso.item.id == 0 )
     {
       if((perso.pos.x == perso.but.x) && (perso.pos.y == perso.but.y))
-	{
-	  perso.item.id = tab[perso.but.x][perso.but.y].item.id;
-	  perso.item.nb += tab[perso.but.x][perso.but.y].item.nb;
-	  tab[perso.but.x][perso.but.y].item.id = 0;
-	  tab[perso.but.x][perso.but.y].item.nb = 0;
-	  tab[perso.but.x][perso.but.y].ordre = 0;
-	}
+      {
+		  perso.item.id = tab[perso.but.x][perso.but.y].item.id;
+		  perso.item.nb += tab[perso.but.x][perso.but.y].item.nb;
+		  tab[perso.but.x][perso.but.y].item.id = 0;
+		  tab[perso.but.x][perso.but.y].item.nb = 0;
+		  tab[perso.but.x][perso.but.y].ordre = 0;
+      }
     }
   return perso;
 }
@@ -89,6 +93,29 @@ void planter(sol tab[COL][LIG], perso perso, int action, liste_point *plantation
     }
 }
 
+
+perso construire(sol tab[COL][LIG], perso perso)
+{
+	int col,lig;
+	for(col=-1;col<=1;col++)
+		for(lig=-1;lig<=1;lig++)
+			if( ((col == 0)&&(lig != 0)) || ((col == 0)&&(lig != 0)))
+				if(perso.pos.x == perso.but.x + col  && perso.pos.y == perso.but.y + lig)
+				{
+//					assert(0);
+					if(perso.item.nb >= 2)
+					{
+						tab[perso.but.x][perso.but.y].id = 101;
+						tab[perso.but.x][perso.but.y].ordre = 0;
+						perso.item.nb -= 1;
+
+						if(perso.item.nb == 0)
+							perso.item.id = 0;
+					}
+				}
+	return perso;
+}
+
 liste_point pousser(sol tab[COL][LIG], liste_point plantation)
 {
   point_cout mem;
@@ -115,13 +142,17 @@ void actionMenu(int action, sol tab[COL][LIG],perso perso, int buttx, int butty)
             tab[buttx][butty].ordre = action;
         break;
     case 2:
-      if (tab[buttx][butty].item.id > 0 && (tab[buttx][butty].item.id == perso.item.id || perso.item.id == 0)) // ne marche pas avec le zoom
+      if (tab[buttx][butty].item.id > 0) // ne marche pas avec le zoom
         tab[buttx][butty].ordre = action;
       break;
     case 3:
-     if (tab[buttx][butty].item.id == 0  || tab[buttx][butty].item.id == perso.item.id) // ne marche pas avec le zoom
+     if ((tab[buttx][butty].item.id == 0  || tab[buttx][butty].item.id == perso.item.id) && perso.item.id > 0 ) // ne marche pas avec le zoom
        tab[buttx][butty].ordre = action;
       break;
+    case 4:
+    	if(tab[buttx][butty].item.id == 0 && tab[buttx][butty].id < 100)
+    		tab[buttx][butty].ordre = action;
+    	break;
     case 5:
       if(tab[buttx][butty].id == 0 && tab[buttx][butty].ordre == 0)
         tab[buttx][butty].ordre = action;
@@ -156,6 +187,9 @@ perso actionPerso(sol tab[COL][LIG],perso perso, liste_point *plantation)
         case 3:
           perso = deposer(tab,perso, perso.action);
           break;
+		case 4:
+			perso = construire(tab,perso);
+			break;
         case 5:
           planter(tab, perso, perso.action, plantation);
           break;

@@ -18,4 +18,5 @@ perso cherche_action(sol tab[COL][LIG], perso perso, int *cond);
 void miner(sol tab[COL][LIG], perso perso);
 liste_point pousser(sol tab[COL][LIG], liste_point plantation);
 perso rectangle(int gauche_maintenu, int *gauche_maintenu_x, int *gauche_maintenu_y, int *buttx, int *butty, perso perso, int action, sol sol[COL][LIG]);
+perso construire(sol tab[COL][LIG], perso perso);
 #endif /* ACTIONMENU_H_ */
