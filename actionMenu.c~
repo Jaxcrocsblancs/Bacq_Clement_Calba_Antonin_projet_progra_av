@@ -93,32 +93,56 @@ void planter(sol tab[COL][LIG], perso perso, int action, liste_point *plantation
 }
 
 
-perso construire(sol tab[COL][LIG], perso perso)
+perso construire(sol tab[COL][LIG], perso perso, int ido, int nbi, int idi)
 {
 	int col,lig;
 	for(col=-1;col<=1;col++)
 		for(lig=-1;lig<=1;lig++)
 			if( ((col == 0)&&(lig != 0)) || ((lig == 0)&&(col != 0)))
-			{
-				if(perso.pos.x == perso.but.x + col  && perso.pos.y == perso.but.y + lig)
-				{
-					if(perso.item.nb >= 2)
-					{
-						tab[perso.but.x][perso.but.y].id = 101;
-						tab[perso.but.x][perso.but.y].ordre = 0;
-						perso.item.nb -= 1;
+				if(perso.item.id == idi)
+					if(perso.pos.x == perso.but.x + col  && perso.pos.y == perso.but.y + lig)
+						if(perso.item.id == 1 && perso.item.nb >= nbi)
+						{
+							tab[perso.but.x][perso.but.y].id = ido;
+							tab[perso.but.x][perso.but.y].ordre = 0;
+							perso.item.nb -= nbi;
 
-						if(perso.item.nb == 0)
-							perso.item.id = 0;
-					}
-				}
-			}
+							if(perso.item.nb == 0)
+								perso.item.id = 0;
+							return perso;
+						}
 	return perso;
+}
+
+perso creerStockPile(sol tab[COL][LIG], perso perso, liste_point *stockPile)
+{
+	point_cout temp;
+	if(tab[perso.but.x][perso.but.y].id == 0)
+		if((perso.but.x == perso.pos.x) && (perso.but.y == perso.pos.y) /*&& (perso.item.id == 1) && perso.item.nb >= nbi*/)
+		{
+			tab[perso.but.x][perso.but.y].id = 9;
+			tab[perso.but.x][perso.but.y].item.id = perso.item.id;
+			tab[perso.but.x][perso.but.y].ordre = 0;
+			/*perso.item.nb -= nbi;
+			if(perso.item.nb == 0)
+				perso.item.id = 0;*/
+
+			temp = remplisPoint(perso.but.x,perso.but.y,0);	
+			*stockPile = cons(temp,*stockPile);
+		}
+	return perso;
+}
+
+
+void chercheStockPile(sol tab[COL][LIG], perso perso, int ido, int nbi, int idi, liste_point *stockPile)
+{
+	
+
 }
 
 liste_point pousser(sol tab[COL][LIG], liste_point plantation)
 {
-  point_cout bite;
+  point_cout mem;
   if (est_vide(plantation))
     return l_vide();
   if (prem(plantation).f > 100)
@@ -126,9 +150,9 @@ liste_point pousser(sol tab[COL][LIG], liste_point plantation)
       tab[prem(plantation).col][prem(plantation).lig].id -= 4;
       return pousser(tab,reste(plantation));
     }
-  bite = prem(plantation);
-  bite.f += 1;
-  ecrire_prem(bite,plantation);
+  mem = prem(plantation);
+  mem.f += 1;
+  ecrire_prem(mem,plantation);
   return cons(prem(plantation), pousser(tab, reste(plantation)));
 }
 
@@ -173,7 +197,7 @@ void actionMenu(int action, sol tab[COL][LIG],perso perso, int buttx, int butty)
  return;
 }
 
-perso actionPerso(sol tab[COL][LIG],perso perso, liste_point *plantation)
+perso actionPerso(sol tab[COL][LIG],perso perso, liste_point *plantation, liste_point *stockPile )
 {
 
     switch(perso.action)
@@ -188,7 +212,9 @@ perso actionPerso(sol tab[COL][LIG],perso perso, liste_point *plantation)
           perso = deposer(tab,perso, perso.action);
           break;
 		case 4:
-			perso = construire(tab,perso);
+			perso = creerStockPile(tab,perso,stockPile);
+			//perso = construire(tab,perso,101,2,1);
+			afficher_point_liste(*stockPile);
 			break;
         case 5:
           planter(tab, perso, perso.action, plantation);

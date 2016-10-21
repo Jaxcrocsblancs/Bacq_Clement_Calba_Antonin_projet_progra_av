@@ -7,38 +7,37 @@
 
 void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image, SDL_Rect coord_init, int hauteur, int largeur)
 {
-	SDL_Rect rcCase, rcCaseDest;
+  SDL_Rect rcCase, rcCaseDest;
 
-	rcCase.x = 0;
-	rcCase.y = 0;
-	rcCase.h = taille*zoom;
-	rcCase.w = taille*zoom;
+  rcCase.x = 0;
+  rcCase.y = 0;
+  rcCase.h = taille*zoom;
+  rcCase.w = taille*zoom;
 
-	rcCaseDest.x = 0;
-	rcCaseDest.y = 0;
-	rcCaseDest.h = taille*zoom;
-	rcCaseDest.w = taille*zoom;
-	int col,lig;
-	for(col=0;col<COL;col++)
-	  {
-	    rcCaseDest.x = taille*zoom*col +coord_init.x;
-	    if (rcCaseDest.x >= 0 && rcCaseDest.x < -coord_init.x + hauteur)
+  rcCaseDest.x = 0;
+  rcCaseDest.y = 0;
+  rcCaseDest.h = taille*zoom;
+  rcCaseDest.w = taille*zoom;
+  int col,lig;
+  for(col=0;col<COL;col++)
+    {
+      rcCaseDest.x = taille*zoom*col +coord_init.x;
+      if (rcCaseDest.x >= 0 && rcCaseDest.x < -coord_init.x + hauteur)
         {
-            for(lig=0;lig<LIG;lig++)
-              {
-                rcCaseDest.y = taille*zoom*lig +coord_init.y;
-                if (rcCaseDest.y >= 0 && rcCaseDest.y < -coord_init.y + largeur)
-                    SDL_BlitSurface(image.herbe, &rcCase, screen, &rcCaseDest);
-              }
+	  for(lig=0;lig<LIG;lig++)
+	    {
+	      rcCaseDest.y = taille*zoom*lig +coord_init.y;
+	      if (rcCaseDest.y >= 0 && rcCaseDest.y < -coord_init.y + largeur)
+		SDL_BlitSurface(image.herbe, &rcCase, screen, &rcCaseDest);
+	    }
         }
-	  }
+    }
 
-	for(col=0;col<COL;col++)
-	  {
-	    rcCaseDest.x = taille*zoom*col + coord_init.x;
-
-	    if (rcCaseDest.x >= 0 && rcCaseDest.x < -coord_init.x + hauteur)
-        {
+  for(col=0;col<COL;col++)
+    {
+      rcCaseDest.x = taille*zoom*col + coord_init.x;
+      if (rcCaseDest.x >= 0 && rcCaseDest.x < -coord_init.x + hauteur)
+	{
             for(lig=0;lig<LIG;lig++)
               {
                 rcCaseDest.y= taille*zoom*lig + coord_init.y;
@@ -123,10 +122,13 @@ void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image,
                                 }
                             case 101:
                                 rcCase.x = 2*taille*zoom;
-								rcCase.y = 6*taille*zoom;
-								SDL_BlitSurface(image.mur, &rcCase, screen, &rcCaseDest);
-
+				rcCase.y = 6*taille*zoom;
+				SDL_BlitSurface(image.mur, &rcCase, screen, &rcCaseDest);
                             	break;
+				case 9:
+                                rcCase.x = 4*taille*zoom;
+				rcCase.y = 3*taille*zoom;
+				SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);	
                         }
                     switch (tab[col][lig].item.id)
                         {
@@ -182,11 +184,11 @@ void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image,
                                 rcCase.x= taille;
                             SDL_BlitSurface(image.alpha, &rcCase, screen, &rcCaseDest);
                         }
-
                 }
-              }
-	  }
-	  }
+	    }
+	}
+    }
+
 }
 
 void affichage_surface(SDL_Surface *screen, SDL_Surface *s,SDL_Rect rcCase, SDL_Rect rcCaseDest)
@@ -198,35 +200,35 @@ perso affichage_perso(perso perso, liste_point L, int zoom)
 {
   if(!est_vide(L))
     {
-		  if(prem(L).col * (taille * zoom) > perso.rcDest.x)
-		{
-		  perso.rcSens.x = (perso.cptSens.x + 4) * (taille * zoom);
-		}
-		  if(prem(L).col * (taille * zoom) < perso.rcDest.x)
-		{
-		  perso.rcSens.x = (-perso.cptSens.x + 7) * (taille * zoom);
-		}
-		  if(prem(L).lig * (taille * zoom) < perso.rcDest.y)
-		{
-		  perso.rcSens.x = (perso.cptSens.x + 2) * (taille * zoom);
-		}
-		  if(prem(L).lig * (taille * zoom) > perso.rcDest.y)
-		{
-		  perso.rcSens.x = (perso.cptSens.x + 0) * (taille * zoom);
-		}
-		  perso.rcSens.y = perso.cptSens.y * (taille * zoom);
+      if(prem(L).col * (taille * zoom) > perso.rcDest.x)
+	{
+	  perso.rcSens.x = (perso.cptSens.x + 4) * (taille * zoom);
+	}
+      if(prem(L).col * (taille * zoom) < perso.rcDest.x)
+	{
+	  perso.rcSens.x = (-perso.cptSens.x + 7) * (taille * zoom);
+	}
+      if(prem(L).lig * (taille * zoom) < perso.rcDest.y)
+	{
+	  perso.rcSens.x = (perso.cptSens.x + 2) * (taille * zoom);
+	}
+      if(prem(L).lig * (taille * zoom) > perso.rcDest.y)
+	{
+	  perso.rcSens.x = (perso.cptSens.x + 0) * (taille * zoom);
+	}
+      perso.rcSens.y = perso.cptSens.y * (taille * zoom);
 
-		  perso.cptSens.x += 1;
+      perso.cptSens.x += 1;
 
-		  if(perso.cptSens.x == 2)
-		  {
-			  perso.cptSens.x = 0;
-			  perso.cptSens.y += 1;
-			  if(perso.cptSens.y == 2)
-			  {
-				  perso.cptSens.y = 0;
-			  }
-		  }
+      if(perso.cptSens.x == 2)
+	{
+	  perso.cptSens.x = 0;
+	  perso.cptSens.y += 1;
+	  if(perso.cptSens.y == 2)
+	    {
+	      perso.cptSens.y = 0;
+	    }
+	}
     }
   return perso;
 }
@@ -260,35 +262,37 @@ void affichage_tab_object(sol tab[COL][LIG])
 
 image image_init()
 {
-    image image;
-    image.herbe = SDL_LoadBMP ("image/herbe.bmp");
-    image.plante = SDL_LoadBMP ("image/plante.bmp");
-    image.alpha = SDL_LoadBMP ("image/attente.bmp");
-    SDL_SetColorKey(image.plante, SDL_SRCCOLORKEY, SDL_MapRGB(image.plante->format, 255, 0, 255));
-    SDL_SetColorKey(image.alpha, SDL_SRCCOLORKEY, SDL_MapRGB(image.alpha->format, 255, 0, 255));
-    image.mine = SDL_LoadBMP ("image/porte_mine.bmp");
-    SDL_SetColorKey(image.mine, SDL_SRCCOLORKEY, SDL_MapRGB(image.mine->format, 255, 0, 255));
-    SDL_SetAlpha(image.alpha,SDL_SRCALPHA, 128 );
-    image.mur = SDL_LoadBMP ("image/test.bmp");
-    return image;
+  image image;
+  image.herbe = SDL_LoadBMP ("image/herbe.bmp");
+  image.plante = SDL_LoadBMP ("image/plante.bmp");
+  image.alpha = SDL_LoadBMP ("image/attente.bmp");
+  image.mine = SDL_LoadBMP ("image/porte_mine.bmp");
+  image.menu = SDL_LoadBMP ("image/menu.bmp");
+	image.mur = SDL_LoadBMP("image/test.bmp");
+  SDL_SetColorKey(image.plante, SDL_SRCCOLORKEY, SDL_MapRGB(image.plante->format, 255, 0, 255));
+  SDL_SetColorKey(image.alpha, SDL_SRCCOLORKEY, SDL_MapRGB(image.alpha->format, 255, 0, 255));
+  SDL_SetColorKey(image.mine, SDL_SRCCOLORKEY, SDL_MapRGB(image.mine->format, 255, 0, 255));
+  SDL_SetColorKey(image.menu, SDL_SRCCOLORKEY, SDL_MapRGB(image.plante->format, 255, 0, 255));
+  SDL_SetAlpha(image.alpha,SDL_SRCALPHA, 128 );
+  return image;
 }
 
 perso init_perso()
 {
-    perso p;
-    SDL_Surface *image;
-    SDL_Rect rcDest;
-    SDL_Rect rcSens;
+  perso p;
+  SDL_Surface *image;
+  SDL_Rect rcDest;
+  SDL_Rect rcSens;
 
-    rcDest.x = 0;
-    rcDest.y = 0;
-    rcDest.h = taille;
-    rcDest.w = taille;
+  rcDest.x = 0;
+  rcDest.y = 0;
+  rcDest.h = taille;
+  rcDest.w = taille;
 
-    rcSens.x = 0;
-    rcSens.y = 0;
-    rcSens.h = taille;
-    rcSens.w = taille;
+  rcSens.x = 0;
+  rcSens.y = 0;
+  rcSens.h = taille;
+  rcSens.w = taille;
 
     image = SDL_LoadBMP ("image/test.bmp");
     SDL_SetColorKey(image, SDL_SRCCOLORKEY, SDL_MapRGB(image->format, 255, 0, 255));
@@ -303,14 +307,13 @@ perso init_perso()
 	p.cptSens.x = 0;
 	p.cptSens.y = 0;
 
-    p.pos.x = 0;
-    p.pos.y = 0;
+  p.pos.x = 0;
+  p.pos.y = 0;
 
+  p.but.x = 0;
+  p.but.y = 0;
 
-    p.but.x = 0;
-    p.but.y = 0;
-
-    return p;
+  return p;
 }
 
 image zoom_image(image image, float zoom)
@@ -325,9 +328,32 @@ image zoom_image(image image, float zoom)
   SDL_SetAlpha(image.alpha,SDL_SRCALPHA, 128 );
   return image;
 }
+
 perso zoom_perso(perso perso, float zoom)
 {
-    perso.perso = rotozoomSurface(perso.perso, 0, zoom, 1);
-    return perso;
+  perso.perso = rotozoomSurface(perso.perso, 0, zoom, 1);
+  return perso;
+}
+
+void affichage_menu(SDL_Surface *screen, int hauteur, int largeur, image image)
+{
+  
+  SDL_Rect rcCase, rcCaseDest;
+  int col;
+  rcCase.x = 0;
+  rcCase.y = 0;
+  rcCase.h = 2*taille;
+  rcCase.w = 2*taille;
+
+  rcCaseDest.x = 0;
+  rcCaseDest.y = largeur;
+  rcCaseDest.h = 2*taille;
+  rcCaseDest.w = 2*taille;
+  for (col = 0; col < largeur / (taille*2);col++)
+    { 	      
+      SDL_BlitSurface(image.menu, &rcCase, screen, &rcCaseDest);
+      rcCase.x += taille*2;
+      rcCaseDest.x += taille*4;
+    }
 }
 
