@@ -22,6 +22,7 @@ struct sol
 {
   int id;
   item item;
+  int ordre;
 };
 
 struct image
@@ -29,6 +30,8 @@ struct image
   SDL_Surface* herbe;
   SDL_Surface* plante;
   SDL_Surface* alpha;
+  SDL_Surface* mine;
+  SDL_Surface* mur;
 };
 
 struct object
@@ -66,6 +69,8 @@ struct perso
     SDL_Surface *perso;
     item item;
     cptSens pos;
+    cptSens but;
+    int action;
 };
 
 struct NODE

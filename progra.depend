@@ -1,5 +1,9 @@
 # depslib dependency file v1.0
+<<<<<<< HEAD
 1476714679 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\affichage.c
+=======
+1476891465 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\affichage.c
+>>>>>>> 2b79928e54ad2ae0519e9f7308d28c260aaa54c7
 	"include.h"
 
 1476710580 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\include.h
@@ -18,12 +22,20 @@
 	"deplacement.h"
 	"actionMenu.h"
 
+<<<<<<< HEAD
 1476712979 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\define.h
+=======
+1476892403 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\define.h
+>>>>>>> 2b79928e54ad2ae0519e9f7308d28c260aaa54c7
 
 1476332328 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\procedural.h
 	"struct.h"
 
+<<<<<<< HEAD
 1476714625 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\struct.h
+=======
+1476882755 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\struct.h
+>>>>>>> 2b79928e54ad2ae0519e9f7308d28c260aaa54c7
 
 1476711023 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\affichage.h
 	"struct.h"
@@ -41,6 +53,7 @@
 1476713993 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\deplacement.h
 	"include.h"
 
+<<<<<<< HEAD
 1476714684 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\deplacement.c
 	"include.h"
 
@@ -66,6 +79,33 @@
 	"include.h"
 
 1476714669 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\actionmenu.c
+=======
+1476884773 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\actionmenu.h
+	"include.h"
+
+1476891413 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\deplacement.c
+	"include.h"
+
+1476585537 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\liste_point.c
+	"include.h"
+
+1476895391 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\main.c
+	"include.h"
+
+1476891413 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\map.c
+	"include.h"
+
+1476887648 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\procedural.c
+	"include.h"
+
+1476332328 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\sdl_rotozoom.c
+	<windows.h>
+	<stdlib.h>
+	<string.h>
+	"SDL_rotozoom.h"
+
+1476894987 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\actionmenu.c
+>>>>>>> 2b79928e54ad2ae0519e9f7308d28c260aaa54c7
 	"include.h"
 	<assert.h>
 

@@ -1,9 +1,8 @@
-/*
- * deplacement.c
- *
- *  Created on: 3 oct. 2016
- *      Author: cleme
- */
+/*************************/
+/* main.c                */
+/* auteur : Bacq Clement */
+/* et Calba Antonin      */
+/*************************/
 
 #include "include.h"
 
@@ -30,7 +29,7 @@ perso deplacement_chemin(sol tab[COL][LIG], SDL_Surface *screen,perso perso, lis
     }
   else
     {
-	  perso.rcSens.x = 0;
+      perso.rcSens.x = 0;
       *cond = 0;
     }
   return perso;
@@ -50,25 +49,5 @@ perso deplacement_personnage(sol tab[COL][LIG], SDL_Surface *screen,perso perso,
     }
   return perso;
 }
-/*
-perso ramasse_objets(sol tab[COL][LIG], perso perso, int zoom)
-{
-    int memid, memnb;
-    if (tab[perso.rcDest.x/(taille*zoom)][perso.rcDest.y/(taille*zoom)].item.id == perso.item.id && perso.item.id !=0)
-    {
-      perso.nb += tab[perso.rcDest.x/(taille*zoom)][perso.rcDest.y/(taille*zoom)].item.nb;
-      tab[perso.rcDest.x/(taille*zoom)][perso.rcDest.y/(taille*zoom)].item.id = 0;
-    }
 
-    else
-    {
-        memid = tab[perso.rcDest.x/(taille*zoom)][perso.rcDest.y/(taille*zoom)].item.id;
-        memnb = tab[perso.rcDest.x/(taille*zoom)][perso.rcDest.y/(taille*zoom)].item.nb;
-        tab[perso.rcDest.x/(taille*zoom)][perso.rcDest.y/(taille*zoom)].item.id = perso.id;
-        tab[perso.rcDest.x/(taille*zoom)][perso.rcDest.y/(taille*zoom)].item.nb = perso.nb;
-        perso.id = memid;
-        perso.nb = memnb;
-    }
-    return perso;
-}
-*/
+
