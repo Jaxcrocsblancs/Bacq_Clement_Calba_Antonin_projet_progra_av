@@ -110,8 +110,6 @@ void generation_procedural(sol tab[COL][LIG])
 	    }
       }
 
-
-
     /* MINE A SUPPRIMER */
     tab[2][2].id = 120;
     tab[2][3].id = 120;
