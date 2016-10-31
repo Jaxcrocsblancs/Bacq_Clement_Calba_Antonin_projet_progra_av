@@ -17,6 +17,7 @@ int main(int argc, char *argv[])
   const SDL_VideoInfo *videoInfo;
   int maxW, maxH;
   videoInfo=SDL_GetVideoInfo();
+
   maxW=videoInfo->current_w;
   maxH=videoInfo->current_h;
 
@@ -248,7 +249,6 @@ int main(int argc, char *argv[])
           perso = deplacement_personnage(sol , screen ,perso,  &L, perso.but.x ,perso.but.y, &cond,  zoom);
           perso = actionPerso(sol,perso, &plantation);
           plantation = pousser(sol, plantation);
-          printf("perso.but.x: %d, perso.but.y: %d\n", perso.but.x, perso.but.y);
           temps +=1;
         }
       perso.rcDest.x = perso.pos.x * taille * zoom + coord.x;

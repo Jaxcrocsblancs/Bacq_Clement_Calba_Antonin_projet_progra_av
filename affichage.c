@@ -173,7 +173,7 @@ void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image,
                             rcCase.x = 0;
                             rcCase.y = 0;
                             if (tab[col][lig].ordre > 1000)
-                                rcCase.x= taille;
+                                rcCase.x= taille * zoom;
                             SDL_BlitSurface(image.alpha, &rcCase, screen, &rcCaseDest);
                         }
                 }
