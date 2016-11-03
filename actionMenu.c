@@ -4,6 +4,7 @@
 /* et Calba Antonin      */
 /*************************/
 #include "include.h"
+#include "assert.h"
 
 void couper(sol tab[COL][LIG], perso perso)
 {
@@ -35,22 +36,17 @@ perso ramasser(sol tab[COL][LIG], perso perso)
   return perso;
 }
 
-perso deposer(sol tab[COL][LIG], perso perso, int nb, int buttx, int butty, liste_stockpile *stockPile)
+perso deposer(sol tab[COL][LIG], perso perso, int action)
 {
-  if((perso.pos.x== buttx) && (perso.pos.y == butty))
-	  if(perso.item.nb >= nb)
-	  {
-          *stockPile = changer_elem(buttx,butty,nb,*stockPile);
-
-//		  tab[buttx][butty].item.id  = perso.item.id;
-//		  tab[buttx][butty].item.nb += nb;
-		  perso.item.nb -= nb;
-		  tab[buttx][butty].ordre = 0;
-		  perso.action = 0;
-
-		  if(perso.item.nb == 0)
-			  perso.item.id = 0;
-	  }
+  if((perso.pos.x== perso.but.x) && (perso.pos.y== perso.but.y))
+    {
+      tab[perso.but.x][perso.but.y].item.id  = perso.item.id;
+      tab[perso.but.x][perso.but.y].item.nb = perso.item.nb;
+      perso.item.id = 0;
+      perso.item.nb = 0;
+      tab[perso.but.x][perso.but.y].ordre = 0;
+      perso.action = 0;
+    }
   return perso;
 }
 
@@ -111,7 +107,6 @@ perso construire(sol tab[COL][LIG], perso perso, int ido, int nbi, int idi)
 							tab[perso.but.x][perso.but.y].id = ido;
 							tab[perso.but.x][perso.but.y].ordre = 0;
 							perso.item.nb -= nbi;
-
 							if(perso.item.nb == 0)
 								perso.item.id = 0;
 							return perso;
@@ -119,38 +114,30 @@ perso construire(sol tab[COL][LIG], perso perso, int ido, int nbi, int idi)
 	return perso;
 }
 
-void creerStockPile(sol tab[COL][LIG], liste_stockpile *stockPile, int id, int buttx, int butty)
+perso creerStockPile(sol tab[COL][LIG], perso perso, liste_point *stockPile)
 {
-	stockpile temp;
-	if(tab[buttx][butty].id == 0)
-	{
-		tab[buttx][butty].id = 9;
-		tab[buttx][butty].ordre = 0;
-		temp = remplis_stockpile(id,0,buttx,butty);
-		*stockPile = consS(temp,*stockPile);
-	}
-}
-
-
-perso chercheStockPile(sol tab[COL][LIG], perso perso, liste_stockpile *stockPile)
-{
-	if(!est_videS(*stockPile))
-		if(premS(*stockPile).nb < 20)
+	point_cout temp;
+	if(tab[perso.but.x][perso.but.y].id == 0)
+		if((perso.but.x == perso.pos.x) && (perso.but.y == perso.pos.y) /*&& (perso.item.id == 1) && perso.item.nb >= nbi*/)
 		{
-			int temp;
-			temp = 20 - premS(*stockPile).nb;
-			perso = chercher_object(tab,perso,premS(*stockPile).id);
-			if(perso.item.nb > 0)
-			{
-				if(perso.item.nb <= temp)
-					perso = deposer(tab,perso,perso.item.nb,premS(*stockPile).col,premS(*stockPile).lig,stockPile);
-				else
-					perso = deposer(tab,perso,temp,premS(*stockPile).col,premS(*stockPile).lig,stockPile);
-			}
+			tab[perso.but.x][perso.but.y].id = 9;
+			tab[perso.but.x][perso.but.y].item.id = perso.item.id;
+			tab[perso.but.x][perso.but.y].ordre = 0;
+			/*perso.item.nb -= nbi;
+			if(perso.item.nb == 0)
+				perso.item.id = 0;*/
+
+			temp = remplisPoint(perso.but.x,perso.but.y,0);
+			*stockPile = cons(temp,*stockPile);
 		}
 	return perso;
 }
 
+
+void chercheStockPile(sol tab[COL][LIG], perso perso, int ido, int nbi, int idi, liste_point *stockPile)
+{
+
+}
 
 liste_point pousser(sol tab[COL][LIG], liste_point plantation)
 {
@@ -169,7 +156,7 @@ liste_point pousser(sol tab[COL][LIG], liste_point plantation)
   return cons(prem(plantation), pousser(tab, reste(plantation)));
 }
 
-void actionMenu(int action, sol tab[COL][LIG],perso perso, int buttx, int butty, liste_stockpile *stockPile)
+void actionMenu(int action, sol tab[COL][LIG],perso perso, int buttx, int butty)
 {
  if (buttx <1 || buttx > COL-2 || butty <1 || butty > LIG-2) return;
   switch(action)
@@ -187,7 +174,7 @@ void actionMenu(int action, sol tab[COL][LIG],perso perso, int buttx, int butty,
        tab[buttx][butty].ordre = action;
       break;
     case 4:
-    	if(tab[buttx][butty].item.id == 0 || tab[buttx][butty].id < 100)
+    	if(tab[buttx][butty].item.id == 0 && tab[buttx][butty].id < 100)
     		tab[buttx][butty].ordre = action;
     	break;
     case action_planter_fraise:
@@ -206,19 +193,13 @@ void actionMenu(int action, sol tab[COL][LIG],perso perso, int buttx, int butty,
       if(tab[buttx][butty].id == 0 && tab[buttx][butty].ordre == 0)
         tab[buttx][butty].ordre = action_planter_bois;
       break;
-    case 10:
-    	if(tab[buttx][butty].id == 0)
-    	{
-        	creerStockPile(tab,stockPile,1,buttx,butty);
-    	}
-    	break;
     case annuler:
         tab[buttx][butty].ordre = 0;
     }
+ return;
 }
 
-
-perso actionPerso(sol tab[COL][LIG],perso perso, liste_point *plantation, liste_stockpile *stockPile)
+perso actionPerso(sol tab[COL][LIG],perso perso, liste_point *plantation, liste_point *stockPile, int *cond)
 {
     switch(perso.action)
     {
@@ -229,10 +210,12 @@ perso actionPerso(sol tab[COL][LIG],perso perso, liste_point *plantation, liste_
           perso = ramasser(tab,perso);
           break;
         case 3:
-          perso = deposer(tab,perso, perso.item.nb,perso.but.x,perso.but.y,stockPile);
+          perso = deposer(tab,perso, perso.action);
           break;
-		case 4:
-			perso = construire(tab,perso,101,2,1);
+		case 4 :
+			perso = creerStockPile(tab,perso,stockPile);
+			//perso = construire(tab,perso,101,2,1);
+			afficher_point_liste(*stockPile);
 			break;
         case action_planter_fraise:
           planter(tab, perso, pousse_fraise, plantation);
@@ -254,25 +237,6 @@ perso actionPerso(sol tab[COL][LIG],perso perso, liste_point *plantation, liste_
           break;
     }
   return perso;
-}
-
-perso chercher_object(sol tab[COL][LIG], perso perso, int id)
-{
-	int nb, dl, dc;
-	for (nb=1;nb< (COL-1)+(LIG-1);nb++)
-	    for (dl=-nb; dl<nb+1; dl++)
-	        for (dc=-nb; dc<nb+1; dc++)
-	          {
-	          if (perso.but.x != perso.pos.x && perso.but.y != perso.pos.y) continue;
-	          if (abs(dl)+abs(dc) != nb) continue;
-	          if (perso.pos.x+dc < 1 || perso.pos.x+dc > COL-2) continue; // on veut pas sortir du tableau
-	          if (perso.pos.y+dl < 1 || perso.pos.y+dl > LIG-2) continue;
-	          if (tab[perso.pos.x+dc][perso.pos.y+dl].item.id == id)
-				  {
-					  tab[perso.but.x+dc][perso.but.y+dl].ordre = 2;
-				  }
-	          }
-	return perso;
 }
 
 perso faim(perso perso)
@@ -335,7 +299,7 @@ perso cherche_action(sol tab[COL][LIG], perso perso, int *cond)
   return perso;
 }
 
-void rectangle(int gauche_maintenu, int *gauche_maintenu_x, int *gauche_maintenu_y, int *buttx, int *butty, perso perso, int action, sol sol[COL][LIG], liste_stockpile *stockPile)
+void rectangle(int gauche_maintenu, int *gauche_maintenu_x, int *gauche_maintenu_y, int *buttx, int *butty, perso perso, int action, sol sol[COL][LIG])
 {
   int x, y;
   if (gauche_maintenu == 0)
@@ -344,22 +308,21 @@ void rectangle(int gauche_maintenu, int *gauche_maintenu_x, int *gauche_maintenu
 	for (x = *gauche_maintenu_x; x <=  *buttx ; x++)
 	  if (*gauche_maintenu_y - *butty <0 )
 	    for (y = *gauche_maintenu_y; y <=  *butty ; y++)
-	      actionMenu(action,sol,perso,x,y,stockPile);
+	      actionMenu(action,sol,perso,x,y);
 	  else
 	    for (y = *gauche_maintenu_y; y >=  *butty ; y--)
-	      actionMenu(action,sol,perso,x,y,stockPile);
+	      actionMenu(action,sol,perso,x,y);
       else
 	for (x = *gauche_maintenu_x; x >=  *buttx ; x--)
 	  if (*gauche_maintenu_y - *butty <0 )
 	    for (y = *gauche_maintenu_y; y <=  *butty ; y++)
-	      actionMenu(action,sol,perso,x,y,stockPile);
+	      actionMenu(action,sol,perso,x,y);
 	  else
 	    for (y = *gauche_maintenu_y; y >=  *butty ; y--)
-	      actionMenu(action,sol,perso,x,y,stockPile);
+	      actionMenu(action,sol,perso,x,y);
       *gauche_maintenu_x = 0;
       *gauche_maintenu_y = 0;
       *buttx = 0;
       *butty = 0;
     }
-  return;
 }

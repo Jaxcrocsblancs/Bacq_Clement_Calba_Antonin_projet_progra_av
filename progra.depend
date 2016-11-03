@@ -1,0 +1,75 @@
+# depslib dependency file v1.0
+1478159604 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\actionmenu.c
+	"include.h"
+	"assert.h"
+
+1478159604 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\include.h
+	<SDL.h>
+	<stdlib.h>
+	<stdio.h>
+	<time.h>
+	<stdbool.h>
+	"define.h"
+	"procedural.h"
+	"affichage.h"
+	"SDL_rotozoom.h"
+	"struct.h"
+	"map.h"
+	"liste_point.h"
+	"liste_item.h"
+	"deplacement.h"
+	"actionMenu.h"
+
+1478159604 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\define.h
+
+1478159604 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\procedural.h
+	"struct.h"
+
+1478159604 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\struct.h
+
+1478159604 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\affichage.h
+	"struct.h"
+
+1478159604 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\sdl_rotozoom.h
+	<math.h>
+	"SDL.h"
+
+1478159604 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\map.h
+	"include.h"
+
+1478159604 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\liste_point.h
+	"include.h"
+
+1478159604 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\liste_item.h
+	"include.h"
+
+1478159604 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\deplacement.h
+	"include.h"
+
+1478159604 c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\actionmenu.h
+	"include.h"
+
+1478159604 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\affichage.c
+	"include.h"
+
+1478159604 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\deplacement.c
+	"include.h"
+
+1478159604 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\liste_point.c
+	"include.h"
+
+1478159604 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\main.c
+	"include.h"
+
+1478159604 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\map.c
+	"include.h"
+
+1478159604 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\procedural.c
+	"include.h"
+
+1478159604 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\sdl_rotozoom.c
+	<windows.h>
+	<stdlib.h>
+	<string.h>
+	"SDL_rotozoom.h"
+
