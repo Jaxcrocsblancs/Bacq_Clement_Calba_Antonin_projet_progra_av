@@ -8,8 +8,11 @@ typedef struct image image;
 typedef struct object object;
 typedef struct point_cout point_cout;
 typedef struct Liste_point *liste_point;
+typedef struct Liste_stockpile *liste_stockpile;
+typedef struct Liste_item *liste_item;
 typedef struct perso perso;
 typedef struct cptSens cptSens;
+typedef struct stockpile stockpile;
 
 struct item
 {
@@ -25,12 +28,21 @@ struct sol
   int ordre;
 };
 
+struct stockpile
+{
+    int id;
+    int nb;
+	int col;
+	int lig;
+};
+
 struct image
 {
   SDL_Surface* herbe;
   SDL_Surface* plante;
   SDL_Surface* alpha;
   SDL_Surface* mine;
+  SDL_Surface* menu;
   SDL_Surface* mur;
 };
 
@@ -53,6 +65,18 @@ struct Liste_point
 {
 	point_cout premier;
 	liste_point reste;
+};
+
+struct Liste_item
+{
+	item premier;
+	liste_item reste;
+};
+
+struct Liste_stockpile
+{
+	stockpile premier;
+	liste_stockpile reste;
 };
 
 struct cptSens
