@@ -34,13 +34,13 @@ object proba_object(int nb, object procedu, int dist)
   if (dist == 4)
     plus = 1;
 
-  if (nb == 1)
+  if (nb == 8)
     procedu.chene += plus;
-  if (nb == 2)
-    procedu.salade += plus;
-  if (nb == 3)
-    procedu.fraisier += plus;
   if (nb == 4)
+    procedu.salade += plus;
+  if (nb == 2)
+    procedu.fraisier += plus;
+  if (nb == 6)
     procedu.ble += plus;
   return procedu;
 }
@@ -50,16 +50,16 @@ int proba(object procedu)
   int a;
   a = rand()%100;
   if (a<procedu.chene)
-    return 1;
+    return 8;
   a-=procedu.chene;
-  if (a<procedu.salade)
-    return 2;
+  if (a<procedu.salade)//ble
+    return 4;
   a-=procedu.salade;
   if (a<procedu.fraisier)
-    return 3;
+    return 2;
   a-=procedu.fraisier;
   if (a<procedu.ble)
-    return 4;
+    return 6;
   a-=procedu.ble;
   return 0;
 }
