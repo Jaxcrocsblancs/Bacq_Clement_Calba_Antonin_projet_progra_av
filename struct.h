@@ -79,6 +79,8 @@ struct perso
     cptSens pos;
     cptSens but;
     int action;
+    int travail[40];
+    int faim;
 };
 
 struct NODE

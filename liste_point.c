@@ -5,10 +5,6 @@
  *      Author: cleme
  */
 
-
-
-
-
 #include "include.h"
 
 
@@ -103,7 +99,7 @@ point_cout plusPetitF(point_cout max,liste_point L)
       return max;
     }
   if(prem(L).f < max.f)
-    {  
+    {
       max = prem(L);
     }
   return plusPetitF(max,reste(L));

@@ -45,6 +45,7 @@ perso deposer(sol tab[COL][LIG], perso perso, int action)
       perso.item.id = 0;
       perso.item.nb = 0;
       tab[perso.but.x][perso.but.y].ordre = 0;
+      perso.action = 0;
     }
   return perso;
 }
@@ -106,7 +107,6 @@ perso construire(sol tab[COL][LIG], perso perso, int ido, int nbi, int idi)
 							tab[perso.but.x][perso.but.y].id = ido;
 							tab[perso.but.x][perso.but.y].ordre = 0;
 							perso.item.nb -= nbi;
-
 							if(perso.item.nb == 0)
 								perso.item.id = 0;
 							return perso;
@@ -127,7 +127,7 @@ perso creerStockPile(sol tab[COL][LIG], perso perso, liste_point *stockPile)
 			if(perso.item.nb == 0)
 				perso.item.id = 0;*/
 
-			temp = remplisPoint(perso.but.x,perso.but.y,0);	
+			temp = remplisPoint(perso.but.x,perso.but.y,0);
 			*stockPile = cons(temp,*stockPile);
 		}
 	return perso;
@@ -136,7 +136,6 @@ perso creerStockPile(sol tab[COL][LIG], perso perso, liste_point *stockPile)
 
 void chercheStockPile(sol tab[COL][LIG], perso perso, int ido, int nbi, int idi, liste_point *stockPile)
 {
-	
 
 }
 
@@ -147,7 +146,8 @@ liste_point pousser(sol tab[COL][LIG], liste_point plantation)
     return l_vide();
   if (prem(plantation).f > 100)
     {
-      tab[prem(plantation).col][prem(plantation).lig].id -= 4;
+      tab[prem(plantation).col][prem(plantation).lig].id += 1;
+      tab[prem(plantation).col][prem(plantation).lig].ordre = 1;
       return pousser(tab,reste(plantation));
     }
   mem = prem(plantation);
@@ -161,7 +161,7 @@ void actionMenu(int action, sol tab[COL][LIG],perso perso, int buttx, int butty)
  if (buttx <1 || buttx > COL-2 || butty <1 || butty > LIG-2) return;
   switch(action)
     {
-    case 1:
+    case action_couper:
         if (tab[buttx][butty].id > 0 && tab[buttx][butty].id < 20 && tab[buttx][butty].ordre <1000) // ne marche pas avec le zoom
             tab[buttx][butty].ordre = action;
         break;
@@ -177,32 +177,33 @@ void actionMenu(int action, sol tab[COL][LIG],perso perso, int buttx, int butty)
     	if(tab[buttx][butty].item.id == 0 && tab[buttx][butty].id < 100)
     		tab[buttx][butty].ordre = action;
     	break;
-    case 5:
+    case action_planter_fraise:
       if(tab[buttx][butty].id == 0 && tab[buttx][butty].ordre == 0)
-        tab[buttx][butty].ordre = action;
+        tab[buttx][butty].ordre = action_planter_fraise;
       break;
-    case 6:
+    case action_planter_coton:
         if(tab[buttx][butty].id == 0 && tab[buttx][butty].ordre == 0)
-            tab[buttx][butty].ordre = action;
+            tab[buttx][butty].ordre = action_planter_coton;
         break;
-    case 7:
+    case action_planter_ble:
         if(tab[buttx][butty].id == 0 && tab[buttx][butty].ordre == 0)
-            tab[buttx][butty].ordre = action;
+            tab[buttx][butty].ordre = action_planter_ble;
         break;
-    case 8:
+    case action_planter_bois:
       if(tab[buttx][butty].id == 0 && tab[buttx][butty].ordre == 0)
-	tab[buttx][butty].ordre = action;
+        tab[buttx][butty].ordre = action_planter_bois;
       break;
+    case annuler:
+        tab[buttx][butty].ordre = 0;
     }
  return;
 }
 
-perso actionPerso(sol tab[COL][LIG],perso perso, liste_point *plantation, liste_point *stockPile )
+perso actionPerso(sol tab[COL][LIG],perso perso, liste_point *plantation, liste_point *stockPile, int *cond)
 {
-
     switch(perso.action)
     {
-        case 1:
+        case action_couper:
           couper(tab,perso);
           break;
         case 2:
@@ -211,35 +212,60 @@ perso actionPerso(sol tab[COL][LIG],perso perso, liste_point *plantation, liste_
         case 3:
           perso = deposer(tab,perso, perso.action);
           break;
-		case 4:
+		case 4 :
 			perso = creerStockPile(tab,perso,stockPile);
 			//perso = construire(tab,perso,101,2,1);
 			afficher_point_liste(*stockPile);
 			break;
-        case 5:
-          planter(tab, perso, perso.action, plantation);
+        case action_planter_fraise:
+          planter(tab, perso, pousse_fraise, plantation);
           break;
-        case 6:
-          planter(tab, perso,  perso.action, plantation);
+        case action_planter_coton:
+          planter(tab, perso, pousse_coton, plantation);
           break;
-        case 7:
-          planter(tab, perso,  perso.action, plantation);
+        case action_planter_ble:
+          planter(tab, perso, pousse_ble, plantation);
           break;
-        case 8:
-          planter(tab, perso, perso.action, plantation);
+        case action_planter_bois:
+          planter(tab, perso, pousse_bois, plantation);
           break;
         case 9:
           miner(tab, perso);
           break;
+        case action_manger:
+          perso = manger(tab, perso);
+          break;
     }
   return perso;
+}
+
+perso faim(perso perso)
+{
+    perso.faim -= 1;
+    return perso;
+}
+
+perso manger(sol tab[COL][LIG], perso perso)
+{
+    if((perso.pos.x  == perso.but.x) && (perso.pos.y == perso.but.y))
+	  {
+        while (tab[perso.but.x][perso.but.y].item.nb > 0 && perso.faim <95)
+        {
+        tab[perso.but.x][perso.but.y].item.nb -= 1;
+        perso.faim += 50;
+        if (tab[perso.but.x][perso.but.y].item.nb == 0)
+            tab[perso.but.x][perso.but.y].item.id = 0;
+        }
+        perso.action = 0;
+     }
+     return perso;
 }
 
 perso cherche_action(sol tab[COL][LIG], perso perso, int *cond)
 {
   int nb, dl, dc, action;
   if (*cond == 0)
-    for (action = 1; action <11; action++)
+    for (action = 0; action <40; action++)
         for (nb=1;nb< (COL-1)+(LIG-1);nb++)
             for (dl=-nb; dl<nb+1; dl++)
                 for (dc=-nb; dc<nb+1; dc++)
@@ -248,20 +274,32 @@ perso cherche_action(sol tab[COL][LIG], perso perso, int *cond)
                   if (abs(dl)+abs(dc) != nb) continue;
                   if (perso.pos.x+dc < 1 || perso.pos.x+dc > COL-2) continue; // on veut pas sortir du tableau
                   if (perso.pos.y+dl < 1 || perso.pos.y+dl > LIG-2) continue;
-                  if (tab[perso.pos.x+dc][perso.pos.y+dl].id == 21) tab[perso.pos.x+dc][perso.pos.y+dl].ordre = 9;
-                  if (tab[perso.pos.x+dc][perso.pos.y+dl].ordre != action) continue;
-                  if (action == 2 && (tab[perso.pos.x+dc][perso.pos.y+dl].item.id != perso.item.id && perso.item.id != 0)) continue;
-                  if (tab[perso.pos.x+dc][perso.pos.y+dl].ordre < 1000) tab[perso.pos.x+dc][perso.pos.y+dl].ordre += 1000;
-                  perso.but.x = perso.pos.x+dc;
-                  perso.but.y = perso.pos.y+dl;
-                  *cond = 1;
-                  perso.action = action;
-                  return perso;
+                  if (perso.faim > 20)// test nourriture
+                  {
+                      if (tab[perso.pos.x+dc][perso.pos.y+dl].id == 21) tab[perso.pos.x+dc][perso.pos.y+dl].ordre = 9;
+                      if (tab[perso.pos.x+dc][perso.pos.y+dl].ordre != perso.travail[action]) continue;
+                      if (perso.travail[action] == 2 && (tab[perso.pos.x+dc][perso.pos.y+dl].item.id != perso.item.id && perso.item.id != 0)) continue;
+                      if (tab[perso.pos.x+dc][perso.pos.y+dl].ordre < 1000) tab[perso.pos.x+dc][perso.pos.y+dl].ordre += 1000;
+                      perso.but.x = perso.pos.x+dc;
+                      perso.but.y = perso.pos.y+dl;
+                      *cond = 1;
+                      perso.action = perso.travail[action];
+                      return perso;
+                  }
+                  else
+                    if (tab[perso.pos.x+dc][perso.pos.y+dl].item.id == fraise)
+                    {
+                        perso.but.x = perso.pos.x+dc;
+                        perso.but.y = perso.pos.y+dl;
+                        *cond = 1;
+                        perso.action = action_manger;
+                        return perso;
+                    }
                 }
   return perso;
 }
 
-perso rectangle(int gauche_maintenu, int *gauche_maintenu_x, int *gauche_maintenu_y, int *buttx, int *butty, perso perso, int action, sol sol[COL][LIG])
+void rectangle(int gauche_maintenu, int *gauche_maintenu_x, int *gauche_maintenu_y, int *buttx, int *butty, perso perso, int action, sol sol[COL][LIG])
 {
   int x, y;
   if (gauche_maintenu == 0)
@@ -287,5 +325,4 @@ perso rectangle(int gauche_maintenu, int *gauche_maintenu_x, int *gauche_mainten
       *buttx = 0;
       *butty = 0;
     }
-  return perso;
 }
