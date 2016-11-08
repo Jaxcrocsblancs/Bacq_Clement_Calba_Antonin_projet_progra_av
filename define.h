@@ -4,8 +4,8 @@
 /* et Calba Antonin      */
 /*************************/
 
-#define COL 20
-#define LIG 20
+#define COL 30
+#define LIG 30
 
 #define taille 32
 
@@ -29,3 +29,11 @@
 #define action_planter_bois 8
 #define action_miner 9
 #define action_manger 10000
+#define action_ramasser 2
+#define action_deposer 3
+
+#define MAX_STOCK 20
+
+#define NB_CONSTR 2
+
+

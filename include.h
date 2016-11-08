@@ -14,7 +14,6 @@
 #include "struct.h"
 #include "map.h"
 #include "liste_point.h"
-#include "liste_item.h"
 #include "deplacement.h"
 #include "actionMenu.h"
 #include "liste_stockpile.h"

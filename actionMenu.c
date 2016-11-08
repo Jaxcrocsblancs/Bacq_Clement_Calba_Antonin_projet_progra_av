@@ -38,19 +38,38 @@ perso ramasser(sol tab[COL][LIG], perso perso)
 perso deposer(sol tab[COL][LIG], perso perso, int nb, int buttx, int butty, liste_stockpile *stockPile)
 {
   if((perso.pos.x== buttx) && (perso.pos.y == butty))
-	  if(perso.item.nb >= nb)
+  {
+	  if(tab[buttx][butty].id == 9) // la case est un stockpile
 	  {
-          *stockPile = changer_elem(buttx,butty,nb,*stockPile);
+		  if(perso.item.nb >= nb && perso.item.id == premS(*stockPile).id)
+		  {
+			  *stockPile = changer_elem(buttx,butty,nb,*stockPile);
 
-//		  tab[buttx][butty].item.id  = perso.item.id;
-//		  tab[buttx][butty].item.nb += nb;
-		  perso.item.nb -= nb;
-		  tab[buttx][butty].ordre = 0;
-		  perso.action = 0;
 
-		  if(perso.item.nb == 0)
-			  perso.item.id = 0;
+			  perso.item.nb -= nb;
+			  tab[buttx][butty].ordre = 0;
+			  perso.action = 0;
+
+			  if(perso.item.nb == 0)
+				  perso.item.id = 0;
+		  }
 	  }
+	  else // la case n'est pas un stockpile
+	  {
+		  if(perso.item.nb >= nb && perso.item.id)
+		  {
+			  tab[buttx][butty].item.id  = perso.item.id;
+			  tab[buttx][butty].item.nb += nb;
+
+			  perso.item.nb -= nb;
+			  tab[buttx][butty].ordre = 0;
+			  perso.action = 0;
+
+			  if(perso.item.nb == 0)
+				  perso.item.id = 0;
+		  }
+	  }
+  }
   return perso;
 }
 
@@ -103,54 +122,73 @@ perso construire(sol tab[COL][LIG], perso perso, int ido, int nbi, int idi)
 	int col,lig;
 	for(col=-1;col<=1;col++)
 		for(lig=-1;lig<=1;lig++)
-			if( ((col == 0)&&(lig != 0)) || ((lig == 0)&&(col != 0)))
-				if(perso.item.id == idi)
-					if(perso.pos.x == perso.but.x + col  && perso.pos.y == perso.but.y + lig)
-						if(perso.item.id == 1 && perso.item.nb >= nbi)
-						{
-							tab[perso.but.x][perso.but.y].id = ido;
-							tab[perso.but.x][perso.but.y].ordre = 0;
-							perso.item.nb -= nbi;
-
-							if(perso.item.nb == 0)
-								perso.item.id = 0;
-							return perso;
-						}
+//			if( ((col == 0)&&(lig != 0)) || ((lig == 0)&&(col != 0)))
+			if(col == 0 || lig == 0)
+				if(perso.pos.x == perso.but.x + col  && perso.pos.y == perso.but.y + lig)
+					if(perso.item.id == idi && perso.item.nb >= nbi)
+					{
+						tab[perso.but.x][perso.but.y].id = ido;
+						tab[perso.but.x][perso.but.y].ordre = 0;
+						perso.item.nb  -= nbi;
+						if(perso.item.nb == 0)
+							perso.item.id = 0;
+						return perso;
+					}
 	return perso;
 }
 
 void creerStockPile(sol tab[COL][LIG], liste_stockpile *stockPile, int id, int buttx, int butty)
 {
 	stockpile temp;
-	if(tab[buttx][butty].id == 0)
-	{
-		tab[buttx][butty].id = 9;
-		tab[buttx][butty].ordre = 0;
-		temp = remplis_stockpile(id,0,buttx,butty);
-		*stockPile = consS(temp,*stockPile);
-	}
+	tab[buttx][butty].id = 9;
+	tab[buttx][butty].ordre = 0;
+	temp = remplis_stockpile(id,0,buttx,butty);
+	*stockPile = consS(temp,*stockPile);
 }
 
 
 perso chercheStockPile(sol tab[COL][LIG], perso perso, liste_stockpile *stockPile)
 {
 	if(!est_videS(*stockPile))
-		if(premS(*stockPile).nb < 20)
+		if(premS(*stockPile).nb < MAX_STOCK)
 		{
 			int temp;
-			temp = 20 - premS(*stockPile).nb;
+			temp = MAX_STOCK - premS(*stockPile).nb;
+
 			perso = chercher_object(tab,perso,premS(*stockPile).id);
+
 			if(perso.item.nb > 0)
 			{
 				if(perso.item.nb <= temp)
-					perso = deposer(tab,perso,perso.item.nb,premS(*stockPile).col,premS(*stockPile).lig,stockPile);
+				{
+					tab[premS(*stockPile).col][premS(*stockPile).lig].ordre = action_deposer;
+				}
 				else
-					perso = deposer(tab,perso,temp,premS(*stockPile).col,premS(*stockPile).lig,stockPile);
+					tab[premS(*stockPile).col][premS(*stockPile).lig].ordre = action_deposer;
+//					perso = deposer(tab,perso,temp,premS(*stockPile).col,premS(*stockPile).lig,stockPile);
 			}
 		}
 	return perso;
 }
 
+perso chercher_object(sol tab[COL][LIG], perso perso, int id)
+{
+	int nb, dl, dc;
+	for (nb=0;nb< (COL-1)+(LIG-1);nb++)
+	    for (dl=-nb; dl<nb+1; dl++)
+	        for (dc=-nb; dc<nb+1; dc++)
+	          {
+				  if (perso.but.x != perso.pos.x && perso.but.y != perso.pos.y) continue;
+				  if (abs(dl)+abs(dc) != nb) continue;
+				  if (perso.pos.x+dc < 1 || perso.pos.x+dc > COL-2) continue; // on veut pas sortir du tableau
+				  if (perso.pos.y+dl < 1 || perso.pos.y+dl > LIG-2) continue;
+				  if (tab[perso.pos.x+dc][perso.pos.y+dl].item.id == id)
+				  {
+					  tab[perso.pos.x+dc][perso.pos.y+dl].ordre = action_ramasser;
+				  }
+	          }
+	return perso;
+}
 
 liste_point pousser(sol tab[COL][LIG], liste_point plantation)
 {
@@ -178,7 +216,7 @@ void actionMenu(int action, sol tab[COL][LIG],perso perso, int buttx, int butty,
         if (tab[buttx][butty].id > 0 && tab[buttx][butty].id < 20 && tab[buttx][butty].ordre <1000) // ne marche pas avec le zoom
             tab[buttx][butty].ordre = action;
         break;
-    case 2:
+    case action_ramasser:
       if (tab[buttx][butty].item.id > 0) // ne marche pas avec le zoom
         tab[buttx][butty].ordre = action;
       break;
@@ -207,10 +245,8 @@ void actionMenu(int action, sol tab[COL][LIG],perso perso, int buttx, int butty,
         tab[buttx][butty].ordre = action_planter_bois;
       break;
     case 10:
-    	if(tab[buttx][butty].id == 0)
-    	{
-        	creerStockPile(tab,stockPile,1,buttx,butty);
-    	}
+    	if(tab[buttx][butty].id == 0 && tab[buttx][butty].ordre == 0)
+        	creerStockPile(tab,stockPile,bois,buttx,butty);
     	break;
     case annuler:
         tab[buttx][butty].ordre = 0;
@@ -225,14 +261,14 @@ perso actionPerso(sol tab[COL][LIG],perso perso, liste_point *plantation, liste_
         case action_couper:
           couper(tab,perso);
           break;
-        case 2:
+        case action_ramasser:
           perso = ramasser(tab,perso);
           break;
         case 3:
           perso = deposer(tab,perso, perso.item.nb,perso.but.x,perso.but.y,stockPile);
           break;
 		case 4:
-			perso = construire(tab,perso,101,2,1);
+			perso = construire(tab,perso,101,NB_CONSTR,bois);
 			break;
         case action_planter_fraise:
           planter(tab, perso, pousse_fraise, plantation);
@@ -249,6 +285,9 @@ perso actionPerso(sol tab[COL][LIG],perso perso, liste_point *plantation, liste_
         case 9:
           miner(tab, perso);
           break;
+        case 10:
+        	perso = chercheStockPile(tab,perso,stockPile);
+        	break;
         case action_manger:
           perso = manger(tab, perso);
           break;
@@ -256,24 +295,7 @@ perso actionPerso(sol tab[COL][LIG],perso perso, liste_point *plantation, liste_
   return perso;
 }
 
-perso chercher_object(sol tab[COL][LIG], perso perso, int id)
-{
-	int nb, dl, dc;
-	for (nb=1;nb< (COL-1)+(LIG-1);nb++)
-	    for (dl=-nb; dl<nb+1; dl++)
-	        for (dc=-nb; dc<nb+1; dc++)
-	          {
-	          if (perso.but.x != perso.pos.x && perso.but.y != perso.pos.y) continue;
-	          if (abs(dl)+abs(dc) != nb) continue;
-	          if (perso.pos.x+dc < 1 || perso.pos.x+dc > COL-2) continue; // on veut pas sortir du tableau
-	          if (perso.pos.y+dl < 1 || perso.pos.y+dl > LIG-2) continue;
-	          if (tab[perso.pos.x+dc][perso.pos.y+dl].item.id == id)
-				  {
-					  tab[perso.but.x+dc][perso.but.y+dl].ordre = 2;
-				  }
-	          }
-	return perso;
-}
+
 
 perso faim(perso perso)
 {
@@ -301,8 +323,9 @@ perso cherche_action(sol tab[COL][LIG], perso perso, int *cond)
 {
   int nb, dl, dc, action;
   if (*cond == 0)
+  {
     for (action = 0; action <40; action++)
-        for (nb=1;nb< (COL-1)+(LIG-1);nb++)
+        for (nb=0;nb< (COL-1)+(LIG-1);nb++)
             for (dl=-nb; dl<nb+1; dl++)
                 for (dc=-nb; dc<nb+1; dc++)
                 {
@@ -312,7 +335,7 @@ perso cherche_action(sol tab[COL][LIG], perso perso, int *cond)
                   if (perso.pos.y+dl < 1 || perso.pos.y+dl > LIG-2) continue;
                   if (perso.faim > 20)// test nourriture
                   {
-                      if (tab[perso.pos.x+dc][perso.pos.y+dl].id == 21) tab[perso.pos.x+dc][perso.pos.y+dl].ordre = 9;
+//                      if (tab[perso.pos.x+dc][perso.pos.y+dl].id == 21) tab[perso.pos.x+dc][perso.pos.y+dl].ordre = 9;
                       if (tab[perso.pos.x+dc][perso.pos.y+dl].ordre != perso.travail[action]) continue;
                       if (perso.travail[action] == 2 && (tab[perso.pos.x+dc][perso.pos.y+dl].item.id != perso.item.id && perso.item.id != 0)) continue;
                       if (tab[perso.pos.x+dc][perso.pos.y+dl].ordre < 1000) tab[perso.pos.x+dc][perso.pos.y+dl].ordre += 1000;
@@ -332,6 +355,8 @@ perso cherche_action(sol tab[COL][LIG], perso perso, int *cond)
                         return perso;
                     }
                 }
+    perso.action = 10;
+  }
   return perso;
 }
 

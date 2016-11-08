@@ -262,6 +262,7 @@ int main(int argc, char *argv[])
               }
               break;
             }
+            break;
 	      case SDL_BUTTON_RIGHT:
             {
               break;
@@ -305,11 +306,10 @@ int main(int argc, char *argv[])
         {
          if (perso.faim >0)
          {
-			  perso = faim(perso);
+//			  perso = faim(perso);
 			  perso = cherche_action (sol, perso, &cond);
 			  perso = deplacement_personnage(sol , screen ,perso,  &L, perso.but.x ,perso.but.y, &cond,  zoom);
 			  perso = actionPerso(sol,perso, &plantation,&stockPile);
-			  perso = chercheStockPile(sol,perso,&stockPile);
          }
 	  plantation = pousser(sol, plantation);
 	  temps = SDL_GetTicks()/100;

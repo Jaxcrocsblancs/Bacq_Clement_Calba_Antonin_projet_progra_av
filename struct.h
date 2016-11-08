@@ -43,7 +43,6 @@ struct image
   SDL_Surface* alpha;
   SDL_Surface* mine;
   SDL_Surface* menu;
-  SDL_Surface* mur;
 };
 
 struct object

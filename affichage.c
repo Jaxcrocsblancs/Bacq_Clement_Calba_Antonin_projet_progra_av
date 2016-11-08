@@ -122,14 +122,14 @@ void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image,
                                 }
                             case 101:
                                 {
-                                rcCase.x = 2*taille*zoom;
-                                rcCase.y = 6*taille*zoom;
-                                SDL_BlitSurface(image.mur, &rcCase, screen, &rcCaseDest);
+                                rcCase.x = 5*taille*zoom;
+                                rcCase.y = 0;
+                                SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
 								break;
                                 }
                             case 9:
                                 rcCase.x = 4*taille*zoom;
-                                rcCase.y = 3*taille*zoom;
+                                rcCase.y = 0;
                                 SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
                                 stockpile temp;
                                 temp = rechercher_elem(col,lig,stockPile);
@@ -137,31 +137,10 @@ void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image,
                                 {
                                 	switch(temp.id)
                                 	{
-										case 1:
+										case bois:
 										{
-											rcCase.x = 2*taille*zoom;
+					                        rcCase.x = 3*taille*zoom;
 											rcCase.y = 2*taille*zoom;
-											SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
-											break;
-										}
-										case 2:
-										{
-											rcCase.x = 6*taille*zoom;
-											rcCase.y = 3*taille*zoom;
-											SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
-											break;
-										}
-										case 3:
-										{
-											rcCase.x = 7*taille*zoom;
-											rcCase.y = 3*taille*zoom;
-											SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
-											break;
-										}
-										case 4:
-										{
-											rcCase.x = 6*taille*zoom;
-											rcCase.y = 4*taille*zoom;
 											SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
 											break;
 										}
@@ -308,7 +287,6 @@ image image_init()
   image.alpha = SDL_LoadBMP ("image/attente.bmp");
   image.mine = SDL_LoadBMP ("image/porte_mine.bmp");
   image.menu = SDL_LoadBMP ("image/menu.bmp");
-  image.mur = SDL_LoadBMP("image/test.bmp");
   SDL_SetColorKey(image.plante, SDL_SRCCOLORKEY, SDL_MapRGB(image.plante->format, 255, 0, 255));
   SDL_SetColorKey(image.alpha, SDL_SRCCOLORKEY, SDL_MapRGB(image.alpha->format, 255, 0, 255));
   SDL_SetColorKey(image.mine, SDL_SRCCOLORKEY, SDL_MapRGB(image.mine->format, 255, 0, 255));

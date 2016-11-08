@@ -21,5 +21,7 @@ void afficher_stockpile_liste(liste_stockpile L);
 liste_stockpile renverser_listeS(liste_stockpile L);
 liste_stockpile supprimerS(stockpile a, liste_stockpile L);
 stockpile rechercher_elem(int col, int lig, liste_stockpile L);
+liste_stockpile changer_elem(int col, int lig, int nb, liste_stockpile L);
+
 
 #endif /* LISTE_STOCKPILE_H_ */
