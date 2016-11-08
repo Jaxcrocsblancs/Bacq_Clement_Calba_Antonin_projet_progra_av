@@ -12,6 +12,7 @@ typedef struct Liste_item *liste_item;
 typedef struct perso perso;
 typedef struct cptSens cptSens;
 
+
 struct item
 {
     int id;

@@ -299,18 +299,18 @@ perso init_perso()
   rcSens.h = taille;
   rcSens.w = taille;
 
-    image = SDL_LoadBMP ("image/test.bmp");
-    SDL_SetColorKey(image, SDL_SRCCOLORKEY, SDL_MapRGB(image->format, 255, 0, 255));
-    p.rcDest = rcDest;
-    p.rcSens = rcSens;
-    p.perso = image;
-    p.action = 0;
+  image = SDL_LoadBMP ("image/test.bmp");
+  SDL_SetColorKey(image, SDL_SRCCOLORKEY, SDL_MapRGB(image->format, 255, 0, 255));
+  p.rcDest = rcDest;
+  p.rcSens = rcSens;
+  p.perso = image;
+  p.action = 0;
 
-	p.item.id = 0;
-	p.item.nb = 0;
+  p.item.id = 0;
+  p.item.nb = 0;
 
-	p.cptSens.x = 0;
-	p.cptSens.y = 0;
+  p.cptSens.x = 0;
+  p.cptSens.y = 0;
 
   p.pos.x = 0;
   p.pos.y = 0;
@@ -318,7 +318,7 @@ perso init_perso()
   p.but.x = 0;
   p.but.y = 0;
 
-  p.faim = 100;
+  p.faim = 200;
 
   int i;
   for (i=0;i<40;i++)
@@ -347,7 +347,6 @@ perso zoom_perso(perso perso, float zoom)
 
 void affichage_menu(SDL_Surface *screen, int hauteur, int largeur, image image)
 {
-
   SDL_Rect rcCase, rcCaseDest;
   int col;
   rcCase.x = 0;

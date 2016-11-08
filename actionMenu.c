@@ -77,8 +77,8 @@ void miner(sol tab[COL][LIG], perso perso)
                 }
             }
         }
+        perso.action = 0;
     }
-
 }
 
 void planter(sol tab[COL][LIG], perso perso, int action, liste_point *plantation)
@@ -156,7 +156,7 @@ liste_point pousser(sol tab[COL][LIG], liste_point plantation)
   return cons(prem(plantation), pousser(tab, reste(plantation)));
 }
 
-void actionMenu(int action, sol tab[COL][LIG],perso perso, int buttx, int butty)
+void actionMenu(int action, sol tab[COL][LIG], int buttx, int butty)
 {
  if (buttx <1 || buttx > COL-2 || butty <1 || butty > LIG-2) return;
   switch(action)
@@ -170,9 +170,9 @@ void actionMenu(int action, sol tab[COL][LIG],perso perso, int buttx, int butty)
         tab[buttx][butty].ordre = action;
       break;
     case 3:
-     if ((tab[buttx][butty].item.id == 0  || tab[buttx][butty].item.id == perso.item.id) && perso.item.id > 0 ) // ne marche pas avec le zoom
+    /* if ((tab[buttx][butty].item.id == 0  || tab[buttx][butty].item.id == perso.item.id) && perso.item.id > 0 ) // ne marche pas avec le zoom
        tab[buttx][butty].ordre = action;
-      break;
+      break;*/
     case 4:
     	if(tab[buttx][butty].item.id == 0 && tab[buttx][butty].id < 100)
     		tab[buttx][butty].ordre = action;
@@ -249,7 +249,7 @@ perso manger(sol tab[COL][LIG], perso perso)
 {
     if((perso.pos.x  == perso.but.x) && (perso.pos.y == perso.but.y))
 	  {
-        while (tab[perso.but.x][perso.but.y].item.nb > 0 && perso.faim <95)
+        while (tab[perso.but.x][perso.but.y].item.nb > 0 && perso.faim <550)
         {
         tab[perso.but.x][perso.but.y].item.nb -= 1;
         perso.faim += 50;
@@ -261,45 +261,74 @@ perso manger(sol tab[COL][LIG], perso perso)
      return perso;
 }
 
-perso cherche_action(sol tab[COL][LIG], perso perso, int *cond)
+void cherche_action(sol tab[COL][LIG], perso perso[NB_Perso], int cond[NB_Perso])
 {
-  int nb, dl, dc, action;
-  if (*cond == 0)
-    for (action = 0; action <40; action++)
-        for (nb=1;nb< (COL-1)+(LIG-1);nb++)
-            for (dl=-nb; dl<nb+1; dl++)
-                for (dc=-nb; dc<nb+1; dc++)
-                {
-                  if (perso.but.x != perso.pos.x && perso.but.y != perso.pos.y) continue;
-                  if (abs(dl)+abs(dc) != nb) continue;
-                  if (perso.pos.x+dc < 1 || perso.pos.x+dc > COL-2) continue; // on veut pas sortir du tableau
-                  if (perso.pos.y+dl < 1 || perso.pos.y+dl > LIG-2) continue;
-                  if (perso.faim > 20)// test nourriture
-                  {
-                      if (tab[perso.pos.x+dc][perso.pos.y+dl].id == 21) tab[perso.pos.x+dc][perso.pos.y+dl].ordre = 9;
-                      if (tab[perso.pos.x+dc][perso.pos.y+dl].ordre != perso.travail[action]) continue;
-                      if (perso.travail[action] == 2 && (tab[perso.pos.x+dc][perso.pos.y+dl].item.id != perso.item.id && perso.item.id != 0)) continue;
-                      if (tab[perso.pos.x+dc][perso.pos.y+dl].ordre < 1000) tab[perso.pos.x+dc][perso.pos.y+dl].ordre += 1000;
-                      perso.but.x = perso.pos.x+dc;
-                      perso.but.y = perso.pos.y+dl;
-                      *cond = 1;
-                      perso.action = perso.travail[action];
-                      return perso;
-                  }
-                  else
-                    if (tab[perso.pos.x+dc][perso.pos.y+dl].item.id == fraise)
-                    {
-                        perso.but.x = perso.pos.x+dc;
-                        perso.but.y = perso.pos.y+dl;
-                        *cond = 1;
-                        perso.action = action_manger;
-                        return perso;
-                    }
-                }
-  return perso;
+  int nb, dl, dc, action, id_perso, col, lig, act;
+  int action_tab[20];
+  int compteur =0;
+  for (act = 0; act <20; act++)
+    action_tab[act] = 0;
+
+  for (col = 0; col < COL; col++)
+    for (lig = 0; lig <LIG; lig++)
+        for (act = 0; act <20; act++)
+            if (tab[col][lig].ordre == act)
+                action_tab[act] = 1;
+
+  for (id_perso = 0;id_perso <NB_Perso; id_perso++)
+      if (cond[id_perso] == 0)
+        if (perso[id_perso].faim > 100)// test nourriture
+            {
+            for (action = 0; action <20; action++)
+                if (action_tab[perso[id_perso].travail[action]] == 1)
+                    for (nb=0; nb<(COL-1)+(LIG-1);nb++)
+                        for (dl=-nb; dl<nb+1; dl++)
+                            for (dc=-nb; dc<nb+1; dc++)
+                            {
+                            if (perso[id_perso].but.x != perso[id_perso].pos.x && perso[id_perso].but.y != perso[id_perso].pos.y) continue;
+                            if (abs(dl)+abs(dc) != nb) continue;
+                            if (perso[id_perso].pos.x+dc < 1 || perso[id_perso].pos.x+dc > COL-2) continue; // on veut pas sortir du tableau
+                            if (perso[id_perso].pos.y+dl < 1 || perso[id_perso].pos.y+dl > LIG-2) continue;
+                            if (tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].ordre != perso[id_perso].travail[action]) continue;
+                            if (perso[id_perso].travail[action] == 2 && (tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].item.id != perso[id_perso].item.id && perso[id_perso].item.id != 0)) continue;
+                            if (tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].ordre < 1000) tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].ordre += 1000;
+                            if (tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].id == 21) tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].ordre = 9;
+                            perso[id_perso].but.x = perso[id_perso].pos.x+dc;
+                            perso[id_perso].but.y = perso[id_perso].pos.y+dl;
+                            cond[id_perso] = 1;
+                            perso[id_perso].action = perso[id_perso].travail[action];
+                            dc = nb;
+                            dl = nb;
+                            nb = (COL-1)+(LIG-1)-1;
+                            action = 20-1;
+                          }
+            }
+            else
+            {
+                for (nb=1;nb< (COL-1)+(LIG-1);nb++)
+                    for (dl=-nb; dl<nb+1; dl++)
+                         for (dc=-nb; dc<nb+1; dc++)
+                         {
+                            if (abs(dl)+abs(dc) != nb) continue;
+                            if (perso[id_perso].pos.x+dc < 1 || perso[id_perso].pos.x+dc > COL-2) continue; // on veut pas sortir du tableau
+                            if (perso[id_perso].pos.y+dl < 1 || perso[id_perso].pos.y+dl > LIG-2) continue;
+                            if (tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].item.id == fraise)
+                                {
+                                perso[id_perso].but.x = perso[id_perso].pos.x+dc;
+                                perso[id_perso].but.y = perso[id_perso].pos.y+dl;
+                                cond[id_perso] = 1;
+                                perso[id_perso].action = action_manger;
+                                dc = nb;
+                                dl = nb;
+                                nb = (COL-1)+(LIG-1)-1;
+                                action = 20-1;
+                                }
+                         }
+            }
+
 }
 
-void rectangle(int gauche_maintenu, int *gauche_maintenu_x, int *gauche_maintenu_y, int *buttx, int *butty, perso perso, int action, sol sol[COL][LIG])
+void rectangle(int gauche_maintenu, int *gauche_maintenu_x, int *gauche_maintenu_y, int *buttx, int *butty, int action, sol sol[COL][LIG])
 {
   int x, y;
   if (gauche_maintenu == 0)
@@ -308,18 +337,18 @@ void rectangle(int gauche_maintenu, int *gauche_maintenu_x, int *gauche_maintenu
 	for (x = *gauche_maintenu_x; x <=  *buttx ; x++)
 	  if (*gauche_maintenu_y - *butty <0 )
 	    for (y = *gauche_maintenu_y; y <=  *butty ; y++)
-	      actionMenu(action,sol,perso,x,y);
+	      actionMenu(action,sol,x,y);
 	  else
 	    for (y = *gauche_maintenu_y; y >=  *butty ; y--)
-	      actionMenu(action,sol,perso,x,y);
+	      actionMenu(action,sol,x,y);
       else
 	for (x = *gauche_maintenu_x; x >=  *buttx ; x--)
 	  if (*gauche_maintenu_y - *butty <0 )
 	    for (y = *gauche_maintenu_y; y <=  *butty ; y++)
-	      actionMenu(action,sol,perso,x,y);
+	      actionMenu(action,sol,x,y);
 	  else
 	    for (y = *gauche_maintenu_y; y >=  *butty ; y--)
-	      actionMenu(action,sol,perso,x,y);
+	      actionMenu(action,sol,x,y);
       *gauche_maintenu_x = 0;
       *gauche_maintenu_y = 0;
       *buttx = 0;
