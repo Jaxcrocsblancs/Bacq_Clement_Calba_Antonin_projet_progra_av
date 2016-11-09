@@ -5,7 +5,7 @@
 /*************************/
 #include "include.h"
 
-void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image, SDL_Rect coord_init, int hauteur, int largeur, liste_stockpile stockPile)
+void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image, SDL_Rect coord_init, int hauteur, int largeur)
 {
   SDL_Rect rcCase, rcCaseDest;
 
@@ -24,12 +24,12 @@ void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image,
       rcCaseDest.x = taille*zoom*col +coord_init.x;
       if (rcCaseDest.x >= 0 && rcCaseDest.x < -coord_init.x + largeur)
         {
-		  for(lig=0;lig<LIG;lig++)
-			{
-			  rcCaseDest.y = taille*zoom*lig +coord_init.y;
-			  if (rcCaseDest.y >= 0 && rcCaseDest.y < -coord_init.y + hauteur)
-				  SDL_BlitSurface(image.herbe, &rcCase, screen, &rcCaseDest);
-			}
+	  for(lig=0;lig<LIG;lig++)
+	    {
+	      rcCaseDest.y = taille*zoom*lig +coord_init.y;
+	      if (rcCaseDest.y >= 0 && rcCaseDest.y < -coord_init.y + hauteur)
+		SDL_BlitSurface(image.herbe, &rcCase, screen, &rcCaseDest);
+	    }
         }
     }
 
@@ -122,30 +122,16 @@ void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image,
                                 }
                             case 101:
                                 {
-                                rcCase.x = 5*taille*zoom;
-                                rcCase.y = 0;
-                                SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
-								break;
+                                rcCase.x = 2*taille*zoom;
+                                rcCase.y = 6*taille*zoom;
+                                SDL_BlitSurface(image.mur, &rcCase, screen, &rcCaseDest);
+                                break;
                                 }
                             case 9:
+                                {
                                 rcCase.x = 4*taille*zoom;
                                 rcCase.y = 0;
                                 SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
-                                stockpile temp;
-                                temp = rechercher_elem(col,lig,stockPile);
-                                if(temp.nb > 0)
-                                {
-                                	switch(temp.id)
-                                	{
-										case bois:
-										{
-					                        rcCase.x = 3*taille*zoom;
-											rcCase.y = 2*taille*zoom;
-											SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
-											break;
-										}
-                                	}
-                                }
                                 break;
                                 }
                         }
@@ -206,9 +192,9 @@ void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image,
                 }
 	    }
 	}
+    }
+
 }
-
-
 
 void affichage_surface(SDL_Surface *screen, SDL_Surface *s,SDL_Rect rcCase, SDL_Rect rcCaseDest)
 {
@@ -287,6 +273,7 @@ image image_init()
   image.alpha = SDL_LoadBMP ("image/attente.bmp");
   image.mine = SDL_LoadBMP ("image/porte_mine.bmp");
   image.menu = SDL_LoadBMP ("image/menu.bmp");
+  image.mur = SDL_LoadBMP("image/test.bmp");
   SDL_SetColorKey(image.plante, SDL_SRCCOLORKEY, SDL_MapRGB(image.plante->format, 255, 0, 255));
   SDL_SetColorKey(image.alpha, SDL_SRCCOLORKEY, SDL_MapRGB(image.alpha->format, 255, 0, 255));
   SDL_SetColorKey(image.mine, SDL_SRCCOLORKEY, SDL_MapRGB(image.mine->format, 255, 0, 255));
@@ -312,18 +299,18 @@ perso init_perso()
   rcSens.h = taille;
   rcSens.w = taille;
 
-    image = SDL_LoadBMP ("image/test.bmp");
-    SDL_SetColorKey(image, SDL_SRCCOLORKEY, SDL_MapRGB(image->format, 255, 0, 255));
-    p.rcDest = rcDest;
-    p.rcSens = rcSens;
-    p.perso = image;
-    p.action = 0;
+  image = SDL_LoadBMP ("image/test.bmp");
+  SDL_SetColorKey(image, SDL_SRCCOLORKEY, SDL_MapRGB(image->format, 255, 0, 255));
+  p.rcDest = rcDest;
+  p.rcSens = rcSens;
+  p.perso = image;
+  p.action = 0;
 
-	p.item.id = 0;
-	p.item.nb = 0;
+  p.item.id = 0;
+  p.item.nb = 0;
 
-	p.cptSens.x = 0;
-	p.cptSens.y = 0;
+  p.cptSens.x = 0;
+  p.cptSens.y = 0;
 
   p.pos.x = 0;
   p.pos.y = 0;
@@ -331,7 +318,7 @@ perso init_perso()
   p.but.x = 0;
   p.but.y = 0;
 
-  p.faim = 100;
+  p.faim = 200;
 
   int i;
   for (i=0;i<40;i++)

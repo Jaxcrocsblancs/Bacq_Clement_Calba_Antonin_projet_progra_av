@@ -6,8 +6,9 @@
 
 #define COL 30
 #define LIG 30
-
 #define taille 32
+
+#define NB_Perso 1
 
 #define pousse_fraise 1
 #define fraise 2
@@ -28,12 +29,7 @@
 #define action_planter_ble 7
 #define action_planter_bois 8
 #define action_miner 9
-#define action_manger 10000
+#define action_manger 1000
 #define action_ramasser 2
 #define action_deposer 3
-
-#define MAX_STOCK 20
-
-#define NB_CONSTR 2
-
-
+#define action_stockpile 10

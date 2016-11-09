@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdbool.h>
-#include <assert.h>
+
 #include "define.h"
 #include "procedural.h"
 #include "affichage.h"
@@ -14,8 +14,8 @@
 #include "struct.h"
 #include "map.h"
 #include "liste_point.h"
+#include "liste_stockpile.h"
 #include "deplacement.h"
 #include "actionMenu.h"
-#include "liste_stockpile.h"
 
 #endif

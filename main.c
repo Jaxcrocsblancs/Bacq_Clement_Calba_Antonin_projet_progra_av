@@ -9,12 +9,14 @@ int main(int argc, char *argv[])
 {
 
   freopen("CON", "w", stdout);
-     freopen("CON", "r", stdin);
-     freopen("CON", "w", stderr);
+  freopen("CON", "r", stdin);
+  freopen("CON", "w", stderr);
 
+  freopen("printf.txt", "w", stdout);
+
+  fprintf(stdout,"bittte\n");
 
   if (SDL_Init (SDL_INIT_EVERYTHING))
-
     fprintf(stderr,"Couldn't initialize SDL: %s\n", SDL_GetError());
 
   const SDL_VideoInfo *videoInfo;
@@ -30,19 +32,18 @@ int main(int argc, char *argv[])
   SDL_Rect coord;
   SDL_Event event;
   image image;
-  perso perso;
-  liste_point L, plantation;
+  perso perso[NB_Perso];
+  liste_point L[NB_Perso], plantation;
   liste_stockpile stockPile;
   sol sol[COL][LIG];
-  int seed, zoom, buttx, butty, cond, done, action, gauche_maintenu,gauche_maintenu_x, gauche_maintenu_y, p;
+  int seed, zoom, buttx, butty, cond[NB_Perso], done, action, gauche_maintenu,gauche_maintenu_x, gauche_maintenu_y, p;
   unsigned int  temps;
-  L = l_vide();
   stockPile = l_videS();
   plantation = l_vide();
   temps = 0;
 
   printf("donner la graine: \n");
-  // scanf("%d",&seed);
+  //scanf("%d",&seed);
   seed=1;
 
   int hauteur, largeur;
@@ -58,7 +59,6 @@ int main(int argc, char *argv[])
 
   hauteur = hauteur/(4*taille)*(4*taille);
   largeur = largeur/(4*taille)*(4*taille);
-
   screen = SDL_SetVideoMode(largeur, hauteur +2*taille, 24, 0);
   if (!screen)
     fprintf(stderr,"SetVideoMode error: %s\n", SDL_GetError());
@@ -67,14 +67,20 @@ int main(int argc, char *argv[])
   init_tab(sol);
   generation_procedural(sol);
 
+
   image = image_init();
-  perso = init_perso();
+  int i;
+
+  for (i=0; i<NB_Perso; i++)
+    {
+    perso[i] = init_perso();
+   cond[i] = 0;
+   L[i] = l_vide();
+    }
   coord.x = 0;
   coord.y = 0;
   zoom = 1;
   done = 0;
-  cond = 0;
-  L = l_vide();
 
   action = 1;
 
@@ -114,29 +120,29 @@ int main(int argc, char *argv[])
             action = 2;
             break;
 	      case SDLK_F3:
-		action = 3;
-		break;
+            action = 3;
+            break;
 	      case SDLK_F4:
-		action = 4;
-		break;
+            action = 4;
+            break;
 	      case SDLK_F5:
-		action = 5;
-		break;
+            action = 5;
+            break;
 	      case SDLK_F6:
-		action = 6;
-		break;
+            action = 6;
+            break;
 	      case SDLK_F7:
-		action = 7;
-		break;
+            action = 7;
+            break;
 	      case SDLK_F8:
-		action = 8;
-		break;
+            action = 8;
+            break;
 	      case SDLK_F9:
-		action = 9;
-		break;
+            action = 9;
+            break;
 	      case SDLK_F10:
-		  	  action = 10;
-	      	  break;
+	    	  action = 10;
+	    	  break;
           case SDLK_F11:
             action = 0;
             break;
@@ -153,32 +159,46 @@ int main(int argc, char *argv[])
                 {
                   zoom = 2;
                   image = zoom_image(image, (float)zoom);
-                  perso = zoom_perso(perso, (float)zoom);
-                  perso.rcSens.h = taille *2;
-                  perso.rcSens.w = taille *2;
+                  for (i=0; i<NB_Perso; i++)
+                  {
+                  perso[i] = zoom_perso(perso[i], (float)zoom);
+                  perso[i].rcSens.h = taille *2;
+                  perso[i].rcSens.w = taille *2;
+                  }
+
                 }
               else
                 {
                   if (zoom==2)
                     {
                       image = zoom_image(image, (float)zoom);
-                      perso = zoom_perso(perso, (float)zoom);
+                      for (i=0; i<NB_Perso; i++)
+                        perso[i] = zoom_perso(perso[i], (float)zoom);
                       zoom = 4;
-                      perso.rcSens.h = taille *4;
-                      perso.rcSens.w = taille *4;
+                      for (i=0; i<NB_Perso; i++)
+                        {
+                      perso[i].rcSens.h = taille *4;
+                      perso[i].rcSens.w = taille *4;
+                        }
                     }
                   else
                     {
                       image = image_init();
-                      perso.perso = SDL_LoadBMP ("image/test.bmp");
-                      SDL_SetColorKey(perso.perso, SDL_SRCCOLORKEY, SDL_MapRGB(perso.perso->format, 255, 0, 255));;
+                      for (i=0; i<NB_Perso; i++)
+                      {
+                        perso[i].perso = SDL_LoadBMP ("image/test.bmp");
+                        SDL_SetColorKey(perso[i].perso, SDL_SRCCOLORKEY, SDL_MapRGB(perso[i].perso->format, 255, 0, 255));
+                      }
                       zoom=1;
                       coord.x=0;
                       coord.y=0;
-                      perso.rcSens.x = 0;
-                      perso.rcSens.y = 0;
-                      perso.rcSens.w = taille;
-                      perso.rcSens.h = taille;
+                      for (i=0; i<NB_Perso; i++)
+                        {
+                      perso[i].rcSens.x = 0;
+                      perso[i].rcSens.y = 0;
+                      perso[i].rcSens.w = taille;
+                      perso[i].rcSens.h = taille;
+                        }
                     }
                 }
               SDL_Delay(25);
@@ -262,12 +282,12 @@ int main(int argc, char *argv[])
               }
               break;
             }
-            break;
 	      case SDL_BUTTON_RIGHT:
             {
               break;
             }
 	      }
+	    break;
 	  }
 	case SDL_MOUSEMOTION:
           {
@@ -300,28 +320,35 @@ int main(int argc, char *argv[])
 	    break;
 	  }
 	}
-      rectangle(gauche_maintenu, &gauche_maintenu_x, &gauche_maintenu_y, &buttx, &butty, perso, action, sol,&stockPile);
-      affichage_map(sol, screen, zoom, image, coord, hauteur, largeur, stockPile);
+      rectangle(gauche_maintenu, &gauche_maintenu_x, &gauche_maintenu_y, &buttx, &butty, action, sol, &stockPile);
+      affichage_map(sol, screen, zoom, image, coord, hauteur, largeur);
+
       if (temps != SDL_GetTicks()/100 && p)
         {
-         if (perso.faim >0)
+        cherche_action (sol, perso, cond);
+        for (i= 0; i<NB_Perso;i++)
+         if (perso[i].faim >0)
          {
-//			  perso = faim(perso);
-			  perso = cherche_action (sol, perso, &cond);
-			  perso = deplacement_personnage(sol , screen ,perso,  &L, perso.but.x ,perso.but.y, &cond,  zoom);
-			  perso = actionPerso(sol,perso, &plantation,&stockPile);
+          //perso[i] = faim(perso[i]);
+          perso[i] = deplacement_personnage(sol , screen ,perso[i],  &L[i], perso[i].but.x ,perso[i].but.y, &cond[i],  zoom);
+          perso[i] = actionPerso(sol,perso[i], &plantation,&stockPile, &cond[i]);
          }
-	  plantation = pousser(sol, plantation);
-	  temps = SDL_GetTicks()/100;
+          plantation = pousser(sol, plantation);
+          temps = SDL_GetTicks()/100;
 
         }
-      perso.rcDest.x = perso.pos.x * taille * zoom + coord.x;
-      perso.rcDest.y = perso.pos.y * taille * zoom + coord.y;
-      if (sol[perso.pos.x][perso.pos.y].id != 21)
-        SDL_BlitSurface(perso.perso, &perso.rcSens, screen, &perso.rcDest);
+
+       for (i= 0; i<NB_Perso;i++)
+        {
+          perso[i].rcDest.x = perso[i].pos.x * taille * zoom + coord.x;
+          perso[i].rcDest.y = perso[i].pos.y * taille * zoom + coord.y;
+          if (sol[perso[i].pos.x][perso[i].pos.y].id != 21)
+            SDL_BlitSurface(perso[i].perso, &perso[i].rcSens, screen, &perso[i].rcDest);
+        }
+      printf("temps: %d\n,",SDL_GetTicks());
       affichage_menu(screen, hauteur, largeur, image);
       SDL_UpdateRect(screen, 0, 0, 0, 0);
-//      SDL_Delay(100);
+      SDL_Delay(100);
     }
 
   return 0;

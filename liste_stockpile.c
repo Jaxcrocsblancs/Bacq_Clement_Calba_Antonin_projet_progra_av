@@ -6,7 +6,6 @@
  */
 
 #include "include.h"
-#include "struct.h"
 
 stockpile remplis_stockpile(int id, int nb, int col, int lig)
 {
