@@ -360,7 +360,6 @@ int main(int argc, char *argv[])
           //perso[i] = faim(perso[i]);
           perso[i] = deplacement_personnage(sol , screen ,perso[i],  &L[i], perso[i].but.x ,perso[i].but.y, &cond[i],  zoom);
           //printf("but.x: %d, pos.x: %d, but.y: %d, pos.y: %d, perso.action %d\n",perso[i].but.x, perso[i].pos.x, perso[i].but.y, perso[i].pos.y, perso[i].action);
-          printf("perso action: %d\n", perso[i].action);
           perso[i] = actionPerso(sol,perso[i], &plantation,&stockPile, &cond[i]);
          }
           plantation = pousser(sol, plantation);
@@ -373,7 +372,7 @@ int main(int argc, char *argv[])
           if (sol[perso[i].pos.x][perso[i].pos.y].id != 21)
             SDL_BlitSurface(perso[i].perso, &perso[i].rcSens, screen, &perso[i].rcDest);
         }
-  //   printf("temps: %d, action: %d\n,",SDL_GetTicks(), action);
+      printf("temps: %d\n,",SDL_GetTicks());
       affichage_menu(screen, hauteur, largeur, image);
       SDL_UpdateRect(screen, 0, 0, 0, 0);
       SDL_Delay(100);

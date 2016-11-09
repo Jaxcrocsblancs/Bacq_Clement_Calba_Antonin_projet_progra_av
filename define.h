@@ -8,7 +8,7 @@
 #define LIG 50
 #define taille 32
 
-#define NB_Perso 1
+#define NB_Perso 10
 
 #define pousse_fraise 1
 #define fraise 2

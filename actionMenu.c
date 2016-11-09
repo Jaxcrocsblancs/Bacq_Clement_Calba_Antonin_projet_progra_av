@@ -118,7 +118,7 @@ void creerStockPile(sol tab[COL][LIG], liste_stockpile *stockPile, int id, int b
 {
 	stockpile temp;
 	tab[buttx][butty].id = 9;
-	tab[buttx][butty].ordre = 0;
+	tab[buttx][butty].ordre = action_stockpile;
 	temp = remplis_stockpile(id,0,buttx,butty);
 	*stockPile = consS(temp,*stockPile);
 }
@@ -216,7 +216,7 @@ void actionMenu(int action, sol tab[COL][LIG], int buttx, int butty, liste_stock
         tab[buttx][butty].ordre = action;
       break;
     case action_deposer:
-       //if (/*(*/tab[buttx][butty].item.id == 0  /*|| tab[buttx][butty].item.id == perso.item.id) && perso.item.id > 0 */)
+       //if ((tab[buttx][butty].item.id == 0  || tab[buttx][butty].item.id == perso.item.id) && perso.item.id > 0 )
             tab[buttx][butty].ordre = action;
       break;
    /* case 4:
@@ -321,10 +321,12 @@ void cherche_action(sol tab[COL][LIG], perso perso[NB_Perso], int cond[NB_Perso]
                             if (tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].ordre != perso[id_perso].travail[action]) continue;
                             if (perso[id_perso].travail[action] == 2 && (tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].item.id != perso[id_perso].item.id && perso[id_perso].item.id != 0)) continue;
                             if (tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].ordre < 1000) tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].ordre += 1000;
-                            //if (tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].id == 21) tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].ordre = action_miner;
+                           // if (tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].id == 21) tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].ordre = action_miner;
+
                             perso[id_perso].but.x = perso[id_perso].pos.x+dc;
                             perso[id_perso].but.y = perso[id_perso].pos.y+dl;
                             cond[id_perso] = 1;
+
                             perso[id_perso].action = perso[id_perso].travail[action];
                             dc = nb;
                             dl = nb;
