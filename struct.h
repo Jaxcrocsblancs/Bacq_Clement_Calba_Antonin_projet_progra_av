@@ -8,7 +8,8 @@ typedef struct image image;
 typedef struct object object;
 typedef struct point_cout point_cout;
 typedef struct Liste_point *liste_point;
-typedef struct Liste_item *liste_item;
+typedef struct stockpile stockpile;
+typedef struct Liste_stockpile *liste_stockpile;
 typedef struct perso perso;
 typedef struct cptSens cptSens;
 
@@ -58,10 +59,18 @@ struct Liste_point
 	liste_point reste;
 };
 
-struct Liste_item
+struct stockpile
 {
-	item premier;
-	liste_item reste;
+	int id;
+	int nb;
+	int col;
+	int lig;
+};
+
+struct Liste_stockpile
+{
+	stockpile premier;
+	liste_stockpile reste;
 };
 
 struct cptSens

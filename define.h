@@ -8,7 +8,7 @@
 #define LIG 50
 #define taille 32
 
-#define NB_Perso 200
+#define NB_Perso 1
 
 #define pousse_fraise 1
 #define fraise 2
@@ -32,3 +32,6 @@
 #define action_planter_bois 15
 #define action_miner 99
 #define action_manger 10000
+#define action_ramasser 2
+#define action_deposer 3
+#define action_stockpile 28

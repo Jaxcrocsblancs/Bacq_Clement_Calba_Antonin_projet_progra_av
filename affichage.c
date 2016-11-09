@@ -130,7 +130,7 @@ void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image,
                             case 9:
                                 {
                                 rcCase.x = 4*taille*zoom;
-                                rcCase.y = 3*taille*zoom;
+                                rcCase.y = 0;
                                 SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
                                 break;
                                 }
