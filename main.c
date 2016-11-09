@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
   zoom = 1;
   done = 0;
 
-  action = 1;
+  action = 0;
 
   gauche_maintenu = 0;
   gauche_maintenu_x = 0;
@@ -240,37 +240,67 @@ int main(int argc, char *argv[])
                       gauche_maintenu = 1;
                       gauche_maintenu_x = event.motion.x / (taille*zoom) - coord.x/ (taille*zoom);
                       gauche_maintenu_y = event.motion.y / (taille*zoom) - coord.y/ (taille*zoom);
+                      //printf("x: %d, y: %d\n",event.motion.x,event.motion.y);
                     }
                 }
               else
               {
-                // action= event.motion.x / (taille*2);
                 if ((event.motion.x > (largeur/2-768/2)) && (event.motion.x < (largeur/2-768/2+768)) && (event.motion.y > (hauteur+13)) && (event.motion.y < (hauteur+50)))
                   {
-                      printf("x: %d, y: %d\n",event.motion.x,event.motion.y);
-                    if ((event.motion.x > (largeur/2-768/2+21)) && (event.motion.x < (largeur/2-768/2+75)))
-                      action = 1;
-                    if ((event.motion.x > (largeur/2-768/2+94)) && (event.motion.x < (largeur/2-768/2+149)))
-                      action = 2;
-                    if ((event.motion.x > (largeur/2-768/2+169)) && (event.motion.x < (largeur/2-768/2+224)))
-                      action = 3;
-                    if ((event.motion.x > (largeur/2-768/2+224)) && (event.motion.x < (largeur/2-768/2+299)))
-                      action = 4;
-                    if ((event.motion.x > (largeur/2-768/2+319)) && (event.motion.x < (largeur/2-768/2+373)))
-                      action = 5;
-                    if ((event.motion.x > (largeur/2-768/2+394)) && (event.motion.x < (largeur/2-768/2+448)))
-                      action = 6;
-                    if ((event.motion.x > (largeur/2-768/2+468)) && (event.motion.x < (largeur/2-768/2+528)))
-                      action = 7;
-                    if ((event.motion.x > (largeur/2-768/2+543)) && (event.motion.x < (largeur/2-768/2+598)))
-                      action = 8;
-                    if ((event.motion.x > (largeur/2-768/2+618)) && (event.motion.x < (largeur/2-768/2+673)))
-                      action = 9;
-                    if ((event.motion.x > (largeur/2-768/2+693)) && (event.motion.x < (largeur/2-768/2+748)))
-                      action = 0;
-                    printf("action: %d\n", action);
+                    if (action == 0)
+                    {
+                        if ((event.motion.x > (largeur/2-768/2+21)) && (event.motion.x < (largeur/2-768/2+75)))
+                          action = 10;
+                        if ((event.motion.x > (largeur/2-768/2+94)) && (event.motion.x < (largeur/2-768/2+149)))
+                          action = 20;
+                        if ((event.motion.x > (largeur/2-768/2+169)) && (event.motion.x < (largeur/2-768/2+224)))
+                          action = 30;
+                        if ((event.motion.x > (largeur/2-768/2+224)) && (event.motion.x < (largeur/2-768/2+299)))
+                          action = 40;
+                        if ((event.motion.x > (largeur/2-768/2+319)) && (event.motion.x < (largeur/2-768/2+373)))
+                          action = 50;
+                        if ((event.motion.x > (largeur/2-768/2+394)) && (event.motion.x < (largeur/2-768/2+448)))
+                          action = 60;
+                        if ((event.motion.x > (largeur/2-768/2+468)) && (event.motion.x < (largeur/2-768/2+528)))
+                          action = 70;
+                        if ((event.motion.x > (largeur/2-768/2+543)) && (event.motion.x < (largeur/2-768/2+598)))
+                          action = 80;
+                        if ((event.motion.x > (largeur/2-768/2+618)) && (event.motion.x < (largeur/2-768/2+673)))
+                          action = 90;
+                        if ((event.motion.x > (largeur/2-768/2+693)) && (event.motion.x < (largeur/2-768/2+748)))
+                          action = 100;
+                        printf("action: %d\n", action);
+                        SDL_Delay(50);
                   }
+                  else
+                  {
+                      if (action % 10 == 0)
+                            action -= 10;
+                      if ((event.motion.x > (largeur/2-768/2+21)) && (event.motion.x < (largeur/2-768/2+75)))
+                          action = action/10*10 + 1;
+                        if ((event.motion.x > (largeur/2-768/2+94)) && (event.motion.x < (largeur/2-768/2+149)))
+                          action = action/10*10 + 2;
+                        if ((event.motion.x > (largeur/2-768/2+169)) && (event.motion.x < (largeur/2-768/2+224)))
+                          action = action/10*10 + 3;
+                        if ((event.motion.x > (largeur/2-768/2+224)) && (event.motion.x < (largeur/2-768/2+299)))
+                          action = action/10*10 + 4;
+                        if ((event.motion.x > (largeur/2-768/2+319)) && (event.motion.x < (largeur/2-768/2+373)))
+                          action = action/10*10 + 5;
+                        if ((event.motion.x > (largeur/2-768/2+394)) && (event.motion.x < (largeur/2-768/2+448)))
+                          action = action/10*10 + 6;
+                        if ((event.motion.x > (largeur/2-768/2+468)) && (event.motion.x < (largeur/2-768/2+528)))
+                          action = action/10*10 + 7;
+                        if ((event.motion.x > (largeur/2-768/2+543)) && (event.motion.x < (largeur/2-768/2+598)))
+                          action = action/10*10 + 8;
+                        if ((event.motion.x > (largeur/2-768/2+618)) && (event.motion.x < (largeur/2-768/2+673)))
+                          action = action/10*10 + 9;
+                        if ((event.motion.x > (largeur/2-768/2+693)) && (event.motion.x < (largeur/2-768/2+748)))
+                          action = 0;
 
+                        printf("action: %d\n", action);
+                        SDL_Delay(100);
+                  }
+                }
               }
               break;
             }
@@ -320,15 +350,13 @@ int main(int argc, char *argv[])
         for (i= 0; i<NB_Perso;i++)
          if (perso[i].faim >0)
          {
-          perso[i] = faim(perso[i]);
+          //perso[i] = faim(perso[i]);
           perso[i] = deplacement_personnage(sol , screen ,perso[i],  &L[i], perso[i].but.x ,perso[i].but.y, &cond[i],  zoom);
           perso[i] = actionPerso(sol,perso[i], &plantation,&stockPile, &cond);
          }
           plantation = pousser(sol, plantation);
           temps = SDL_GetTicks()/100;
-
         }
-
        for (i= 0; i<NB_Perso;i++)
         {
           perso[i].rcDest.x = perso[i].pos.x * taille * zoom + coord.x;
@@ -336,7 +364,7 @@ int main(int argc, char *argv[])
           if (sol[perso[i].pos.x][perso[i].pos.y].id != 21)
             SDL_BlitSurface(perso[i].perso, &perso[i].rcSens, screen, &perso[i].rcDest);
         }
-      printf("temps: %d\n,",SDL_GetTicks());
+     // printf("temps: %d, action: %d\n,",SDL_GetTicks(), action);
       affichage_menu(screen, hauteur, largeur, image);
       SDL_UpdateRect(screen, 0, 0, 0, 0);
 //      SDL_Delay(100);

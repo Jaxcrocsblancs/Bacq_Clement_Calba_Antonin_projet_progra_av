@@ -93,7 +93,6 @@ void planter(sol tab[COL][LIG], perso perso, int action, liste_point *plantation
 	}
 }
 
-
 perso construire(sol tab[COL][LIG], perso perso, int ido, int nbi, int idi)
 {
 	int col,lig;
@@ -133,7 +132,6 @@ perso creerStockPile(sol tab[COL][LIG], perso perso, liste_point *stockPile)
 	return perso;
 }
 
-
 void chercheStockPile(sol tab[COL][LIG], perso perso, int ido, int nbi, int idi, liste_point *stockPile)
 {
 
@@ -146,14 +144,39 @@ liste_point pousser(sol tab[COL][LIG], liste_point plantation)
     return l_vide();
   if (prem(plantation).f > 100)
     {
-      tab[prem(plantation).col][prem(plantation).lig].id += 1;
-      tab[prem(plantation).col][prem(plantation).lig].ordre = 1;
+      if (tab[prem(plantation).col][prem(plantation).lig].id != 0)
+      {
+        tab[prem(plantation).col][prem(plantation).lig].id += 1;
+        tab[prem(plantation).col][prem(plantation).lig].ordre = action_couper;
+      }
       return pousser(tab,reste(plantation));
     }
   mem = prem(plantation);
   mem.f += 1;
   ecrire_prem(mem,plantation);
   return cons(prem(plantation), pousser(tab, reste(plantation)));
+}
+
+perso faim(perso perso)
+{
+    perso.faim -= 1;
+    return perso;
+}
+
+perso manger(sol tab[COL][LIG], perso perso)
+{
+    if((perso.pos.x  == perso.but.x) && (perso.pos.y == perso.but.y))
+	  {
+        while (tab[perso.but.x][perso.but.y].item.nb > 0 && perso.faim <550)
+        {
+        tab[perso.but.x][perso.but.y].item.nb -= 1;
+        perso.faim += 50;
+        if (tab[perso.but.x][perso.but.y].item.nb == 0)
+            tab[perso.but.x][perso.but.y].item.id = 0;
+        }
+        perso.action = 0;
+     }
+     return perso;
 }
 
 void actionMenu(int action, sol tab[COL][LIG], int buttx, int butty)
@@ -239,39 +262,16 @@ perso actionPerso(sol tab[COL][LIG],perso perso, liste_point *plantation, liste_
   return perso;
 }
 
-perso faim(perso perso)
-{
-    perso.faim -= 1;
-    return perso;
-}
-
-perso manger(sol tab[COL][LIG], perso perso)
-{
-    if((perso.pos.x  == perso.but.x) && (perso.pos.y == perso.but.y))
-	  {
-        while (tab[perso.but.x][perso.but.y].item.nb > 0 && perso.faim <550)
-        {
-        tab[perso.but.x][perso.but.y].item.nb -= 1;
-        perso.faim += 50;
-        if (tab[perso.but.x][perso.but.y].item.nb == 0)
-            tab[perso.but.x][perso.but.y].item.id = 0;
-        }
-        perso.action = 0;
-     }
-     return perso;
-}
-
 void cherche_action(sol tab[COL][LIG], perso perso[NB_Perso], int cond[NB_Perso])
 {
   int nb, dl, dc, action, id_perso, col, lig, act;
-  int action_tab[20];
-  int compteur =0;
-  for (act = 0; act <20; act++)
+  int action_tab[100];
+  for (act = 0; act <100; act++)
     action_tab[act] = 0;
 
   for (col = 0; col < COL; col++)
     for (lig = 0; lig <LIG; lig++)
-        for (act = 0; act <20; act++)
+        for (act = 0; act <100; act++)
             if (tab[col][lig].ordre == act)
                 action_tab[act] = 1;
 
@@ -279,7 +279,7 @@ void cherche_action(sol tab[COL][LIG], perso perso[NB_Perso], int cond[NB_Perso]
       if (cond[id_perso] == 0)
         if (perso[id_perso].faim > 100)// test nourriture
             {
-            for (action = 0; action <20; action++)
+            for (action = 0; action <100; action++)
                 if (action_tab[perso[id_perso].travail[action]] == 1)
                     for (nb=0; nb<(COL-1)+(LIG-1);nb++)
                         for (dl=-nb; dl<nb+1; dl++)
@@ -289,10 +289,11 @@ void cherche_action(sol tab[COL][LIG], perso perso[NB_Perso], int cond[NB_Perso]
                             if (abs(dl)+abs(dc) != nb) continue;
                             if (perso[id_perso].pos.x+dc < 1 || perso[id_perso].pos.x+dc > COL-2) continue; // on veut pas sortir du tableau
                             if (perso[id_perso].pos.y+dl < 1 || perso[id_perso].pos.y+dl > LIG-2) continue;
+
                             if (tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].ordre != perso[id_perso].travail[action]) continue;
                             if (perso[id_perso].travail[action] == 2 && (tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].item.id != perso[id_perso].item.id && perso[id_perso].item.id != 0)) continue;
                             if (tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].ordre < 1000) tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].ordre += 1000;
-                            if (tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].id == 21) tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].ordre = 9;
+                            if (tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].id == 21) tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].ordre = action_miner;
                             perso[id_perso].but.x = perso[id_perso].pos.x+dc;
                             perso[id_perso].but.y = perso[id_perso].pos.y+dl;
                             cond[id_perso] = 1;
@@ -300,7 +301,7 @@ void cherche_action(sol tab[COL][LIG], perso perso[NB_Perso], int cond[NB_Perso]
                             dc = nb;
                             dl = nb;
                             nb = (COL-1)+(LIG-1)-1;
-                            action = 20-1;
+                            action = 100-1;
                           }
             }
             else
@@ -321,7 +322,6 @@ void cherche_action(sol tab[COL][LIG], perso perso[NB_Perso], int cond[NB_Perso]
                                 dc = nb;
                                 dl = nb;
                                 nb = (COL-1)+(LIG-1)-1;
-                                action = 20-1;
                                 }
                          }
             }

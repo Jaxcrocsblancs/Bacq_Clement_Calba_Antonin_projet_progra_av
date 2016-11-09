@@ -8,7 +8,7 @@
 #define LIG 50
 #define taille 32
 
-#define NB_Perso 20
+#define NB_Perso 200
 
 #define pousse_fraise 1
 #define fraise 2
@@ -22,11 +22,13 @@
 #define pousse_bois 7
 #define bois 8
 
+
 #define annuler 0
-#define action_couper 1
-#define action_planter_fraise 5
-#define action_planter_coton 6
-#define action_planter_ble 7
-#define action_planter_bois 8
-#define action_miner 9
+// Condition: les actions selectionable ne doivent pas être multiple de 10
+#define action_couper 11
+#define action_planter_fraise 12
+#define action_planter_coton 13
+#define action_planter_ble 14
+#define action_planter_bois 15
+#define action_miner 99
 #define action_manger 10000

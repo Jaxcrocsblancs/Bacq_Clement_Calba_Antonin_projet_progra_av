@@ -74,10 +74,10 @@ void generation_procedural(sol tab[COL][LIG])
       {
 	tab[col][lig].id=0;
 	//initialisation variable structure object
-	procedu.chene=20;
-	procedu.salade=20;
-	procedu.fraisier=20;
-	procedu.ble=20;
+	procedu.chene=10;
+	procedu.salade=10;
+	procedu.fraisier=10;
+	procedu.ble=10;
 	for (dl=-2; dl<3; dl++)
 	  for (dc=-2; dc<3; dc++)
 	    {
@@ -120,5 +120,5 @@ void generation_procedural(sol tab[COL][LIG])
     tab[4][2].id = 120;
     tab[4][3].id = 120;
     tab[4][4].id = 120;
-    tab[3][3].ordre = 9;
+    tab[3][3].ordre = action_miner;
 }
