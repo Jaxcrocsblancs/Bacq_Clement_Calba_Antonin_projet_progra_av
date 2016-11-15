@@ -12,7 +12,8 @@ typedef struct stockpile stockpile;
 typedef struct Liste_stockpile *liste_stockpile;
 typedef struct perso perso;
 typedef struct cptSens cptSens;
-
+typedef struct workshop workshop;
+typedef struct recette recette;
 
 struct item
 {
@@ -107,4 +108,19 @@ struct NODE
 	int parentx;
 	int parenty;
 }; // tableau representant la map
+
+struct workshop
+{
+    int x;
+    int y;
+    item coffre[3];
+    int id;
+};
+
+struct recette
+{
+    item composant_1;
+    item composant_2;
+    item composant_3;
+};
 #endif

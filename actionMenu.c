@@ -129,8 +129,6 @@ perso chercheStockPile(sol tab[COL][LIG], perso perso, liste_stockpile *stockPil
 	if(!est_videS(*stockPile))
 		if(premS(*stockPile).nb < 20)
 		{
-			int temp;
-			temp = 20 - premS(*stockPile).nb;
 			perso = chercher_object(tab,perso,premS(*stockPile).id);
 
 			if(perso.item.nb > 0)
@@ -202,14 +200,83 @@ perso manger(sol tab[COL][LIG], perso perso)
      return perso;
 }
 
+void init_recette(recette recette[100])
+{
+    recette[0].composant_1.id = bois;
+    recette[0].composant_1.nb = 12;
+    recette[0].composant_2.id = coton;
+    recette[0].composant_2.nb = 4;
+}
+
+perso fabrication(sol tab[COL][LIG], perso perso, int commande, workshop atelier, recette recette[100])
+{
+    int d1, d2, d3;
+
+    for (d1=0; d1<3; d1++)
+        if (recette[commande].composant_1.id == atelier.coffre[d1].id)
+        {
+            for (d2=0; d2<3; d2++)
+                if (recette[commande].composant_2.id == atelier.coffre[d2].id)
+                {
+                    for (d3=0; d3<3; d3++)
+                        if (recette[commande].composant_3.id == atelier.coffre[d3].id)
+                        {
+                            if((perso.pos.x  == perso.but.x) && (perso.pos.y == perso.but.y))
+                                printf("test\n");
+                        }
+                        else
+                        {
+                            if ((perso.item.id == recette[commande].composant_3.id) && (perso.item.nb == recette[commande].composant_3.nb))
+                                {
+                                perso.action = action_deposer;
+                                perso.but.x = atelier.x;
+                                perso.but.y = atelier.y;
+                                }
+                            else
+                            {
+                                    perso = chercher_object(tab,perso,recette[commande].composant_3.id);
+                            }
+                        }
+                }
+                else
+                {
+                    if ((perso.item.id == recette[commande].composant_2.id) && (perso.item.nb == recette[commande].composant_2.nb))
+                        {
+                        perso.action = action_deposer;
+                        perso.but.x = atelier.x;
+                        perso.but.y = atelier.y;
+                        }
+                    else
+                        {
+                        perso = chercher_object(tab,perso,recette[commande].composant_2.id);
+                        }
+                }
+        }
+        else
+        {
+            if ((perso.item.id == recette[commande].composant_1.id) && (perso.item.nb == recette[commande].composant_1.nb))
+                {
+                perso.action = action_deposer;
+                perso.but.x = atelier.x;
+                perso.but.y = atelier.y;
+                }
+            else
+                perso = chercher_object(tab,perso,recette[commande].composant_1.id);
+        }
+}
+
 void actionMenu(int action, sol tab[COL][LIG], int buttx, int butty, liste_stockpile *stockPile)
 {
  if (buttx <1 || buttx > COL-2 || butty <1 || butty > LIG-2) return;
   switch(action)
     {
-    case action_couper:
-        if (tab[buttx][butty].id > 0 && tab[buttx][butty].id < 20 && tab[buttx][butty].ordre <1000)
-            tab[buttx][butty].ordre = action;
+    case action_couper_bois:
+        if (tab[buttx][butty].id == bois && tab[buttx][butty].id < 20 && tab[buttx][butty].ordre <1000)
+            tab[buttx][butty].ordre = action_couper;
+        break;
+    case action_couper_plante:
+        if (((tab[buttx][butty].id == fraise) || (tab[buttx][butty].id == coton) || (tab[buttx][butty].id == bles)) && tab[buttx][butty].id < 20 && tab[buttx][butty].ordre <1000)
+            tab[buttx][butty].ordre = action_couper;
         break;
     case action_ramasser:
       if (tab[buttx][butty].item.id > 0)
@@ -240,8 +307,17 @@ void actionMenu(int action, sol tab[COL][LIG], int buttx, int butty, liste_stock
         tab[buttx][butty].ordre = action;
       break;
     case action_stockpile:
+        if (tab[buttx][butty].id == 0)
     	creerStockPile(tab,stockPile,bois,buttx,butty);
     	break;
+    case action_fabriquer:
+        if (tab[buttx][butty].id == 0)
+            tab[buttx][butty].id = 100;
+    	break;
+  /*  case action_fabriquer+1:
+        if (tab[buttx][butty].id == 100)
+            tab[buttx][butty].ordre = action_fabriquer;
+    	break;*/
     case annuler:
         tab[buttx][butty].ordre = 0;
     }
@@ -285,6 +361,9 @@ perso actionPerso(sol tab[COL][LIG],perso perso, liste_point *plantation, liste_
         case action_stockpile:
           perso = chercheStockPile(tab,perso,stockPile);
           break;
+       /* case action_fabriquer:
+          perso = fabrication(tab,perso,0 , atelier, recette);
+          break;*/
     }
   return perso;
 }
@@ -321,7 +400,7 @@ void cherche_action(sol tab[COL][LIG], perso perso[NB_Perso], int cond[NB_Perso]
                             if (tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].ordre != perso[id_perso].travail[action]) continue;
                             if (perso[id_perso].travail[action] == 2 && (tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].item.id != perso[id_perso].item.id && perso[id_perso].item.id != 0)) continue;
                             if (tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].ordre < 1000) tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].ordre += 1000;
-                           // if (tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].id == 21) tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].ordre = action_miner;
+                            if (tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].id == 100) tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].ordre = action_fabriquer;
 
                             perso[id_perso].but.x = perso[id_perso].pos.x+dc;
                             perso[id_perso].but.y = perso[id_perso].pos.y+dl;

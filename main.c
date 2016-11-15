@@ -37,7 +37,6 @@ int main(int argc, char *argv[])
   stockPile = l_videS();
   plantation = l_vide();
   temps = 0;
-
   printf("donner la graine: \n");
   //scanf("%d",&seed);
   seed=1;
@@ -246,34 +245,33 @@ int main(int argc, char *argv[])
                       gauche_maintenu_y = event.motion.y / (taille*zoom) - coord.y/ (taille*zoom);
                       buttx = gauche_maintenu_x;
                       butty = gauche_maintenu_y;
-                      //printf("x: %d, y: %d\n",event.motion.x,event.motion.y);
                     }
                 }
               else
               {
-                if ((event.motion.x > (largeur/2-768/2)) && (event.motion.x < (largeur/2-768/2+768)) && (event.motion.y > (hauteur+13)) && (event.motion.y < (hauteur+50)))
+                if ((event.motion.x > (largeur/2-505/2)) && (event.motion.x < (largeur/2-505/2+505)) && (event.motion.y > (hauteur+17)) && (event.motion.y < (hauteur+47)))
                   {
                     if (action == 0)
                     {
-                        if ((event.motion.x > (largeur/2-768/2+21)) && (event.motion.x < (largeur/2-768/2+75)))
+                        if ((event.motion.x > (largeur/2-505/2+17)) && (event.motion.x < (largeur/2-505/2+ 17 + 32)))
                           action = 10;
-                        if ((event.motion.x > (largeur/2-768/2+94)) && (event.motion.x < (largeur/2-768/2+149)))
+                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 1)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 1+ 32)))
                           action = 20;
-                        if ((event.motion.x > (largeur/2-768/2+169)) && (event.motion.x < (largeur/2-768/2+224)))
+                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 2)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 2+ 32)))
                           action = 30;
-                        if ((event.motion.x > (largeur/2-768/2+224)) && (event.motion.x < (largeur/2-768/2+299)))
+                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 3)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 3+ 32)))
                           action = 40;
-                        if ((event.motion.x > (largeur/2-768/2+319)) && (event.motion.x < (largeur/2-768/2+373)))
+                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 4)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 4+ 32)))
                           action = 50;
-                        if ((event.motion.x > (largeur/2-768/2+394)) && (event.motion.x < (largeur/2-768/2+448)))
+                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 5)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 5+ 32)))
                           action = 60;
-                        if ((event.motion.x > (largeur/2-768/2+468)) && (event.motion.x < (largeur/2-768/2+528)))
+                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 6)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 6+ 32)))
                           action = 70;
-                        if ((event.motion.x > (largeur/2-768/2+543)) && (event.motion.x < (largeur/2-768/2+598)))
+                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 7)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 7+ 32)))
                           action = 80;
-                        if ((event.motion.x > (largeur/2-768/2+618)) && (event.motion.x < (largeur/2-768/2+673)))
+                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 8)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 8+ 32)))
                           action = 90;
-                        if ((event.motion.x > (largeur/2-768/2+693)) && (event.motion.x < (largeur/2-768/2+748)))
+                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 9)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 9+ 32)))
                           action = 100;
                         printf("action: %d\n", action);
                         SDL_Delay(50);
@@ -282,26 +280,27 @@ int main(int argc, char *argv[])
                   {
                       if (action % 10 == 0)
                             action -= 10;
-                      if ((event.motion.x > (largeur/2-768/2+21)) && (event.motion.x < (largeur/2-768/2+75)))
-                          action = action/10*10 + 1;
-                        if ((event.motion.x > (largeur/2-768/2+94)) && (event.motion.x < (largeur/2-768/2+149)))
-                          action = action/10*10 + 2;
-                        if ((event.motion.x > (largeur/2-768/2+169)) && (event.motion.x < (largeur/2-768/2+224)))
-                          action = action/10*10 + 3;
-                        if ((event.motion.x > (largeur/2-768/2+224)) && (event.motion.x < (largeur/2-768/2+299)))
-                          action = action/10*10 + 4;
-                        if ((event.motion.x > (largeur/2-768/2+319)) && (event.motion.x < (largeur/2-768/2+373)))
-                          action = action/10*10 + 5;
-                        if ((event.motion.x > (largeur/2-768/2+394)) && (event.motion.x < (largeur/2-768/2+448)))
-                          action = action/10*10 + 6;
-                        if ((event.motion.x > (largeur/2-768/2+468)) && (event.motion.x < (largeur/2-768/2+528)))
-                          action = action/10*10 + 7;
-                        if ((event.motion.x > (largeur/2-768/2+543)) && (event.motion.x < (largeur/2-768/2+598)))
-                          action = action/10*10 + 8;
-                        if ((event.motion.x > (largeur/2-768/2+618)) && (event.motion.x < (largeur/2-768/2+673)))
-                          action = action/10*10 + 9;
-                        if ((event.motion.x > (largeur/2-768/2+693)) && (event.motion.x < (largeur/2-768/2+748)))
-                          action = 0;
+
+                        if ((event.motion.x > (largeur/2-505/2+17)) && (event.motion.x < (largeur/2-505/2+ 17 + 32)))
+                            action = action/10*10 + 1;
+                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 1)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 1+ 32)))
+                            action = action/10*10 + 2;
+                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 2)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 2+ 32)))
+                            action = action/10*10 + 3;
+                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 3)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 3+ 32)))
+                            action = action/10*10 + 4;
+                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 4)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 4+ 32)))
+                            action = action/10*10 + 5;
+                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 5)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 5+ 32)))
+                            action = action/10*10 + 6;
+                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 6)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 6+ 32)))
+                            action = action/10*10 + 7;
+                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 7)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 7+ 32)))
+                            action = action/10*10 + 8;
+                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 8)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 8+ 32)))
+                            action = action/10*10 + 9;
+                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 9)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 9+ 32)))
+                            action = 0;
 
                         printf("action: %d\n", action);
                         SDL_Delay(100);
@@ -372,8 +371,8 @@ int main(int argc, char *argv[])
           if (sol[perso[i].pos.x][perso[i].pos.y].id != 21)
             SDL_BlitSurface(perso[i].perso, &perso[i].rcSens, screen, &perso[i].rcDest);
         }
-      printf("temps: %d\n,",SDL_GetTicks());
-      affichage_menu(screen, hauteur, largeur, image);
+      printf("temps: %d\n",SDL_GetTicks());
+      affichage_menu(screen, hauteur, largeur, image, action);
       SDL_UpdateRect(screen, 0, 0, 0, 0);
       SDL_Delay(100);
     }

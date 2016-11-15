@@ -134,6 +134,13 @@ void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image,
                                 SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
                                 break;
                                 }
+                            case 100:
+                                {
+                                rcCase.x = 4*taille*zoom;
+                                rcCase.y = 1*taille*zoom;
+                                SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+                                break;
+                                }
                         }
                     switch (tab[col][lig].item.id)
                         {
@@ -345,7 +352,7 @@ perso zoom_perso(perso perso, float zoom)
   return perso;
 }
 
-void affichage_menu(SDL_Surface *screen, int hauteur, int largeur, image image)
+void affichage_menu(SDL_Surface *screen, int hauteur, int largeur, image image, int action)
 {
   SDL_Rect rcCase, rcCaseDest;
   int col;
@@ -354,7 +361,7 @@ void affichage_menu(SDL_Surface *screen, int hauteur, int largeur, image image)
   rcCase.h = 2*taille;
   rcCase.w = 2*taille;
 
-  rcCaseDest.x = largeur/2-768/2 ;
+  rcCaseDest.x = largeur/2-505/2 ;
   rcCaseDest.y = hauteur;
   rcCaseDest.h = 2*taille;
   rcCaseDest.w = 2*taille;
@@ -363,6 +370,105 @@ void affichage_menu(SDL_Surface *screen, int hauteur, int largeur, image image)
       SDL_BlitSurface(image.menu, &rcCase, screen, &rcCaseDest);
       rcCase.x += taille*2;
       rcCaseDest.x += taille*2;
+    }
+
+
+
+
+
+  if (action == 0)
+  {
+    rcCase.x = 32 * 0 ;
+    rcCase.y = 64+ 32 * 1;
+    rcCase.h = 32;
+    rcCase.w = 32;
+
+    rcCaseDest.x = largeur/2-505/2 + 17 + 48* 1;
+    rcCaseDest.y = hauteur + 16;
+    rcCaseDest.h = 32;
+    rcCaseDest.w = 32;
+    SDL_BlitSurface(image.menu, &rcCase, screen, &rcCaseDest);
+  }
+  if ((action-1)/10 == 1)
+  {
+    rcCase.x = 32 * 1 ;
+    rcCase.y = 64+ 32 * 1;
+    rcCase.h = 32;
+    rcCase.w = 32;
+
+    rcCaseDest.x = largeur/2-505/2 + 17 + 49* 0;
+    rcCaseDest.y = hauteur + 16;
+    rcCaseDest.h = 32;
+    rcCaseDest.w = 32;
+    SDL_BlitSurface(image.menu, &rcCase, screen, &rcCaseDest);
+
+    rcCase.x = 32 * 2 ;
+    rcCase.y = 64+ 32 * 1;
+    rcCase.h = 32;
+    rcCase.w = 32;
+
+    rcCaseDest.x = largeur/2-505/2 + 17 + 49* 1;
+    rcCaseDest.y = hauteur + 16;
+    rcCaseDest.h = 32;
+    rcCaseDest.w = 32;
+    SDL_BlitSurface(image.menu, &rcCase, screen, &rcCaseDest);
+
+        rcCase.x = 32 * 3 ;
+    rcCase.y = 64+ 32 * 1;
+    rcCase.h = 32;
+    rcCase.w = 32;
+
+    rcCaseDest.x = largeur/2-505/2 + 17 + 49* 2;
+    rcCaseDest.y = hauteur + 16;
+    rcCaseDest.h = 32;
+    rcCaseDest.w = 32;
+    SDL_BlitSurface(image.menu, &rcCase, screen, &rcCaseDest);
+
+    rcCase.x = 32 * 4 ;
+    rcCase.y = 64+ 32 * 1;
+    rcCase.h = 32;
+    rcCase.w = 32;
+
+    rcCaseDest.x = largeur/2-505/2 + 17 + 49* 3;
+    rcCaseDest.y = hauteur + 16;
+    rcCaseDest.h = 32;
+    rcCaseDest.w = 32;
+    SDL_BlitSurface(image.menu, &rcCase, screen, &rcCaseDest);
+
+    rcCase.x = 32 * 5 ;
+    rcCase.y = 64+ 32 * 1;
+    rcCase.h = 32;
+    rcCase.w = 32;
+
+    rcCaseDest.x = largeur/2-505/2 + 17 + 49* 4;
+    rcCaseDest.y = hauteur + 16;
+    rcCaseDest.h = 32;
+    rcCaseDest.w = 32;
+    SDL_BlitSurface(image.menu, &rcCase, screen, &rcCaseDest);
+
+    rcCase.x = 32 * 6 ;
+    rcCase.y = 64+ 32 * 1;
+    rcCase.h = 32;
+    rcCase.w = 32;
+
+    rcCaseDest.x = largeur/2-505/2 + 17 + 49* 5;
+    rcCaseDest.y = hauteur + 16;
+    rcCaseDest.h = 32;
+    rcCaseDest.w = 32;
+    SDL_BlitSurface(image.menu, &rcCase, screen, &rcCaseDest);
+  }
+    if (action != 0)
+    {
+    rcCase.x = 0;
+    rcCase.y = 64;
+    rcCase.h = 32;
+    rcCase.w = 32;
+
+    rcCaseDest.x = largeur/2-505/2 + 17 + 49 * 9;
+    rcCaseDest.y = hauteur + 16;
+    rcCaseDest.h = 32;
+    rcCaseDest.w = 32;
+    SDL_BlitSurface(image.menu, &rcCase, screen, &rcCaseDest);
     }
 }
 
