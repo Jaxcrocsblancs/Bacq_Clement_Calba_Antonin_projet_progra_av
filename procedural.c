@@ -6,22 +6,6 @@
 
 #include "include.h"
 
-void init_tab(sol tab[COL][LIG])
-{
-    int col,lig;
-    for (col=0;col<COL;col++)
-        for (lig=0;lig<LIG;lig++)
-            {
-                tab[col][lig].id=0;
-                tab[col][lig].item.id=0;
-                tab[col][lig].item.nb=0;
-                tab[col][lig].item.nom="";
-                tab[col][lig].ordre=0;
-		//	tab[col][lig].temps=0;
-            }
-}
-
-
 object proba_object(int nb, object procedu, int dist)
 {
   int plus;
@@ -121,5 +105,5 @@ void generation_procedural(sol tab[COL][LIG])
     tab[4][3].id = 120;
     tab[4][4].id = 120;
     tab[3][3].ordre = action_miner;*/
-
 }
+

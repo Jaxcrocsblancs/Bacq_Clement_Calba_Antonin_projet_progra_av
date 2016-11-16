@@ -4,7 +4,6 @@
 /* et Calba Antonin      */
 /*************************/
 #include "include.h"
-#include "assert.h"
 
 void couper(sol tab[COL][LIG], perso perso)
 {
@@ -150,7 +149,7 @@ perso chercher_object(sol tab[COL][LIG], perso perso, int id)
 	          if (abs(dl)+abs(dc) != nb) continue;
 	          if (perso.pos.x+dc < 1 || perso.pos.x+dc > COL-2) continue; // on veut pas sortir du tableau
 	          if (perso.pos.y+dl < 1 || perso.pos.y+dl > LIG-2) continue;
-	          if (tab[perso.pos.x+dc][perso.pos.y+dl].item.id == id)
+	          if (tab[perso.pos.x+dc][perso.pos.y+dl].item.id == id && id != 0)
 				  {
 					  tab[perso.pos.x+dc][perso.pos.y+dl].ordre = action_ramasser;
 				  }
@@ -270,6 +269,7 @@ void actionMenu(int action, sol tab[COL][LIG], int buttx, int butty, liste_stock
  if (buttx <1 || buttx > COL-2 || butty <1 || butty > LIG-2) return;
   switch(action)
     {
+
     case action_couper_bois:
         if (tab[buttx][butty].id == bois && tab[buttx][butty].id < 20 && tab[buttx][butty].ordre <1000)
             tab[buttx][butty].ordre = action_couper;
@@ -324,7 +324,7 @@ void actionMenu(int action, sol tab[COL][LIG], int buttx, int butty, liste_stock
  return;
 }
 
-perso actionPerso(sol tab[COL][LIG],perso perso, liste_point *plantation, liste_stockpile *stockPile, int *cond)
+perso actionPerso(sol tab[COL][LIG],perso perso, liste_point *plantation, liste_stockpile *stockPile)
 {
     switch(perso.action)
     {
@@ -335,11 +335,11 @@ perso actionPerso(sol tab[COL][LIG],perso perso, liste_point *plantation, liste_
           perso = ramasser(tab,perso);
           break;
         case action_deposer:
-        	perso  = deposer(tab,perso,perso.item.nb,perso.but.x,perso.but.y, stockPile);
+          perso  = deposer(tab,perso,perso.item.nb,perso.but.x,perso.but.y, stockPile);
           break;
 		case 4 :
-			perso = construire(tab,perso,101,2,1);
-			break;
+          perso = construire(tab,perso,101,2,1);
+          break;
         case action_planter_fraise:
           planter(tab, perso, pousse_fraise, plantation);
           break;
@@ -368,27 +368,36 @@ perso actionPerso(sol tab[COL][LIG],perso perso, liste_point *plantation, liste_
   return perso;
 }
 
-void cherche_action(sol tab[COL][LIG], perso perso[NB_Perso], int cond[NB_Perso])
+void cherche_action(sol tab[COL][LIG], perso perso[NB_Perso])
 {
 
-  int nb, dl, dc, action, id_perso, col, lig, act;
+  int nb, dl, dc, action, id_perso, col, lig, act, vide;
   int action_tab[100];
+
+  vide = 0;
   for (act = 0; act <100; act++)
     action_tab[act] = 0;
 
   for (col = 0; col < COL; col++)
     for (lig = 0; lig <LIG; lig++)
-        for (act = 0; act <100; act++)
+        for (act = 1; act <100; act++)
             if (tab[col][lig].ordre == act)
-                action_tab[act] = 1;
+            {
+            action_tab[act] += 1;
+            vide = 1;
+            }
+    if (vide ==0)
+        return;
 
   for (id_perso = 0;id_perso <NB_Perso; id_perso++)
-      if (cond[id_perso] == 0)
+      if (perso[id_perso].cond == 0)
         if (perso[id_perso].faim > 100)// test nourriture
             {
             perso[id_perso].action = action_stockpile;
             for (action = 0; action <100; action++)
-                if (action_tab[perso[id_perso].travail[action]] == 1)
+                if (action_tab[perso[id_perso].travail[action]] > 0 )
+                {
+                    action_tab[perso[id_perso].travail[action]] -= 1;
                     for (nb=0; nb<(COL-1)+(LIG-1);nb++)
                         for (dl=-nb; dl<nb+1; dl++)
                             for (dc=-nb; dc<nb+1; dc++)
@@ -405,7 +414,7 @@ void cherche_action(sol tab[COL][LIG], perso perso[NB_Perso], int cond[NB_Perso]
 
                             perso[id_perso].but.x = perso[id_perso].pos.x+dc;
                             perso[id_perso].but.y = perso[id_perso].pos.y+dl;
-                            cond[id_perso] = 1;
+                            perso[id_perso].cond = 1;
 
                             perso[id_perso].action = perso[id_perso].travail[action];
                             dc = nb;
@@ -413,6 +422,8 @@ void cherche_action(sol tab[COL][LIG], perso perso[NB_Perso], int cond[NB_Perso]
                             nb = (COL-1)+(LIG-1)-1;
                             action = 100-1;
                           }
+
+                }
             }
             else
             {
@@ -427,7 +438,7 @@ void cherche_action(sol tab[COL][LIG], perso perso[NB_Perso], int cond[NB_Perso]
                                 {
                                 perso[id_perso].but.x = perso[id_perso].pos.x+dc;
                                 perso[id_perso].but.y = perso[id_perso].pos.y+dl;
-                                cond[id_perso] = 1;
+                                perso[id_perso].cond = 1;
                                 perso[id_perso].action = action_manger;
                                 dc = nb;
                                 dl = nb;
@@ -435,7 +446,6 @@ void cherche_action(sol tab[COL][LIG], perso perso[NB_Perso], int cond[NB_Perso]
                                 }
                          }
             }
-
 }
 
 void rectangle(int gauche_maintenu, int *gauche_maintenu_x, int *gauche_maintenu_y, int *buttx, int *butty, int action, sol sol[COL][LIG], liste_stockpile *stockPile)
@@ -459,6 +469,7 @@ void rectangle(int gauche_maintenu, int *gauche_maintenu_x, int *gauche_maintenu
           else
             for (y = *gauche_maintenu_y; y >=  *butty ; y--)
               actionMenu(action,sol,x,y,stockPile);
+
       *gauche_maintenu_x = 0;
       *gauche_maintenu_y = 0;
       *buttx = 0;

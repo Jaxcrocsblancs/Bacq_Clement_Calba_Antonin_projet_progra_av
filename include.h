@@ -17,5 +17,7 @@
 #include "liste_stockpile.h"
 #include "deplacement.h"
 #include "actionMenu.h"
+#include "handle.h"
+#include "init.h"
 
 #endif

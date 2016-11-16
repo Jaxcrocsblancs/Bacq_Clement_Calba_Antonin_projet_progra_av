@@ -25,37 +25,123 @@ void handle(perso perso[NB_Perso], image *image, int *action,int *done, int *p, 
             *done = 1;
             break;
 	      case SDLK_F1:
-            *action = 1;
+	          if (*action == 0)
+                {
+                *action = 10;
+                }
+             else
+                  {
+                    if (*action % 10 == 0)
+                        *action -= 10;
+                    *action = *action/10*10 + 1;
+                  }
             break;
 	      case SDLK_F2:
-            *action = 2;
+             if (*action == 0)
+                {
+                *action = 20;
+                }
+             else
+                  {
+                    if (*action % 10 == 0)
+                        *action -= 10;
+                    *action = *action/10*10 + 2;
+                  }
+            break;
             break;
 	      case SDLK_F3:
-            *action = 3;
+             if (*action == 0)
+                {
+                *action = 30;
+                }
+             else
+                  {
+                    if (*action % 10 == 0)
+                        *action -= 10;
+                    *action = *action/10*10 + 3;
+                  }
             break;
 	      case SDLK_F4:
-            *action = 4;
+             if (*action == 0)
+                {
+                *action = 40;
+                }
+             else
+                  {
+                    if (*action % 10 == 0)
+                        *action -= 10;
+                    *action = *action/10*10 + 4;
+                  }
             break;
 	      case SDLK_F5:
-            *action = 5;
+            if (*action == 0)
+                {
+                *action = 50;
+                }
+             else
+                  {
+                    if (*action % 10 == 0)
+                        *action -= 10;
+                    *action = *action/10*10 + 5;
+                  }
             break;
 	      case SDLK_F6:
-            *action = 6;
+             if (*action == 0)
+                {
+                *action = 60;
+                }
+             else
+                  {
+                    if (*action % 10 == 0)
+                        *action -= 10;
+                    *action = *action/10*10 + 6;
+                  }
             break;
 	      case SDLK_F7:
-            *action = 7;
+             if (*action == 0)
+                {
+                *action = 70;
+                }
+             else
+                  {
+                    if (*action % 10 == 0)
+                        *action -= 10;
+                    *action = *action/10*10 + 7;
+                  }
             break;
 	      case SDLK_F8:
-            *action = 8;
+             if (*action == 0)
+                {
+                *action = 80;
+                }
+             else
+                  {
+                    if (*action % 10 == 0)
+                        *action -= 10;
+                    *action = *action/10*10 + 8;
+                  }
             break;
 	      case SDLK_F9:
-            *action = 9;
+             if (*action == 0)
+                {
+                *action = 90;
+                }
+             else
+                  {
+                    if (*action % 10 == 0)
+                        *action -= 10;
+                    *action = *action/10*10 + 9;
+                  }
             break;
 	      case SDLK_F10:
-            *action = 10;
-            break;
-          case SDLK_F11:
-            *action = 0;
+            if (*action == 0)
+                {
+                *action = 100;
+                }
+             else
+                  {
+                    *action = 0;
+                  }
             break;
 	      case SDLK_p:
             if (p)
@@ -152,7 +238,7 @@ void handle(perso perso[NB_Perso], image *image, int *action,int *done, int *p, 
             }
 	      case SDL_BUTTON_LEFT:
             {
-              if (event.motion.y < hauteur)
+              if (event.motion.x < largeur/2-505/2 || event.motion.x > largeur/2-505/2+505)
                 {
                   if (*gauche_maintenu == 0)
                     {
@@ -234,7 +320,7 @@ void handle(perso perso[NB_Perso], image *image, int *action,int *done, int *p, 
 	  }
 	case SDL_MOUSEMOTION:
           {
-            if (event.motion.y < hauteur)
+            if (event.motion.x < largeur/2-505/2 || event.motion.x > largeur/2-505/2+505)
               if (*gauche_maintenu == 1)
                 {
                   *buttx = event.motion.x / (taille*(*zoom)) - coord->x/ (taille*(*zoom));
@@ -267,36 +353,31 @@ void handle(perso perso[NB_Perso], image *image, int *action,int *done, int *p, 
 }
 
 
-void tour(liste_point *L[NB_Perso], int cond[NB_Perso], SDL_Rect coord, liste_point *plantation, perso perso[NB_Perso], int *gauche_maintenu, int *gauche_maintenu_x, int *gauche_maintenu_y, int *buttx, int *butty, int action, sol sol[COL][LIG], SDL_Surface *screen, liste_stockpile *stockPile, int zoom, image image, int hauteur, int largeur, int *temps, int p)
+void tour(SDL_Rect coord, liste_point *plantation, perso perso[NB_Perso], int gauche_maintenu, int *gauche_maintenu_x, int *gauche_maintenu_y, int *buttx, int *butty, int action, sol sol[COL][LIG], SDL_Surface screen, liste_stockpile *stockPile, int zoom, image image, int hauteur, int largeur, unsigned int *temps, int p)
 {
     int i;
-    rectangle(*gauche_maintenu, gauche_maintenu_x, gauche_maintenu_y, buttx, butty, action, sol, stockPile);
+   rectangle(gauche_maintenu, gauche_maintenu_x, gauche_maintenu_y, buttx, butty, action, sol, stockPile);
+    affichage_map(sol, &screen, zoom, image, coord, hauteur, largeur);
 
-    affichage_map(sol, screen, zoom, image, coord, hauteur, largeur);
-
-      if (temps != SDL_GetTicks()/100 && p)
+    if (*temps != SDL_GetTicks()/100 && p)
         {
-        cherche_action (sol, perso, cond);
+        cherche_action (sol, perso);
         for (i= 0; i<NB_Perso;i++)
          if (perso[i].faim >0)
          {
           //perso[i] = faim(perso[i]);
-          perso[i] = deplacement_personnage(sol , screen ,perso[i],  &L[i], perso[i].but.x ,perso[i].but.y, &cond[i],  zoom);
-          //printf("but.x: %d, pos.x: %d, but.y: %d, pos.y: %d, perso.action %d\n",perso[i].but.x, perso[i].pos.x, perso[i].but.y, perso[i].pos.y, perso[i].action);
-          perso[i] = actionPerso(sol,perso[i], &plantation,&stockPile, &cond[i]);
+          perso[i] = deplacement_personnage(sol , &screen ,perso[i], perso[i].but.x, perso[i].but.y, zoom);
+          perso[i] = actionPerso(sol,perso[i], plantation ,&stockPile);
          }
-          plantation = pousser(sol, plantation);
-          temps = SDL_GetTicks()/100;
+         *plantation = pousser(sol, *plantation);
+         *temps = SDL_GetTicks()/100;
         }
        for (i= 0; i<NB_Perso;i++)
         {
           perso[i].rcDest.x = perso[i].pos.x * taille * zoom + coord.x;
           perso[i].rcDest.y = perso[i].pos.y * taille * zoom + coord.y;
-          if (sol[perso[i].pos.x][perso[i].pos.y].id != 21)
-            SDL_BlitSurface(perso[i].perso, &perso[i].rcSens, screen, &perso[i].rcDest);
+          SDL_BlitSurface(perso[i].perso, &perso[i].rcSens, &screen, &perso[i].rcDest);
         }
-      //printf("temps: %d\n",SDL_GetTicks());
-      affichage_menu(screen, hauteur, largeur, image, action);
-      SDL_UpdateRect(screen, 0, 0, 0, 0);
-      SDL_Delay(100);
+      affichage_menu(&screen, hauteur, largeur, image, action);
+
 }

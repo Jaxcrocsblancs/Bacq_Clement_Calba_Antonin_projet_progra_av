@@ -24,12 +24,12 @@ void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image,
       rcCaseDest.x = taille*zoom*col +coord_init.x;
       if (rcCaseDest.x >= 0 && rcCaseDest.x < -coord_init.x + largeur)
         {
-	  for(lig=0;lig<LIG;lig++)
-	    {
-	      rcCaseDest.y = taille*zoom*lig +coord_init.y;
-	      if (rcCaseDest.y >= 0 && rcCaseDest.y < -coord_init.y + hauteur)
-		SDL_BlitSurface(image.herbe, &rcCase, screen, &rcCaseDest);
-	    }
+          for(lig=0;lig<LIG;lig++)
+            {
+              rcCaseDest.y = taille*zoom*lig +coord_init.y;
+              if (rcCaseDest.y >= 0 && rcCaseDest.y < -coord_init.y + hauteur+ 64)
+                SDL_BlitSurface(image.herbe, &rcCase, screen, &rcCaseDest);
+            }
         }
     }
 
@@ -41,7 +41,7 @@ void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image,
             for(lig=0;lig<LIG;lig++)
               {
                 rcCaseDest.y= taille*zoom*lig + coord_init.y;
-                if (rcCaseDest.y >= 0 && rcCaseDest.y < -coord_init.y + hauteur)
+                if (rcCaseDest.y >= 0 && rcCaseDest.y < -coord_init.y + hauteur+ 64)
                 {
                     switch (tab[col][lig].id)
                         {
@@ -253,7 +253,7 @@ void affichage_tab(sol tab[COL][LIG])
   for (lig=0;lig<LIG;lig++)
     {
       for (col=0;col<COL;col++)
-        printf("%d ",tab[col][lig].id);
+        printf("%d ",tab[col][lig].ordre);
       printf("\n");
     }
   printf("\n");
@@ -272,66 +272,7 @@ void affichage_tab_object(sol tab[COL][LIG])
 }
 
 
-image image_init()
-{
-  image image;
-  image.herbe = SDL_LoadBMP ("image/herbe.bmp");
-  image.plante = SDL_LoadBMP ("image/plante.bmp");
-  image.alpha = SDL_LoadBMP ("image/attente.bmp");
-  image.mine = SDL_LoadBMP ("image/porte_mine.bmp");
-  image.menu = SDL_LoadBMP ("image/menu.bmp");
-  image.mur = SDL_LoadBMP("image/test.bmp");
-  SDL_SetColorKey(image.plante, SDL_SRCCOLORKEY, SDL_MapRGB(image.plante->format, 255, 0, 255));
-  SDL_SetColorKey(image.alpha, SDL_SRCCOLORKEY, SDL_MapRGB(image.alpha->format, 255, 0, 255));
-  SDL_SetColorKey(image.mine, SDL_SRCCOLORKEY, SDL_MapRGB(image.mine->format, 255, 0, 255));
-  SDL_SetColorKey(image.menu, SDL_SRCCOLORKEY, SDL_MapRGB(image.menu->format, 255, 0, 255));
-  SDL_SetAlpha(image.alpha,SDL_SRCALPHA, 128 );
-  return image;
-}
 
-perso init_perso()
-{
-  perso p;
-  SDL_Surface *image;
-  SDL_Rect rcDest;
-  SDL_Rect rcSens;
-
-  rcDest.x = 0;
-  rcDest.y = 0;
-  rcDest.h = taille;
-  rcDest.w = taille;
-
-  rcSens.x = 0;
-  rcSens.y = 0;
-  rcSens.h = taille;
-  rcSens.w = taille;
-
-  image = SDL_LoadBMP ("image/test.bmp");
-  SDL_SetColorKey(image, SDL_SRCCOLORKEY, SDL_MapRGB(image->format, 255, 0, 255));
-  p.rcDest = rcDest;
-  p.rcSens = rcSens;
-  p.perso = image;
-  p.action = 0;
-
-  p.item.id = 0;
-  p.item.nb = 0;
-
-  p.cptSens.x = 0;
-  p.cptSens.y = 0;
-
-  p.pos.x = 0;
-  p.pos.y = 0;
-
-  p.but.x = 0;
-  p.but.y = 0;
-
-  p.faim = 200;
-
-  int i;
-  for (i=0;i<100;i++)
-    p.travail[i]=i+1;
-  return p;
-}
 
 image zoom_image(image image, float zoom)
 {
