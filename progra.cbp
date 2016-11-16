@@ -54,6 +54,9 @@
 		<Unit filename="deplacement.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="handle.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="liste_point.c">
 			<Option compilerVar="CC" />
 		</Unit>

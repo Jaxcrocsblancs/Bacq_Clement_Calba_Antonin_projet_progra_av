@@ -370,6 +370,7 @@ perso actionPerso(sol tab[COL][LIG],perso perso, liste_point *plantation, liste_
 
 void cherche_action(sol tab[COL][LIG], perso perso[NB_Perso], int cond[NB_Perso])
 {
+
   int nb, dl, dc, action, id_perso, col, lig, act;
   int action_tab[100];
   for (act = 0; act <100; act++)
@@ -434,6 +435,7 @@ void cherche_action(sol tab[COL][LIG], perso perso[NB_Perso], int cond[NB_Perso]
                                 }
                          }
             }
+
 }
 
 void rectangle(int gauche_maintenu, int *gauche_maintenu_x, int *gauche_maintenu_y, int *buttx, int *butty, int action, sol sol[COL][LIG], liste_stockpile *stockPile)

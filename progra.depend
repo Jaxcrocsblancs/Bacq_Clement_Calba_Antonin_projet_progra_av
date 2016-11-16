@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1479215672 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\actionmenu.c
+1479282023 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\actionmenu.c
 	"include.h"
 	"assert.h"
 
@@ -61,7 +61,7 @@
 1478698041 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\liste_stockpile.c
 	"include.h"
 
-1479210726 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\main.c
+1479281850 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\main.c
 	"include.h"
 
 1478159604 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\map.c
@@ -75,4 +75,7 @@
 	<stdlib.h>
 	<string.h>
 	"SDL_rotozoom.h"
+
+1479281950 source:c:\users\jaxcrocsblanc\desktop\bacq_clement_calba_antonin_projet_progra_av\handle.c
+	"include.h"
 
