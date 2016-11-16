@@ -89,7 +89,7 @@ struct perso
     cptSens pos;
     cptSens but;
     int action;
-    int travail[40];
+    int travail[100];
     int faim;
 };
 

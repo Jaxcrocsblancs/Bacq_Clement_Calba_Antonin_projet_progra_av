@@ -321,7 +321,7 @@ perso init_perso()
   p.faim = 200;
 
   int i;
-  for (i=0;i<40;i++)
+  for (i=0;i<100;i++)
     p.travail[i]=i+1;
   return p;
 }

@@ -57,6 +57,9 @@
 		<Unit filename="liste_point.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="liste_stockpile.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
