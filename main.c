@@ -55,9 +55,9 @@ int main(int argc, char *argv[])
   while (done == 0)
     {
       handle(perso, &image, &action,&done, &p, &zoom, &coord, hauteur, largeur, &gauche_maintenu_x, &gauche_maintenu_y, &gauche_maintenu, &buttx, &butty);
+       // printf("main: %d, %d, %d, %d\n", gauche_maintenu_x,gauche_maintenu_y, buttx, butty);
       tour(coord, &plantation, perso, gauche_maintenu, &gauche_maintenu_x, &gauche_maintenu_y, &buttx, &butty,  action, sol , *screen, &stockPile, zoom, image, hauteur, largeur, &temps, p);
       SDL_UpdateRect(screen, 0, 0, 0, 0);
-
     }
 
   return 0;

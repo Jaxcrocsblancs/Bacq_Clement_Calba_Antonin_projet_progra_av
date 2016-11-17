@@ -238,21 +238,9 @@ void handle(perso perso[NB_Perso], image *image, int *action,int *done, int *p, 
             }
 	      case SDL_BUTTON_LEFT:
             {
-              if (event.motion.x < largeur/2-505/2 || event.motion.x > largeur/2-505/2+505)
-                {
-                  if (*gauche_maintenu == 0)
-                    {
-                      *gauche_maintenu = 1;
-                      *gauche_maintenu_x = event.motion.x / (taille*(*zoom)) - coord->x/ (taille*(*zoom));
-                      *gauche_maintenu_y = event.motion.y / (taille*(*zoom)) - coord->y/ (taille*(*zoom));
-                      *buttx = *gauche_maintenu_x;
-                      *butty = *gauche_maintenu_y;
-                    }
-                }
-              else
-              {
-                if ((event.motion.x > (largeur/2-505/2)) && (event.motion.x < (largeur/2-505/2+505)) && (event.motion.y > (hauteur+17)) && (event.motion.y < (hauteur+47)))
+                if ((event.motion.x > (largeur/2-505/2)) && (event.motion.x < (largeur/2-505/2+505)) && (event.motion.y > (hauteur)))
                   {
+                    if((event.motion.y > (hauteur+17)) && (event.motion.y < (hauteur+47)))
                     if (*action == 0)
                     {
                         if ((event.motion.x > (largeur/2-505/2+17)) && (event.motion.x < (largeur/2-505/2+ 17 + 32)))
@@ -275,7 +263,6 @@ void handle(perso perso[NB_Perso], image *image, int *action,int *done, int *p, 
                           *action = 90;
                         if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 9)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 9+ 32)))
                           *action = 100;
-                        printf("*action: %d\n", *action);
                         SDL_Delay(50);
                   }
                   else
@@ -308,7 +295,15 @@ void handle(perso perso[NB_Perso], image *image, int *action,int *done, int *p, 
                         SDL_Delay(100);
                   }
                 }
-              }
+                else
+                    if (*gauche_maintenu == 0)
+                        {
+                          *gauche_maintenu = 1;
+                          *gauche_maintenu_x = event.motion.x / (taille*(*zoom)) - coord->x/ (taille*(*zoom));
+                          *gauche_maintenu_y = event.motion.y / (taille*(*zoom)) - coord->y/ (taille*(*zoom));
+                          *buttx = *gauche_maintenu_x;
+                          *butty = *gauche_maintenu_y;
+                        }
               break;
             }
 	      case SDL_BUTTON_RIGHT:
@@ -320,8 +315,7 @@ void handle(perso perso[NB_Perso], image *image, int *action,int *done, int *p, 
 	  }
 	case SDL_MOUSEMOTION:
           {
-            if (event.motion.x < largeur/2-505/2 || event.motion.x > largeur/2-505/2+505)
-              if (*gauche_maintenu == 1)
+            if (*gauche_maintenu == 1)
                 {
                   *buttx = event.motion.x / (taille*(*zoom)) - coord->x/ (taille*(*zoom));
                   *butty = event.motion.y / (taille*(*zoom)) - coord->y/ (taille*(*zoom));
@@ -356,7 +350,7 @@ void handle(perso perso[NB_Perso], image *image, int *action,int *done, int *p, 
 void tour(SDL_Rect coord, liste_point *plantation, perso perso[NB_Perso], int gauche_maintenu, int *gauche_maintenu_x, int *gauche_maintenu_y, int *buttx, int *butty, int action, sol sol[COL][LIG], SDL_Surface screen, liste_stockpile *stockPile, int zoom, image image, int hauteur, int largeur, unsigned int *temps, int p)
 {
     int i;
-   rectangle(gauche_maintenu, gauche_maintenu_x, gauche_maintenu_y, buttx, butty, action, sol, stockPile);
+    rectangle(gauche_maintenu, gauche_maintenu_x, gauche_maintenu_y, buttx, butty, action, sol, stockPile);
     affichage_map(sol, &screen, zoom, image, coord, hauteur, largeur);
 
     if (*temps != SDL_GetTicks()/100 && p)
