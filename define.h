@@ -4,11 +4,11 @@
 /* et Calba Antonin      */
 /*************************/
 
-#define COL 100
-#define LIG 100
+#define COL 20
+#define LIG 20
 #define taille 32
 
-#define NB_Perso 10
+#define NB_Perso 2
 
 #define pousse_fraise 1
 #define fraise 2
@@ -19,13 +19,16 @@
 #define pousse_ble 5
 #define bles 6
 
+#define mur_bois 101
+
 #define pousse_bois 7
 #define bois 8
 
 
+
 #define annuler 0
 // Condition: les actions selectionable ne doivent pas être multiple de 10
-#define action_couper 11
+#define action_couper 1
 #define action_planter_fraise 12
 #define action_planter_coton 13
 #define action_planter_ble 14
@@ -34,4 +37,7 @@
 #define action_manger 10000
 #define action_ramasser 2
 #define action_deposer 3
-#define action_stockpile 28
+#define action_stockpile 10
+#define action_mur 4
+
+#define max_stock 20

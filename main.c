@@ -349,7 +349,7 @@ int main(int argc, char *argv[])
 	  }
 	}
       rectangle(gauche_maintenu, &gauche_maintenu_x, &gauche_maintenu_y, &buttx, &butty, action, sol, &stockPile);
-      affichage_map(sol, screen, zoom, image, coord, hauteur, largeur);
+      affichage_map(sol, screen, zoom, image, coord, hauteur, largeur,stockPile);
 
       if (temps != SDL_GetTicks()/100 && p)
         {
