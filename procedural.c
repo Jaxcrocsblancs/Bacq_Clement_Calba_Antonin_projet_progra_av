@@ -95,7 +95,7 @@ void generation_procedural(sol tab[COL][LIG])
       }
 
     /* MINE A SUPPRIMER */
-   /* tab[2][2].id = 120;
+    tab[2][2].id = 120;
     tab[2][3].id = 120;
     tab[2][4].id = 120;
     tab[3][2].id = 120;
@@ -104,6 +104,7 @@ void generation_procedural(sol tab[COL][LIG])
     tab[4][2].id = 120;
     tab[4][3].id = 120;
     tab[4][4].id = 120;
-    tab[3][3].ordre = action_miner;*/
+    tab[3][3].ordre = action_miner;
+
 }
 

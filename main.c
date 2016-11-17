@@ -19,12 +19,16 @@ int main(int argc, char *argv[])
   int maxW, maxH, seed, zoom, buttx, butty, done, action, gauche_maintenu,gauche_maintenu_x, gauche_maintenu_y, p, hauteur, largeur, i;
   SDL_Surface *screen = NULL;
   SDL_Rect coord;
+  SDL_Event event;
   image image;
   perso perso[NB_Perso];
   liste_point plantation;
   liste_stockpile stockPile;
   sol sol[COL][LIG];
   unsigned int  temps;
+  stockPile = l_videS();
+  plantation = l_vide();
+  temps = 0;
 
   videoInfo=SDL_GetVideoInfo();
   maxW=videoInfo->current_w;
@@ -49,14 +53,13 @@ int main(int argc, char *argv[])
   if (!screen)
     fprintf(stderr,"SetVideoMode error: %s\n", SDL_GetError());
 
- init_var(sol, &image, perso, &coord, &zoom, &done, &action, &gauche_maintenu, &gauche_maintenu_x, &gauche_maintenu_y, &p, &temps, &plantation, &stockPile, &buttx, &butty);
-
+  init_var(sol, &image, perso, &coord, &zoom, &done, &action, &gauche_maintenu, &gauche_maintenu_x, &gauche_maintenu_y, &p, &temps, &plantation, &stockPile, &buttx, &butty);
 
   while (done == 0)
     {
+
       handle(perso, &image, &action,&done, &p, &zoom, &coord, hauteur, largeur, &gauche_maintenu_x, &gauche_maintenu_y, &gauche_maintenu, &buttx, &butty);
-       // printf("main: %d, %d, %d, %d\n", gauche_maintenu_x,gauche_maintenu_y, buttx, butty);
-      tour(coord, &plantation, perso, gauche_maintenu, &gauche_maintenu_x, &gauche_maintenu_y, &buttx, &butty,  action, sol , *screen, &stockPile, zoom, image, hauteur, largeur, &temps, p);
+      tour(coord, &plantation, perso, gauche_maintenu, &gauche_maintenu_x, &gauche_maintenu_y, &buttx, &butty,  action, sol ,screen, &stockPile, zoom, image, hauteur, largeur, &temps, p);
       SDL_UpdateRect(screen, 0, 0, 0, 0);
     }
 

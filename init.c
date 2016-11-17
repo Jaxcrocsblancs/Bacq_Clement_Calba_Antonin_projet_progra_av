@@ -56,10 +56,12 @@ image image_init()
   image.mine = SDL_LoadBMP ("image/porte_mine.bmp");
   image.menu = SDL_LoadBMP ("image/menu.bmp");
   image.mur = SDL_LoadBMP("image/test.bmp");
+  image.ascii = SDL_LoadBMP("image/ascii.bmp");
   SDL_SetColorKey(image.plante, SDL_SRCCOLORKEY, SDL_MapRGB(image.plante->format, 255, 0, 255));
   SDL_SetColorKey(image.alpha, SDL_SRCCOLORKEY, SDL_MapRGB(image.alpha->format, 255, 0, 255));
   SDL_SetColorKey(image.mine, SDL_SRCCOLORKEY, SDL_MapRGB(image.mine->format, 255, 0, 255));
   SDL_SetColorKey(image.menu, SDL_SRCCOLORKEY, SDL_MapRGB(image.menu->format, 255, 0, 255));
+  SDL_SetColorKey(image.ascii, SDL_SRCCOLORKEY, SDL_MapRGB(image.ascii->format, 255, 0, 255));
   SDL_SetAlpha(image.alpha,SDL_SRCALPHA, 128 );
   return image;
 }

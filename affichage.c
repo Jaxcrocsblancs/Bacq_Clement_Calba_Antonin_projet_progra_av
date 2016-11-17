@@ -5,7 +5,7 @@
 /*************************/
 #include "include.h"
 
-void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image, SDL_Rect coord_init, int hauteur, int largeur)
+void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image, SDL_Rect coord_init, int hauteur, int largeur, liste_stockpile stockPile)
 {
   SDL_Rect rcCase, rcCaseDest;
 
@@ -122,9 +122,9 @@ void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image,
                                 }
                             case 101:
                                 {
-                                rcCase.x = 2*taille*zoom;
-                                rcCase.y = 6*taille*zoom;
-                                SDL_BlitSurface(image.mur, &rcCase, screen, &rcCaseDest);
+                                rcCase.x = 5*taille*zoom;
+                                rcCase.y = taille*zoom;
+                                SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
                                 break;
                                 }
                             case 9:
@@ -132,13 +132,23 @@ void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image,
                                 rcCase.x = 4*taille*zoom;
                                 rcCase.y = 0;
                                 SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
-                                break;
-                                }
-                            case 100:
+
+                                stockpile elem;
+                                elem = rechercher_elem(col,lig,stockPile);
+                                assert(elem.col == col && elem.lig == lig);
+                                if(elem.nb > 0)
                                 {
-                                rcCase.x = 4*taille*zoom;
-                                rcCase.y = 1*taille*zoom;
-                                SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+									switch(elem.id)
+									{
+										case bois:
+										{
+											rcCase.x = 3*taille*zoom;
+											rcCase.y = 2*taille*zoom;
+											SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+											break;
+										}
+									}
+                                }
                                 break;
                                 }
                         }
@@ -408,3 +418,13 @@ void affichage_menu(SDL_Surface *screen, int hauteur, int largeur, image image, 
     }
 }
 
+void lettre(char l,int *x, int *y)
+{
+    *x= l%16;
+    *y= l/16;
+}
+
+void affichage_text(int nb, int col, int lig)
+{
+
+}

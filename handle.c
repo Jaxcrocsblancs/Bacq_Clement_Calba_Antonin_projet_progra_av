@@ -347,31 +347,32 @@ void handle(perso perso[NB_Perso], image *image, int *action,int *done, int *p, 
 }
 
 
-void tour(SDL_Rect coord, liste_point *plantation, perso perso[NB_Perso], int gauche_maintenu, int *gauche_maintenu_x, int *gauche_maintenu_y, int *buttx, int *butty, int action, sol sol[COL][LIG], SDL_Surface screen, liste_stockpile *stockPile, int zoom, image image, int hauteur, int largeur, unsigned int *temps, int p)
+void tour(SDL_Rect coord, liste_point *plantation, perso perso[NB_Perso], int gauche_maintenu, int *gauche_maintenu_x, int *gauche_maintenu_y, int *buttx, int *butty, int action, sol sol[COL][LIG], SDL_Surface *screen, liste_stockpile *stockPile, int zoom, image image, int hauteur, int largeur, unsigned int *temps, int p)
 {
     int i;
-    rectangle(gauche_maintenu, gauche_maintenu_x, gauche_maintenu_y, buttx, butty, action, sol, stockPile);
-    affichage_map(sol, &screen, zoom, image, coord, hauteur, largeur);
+   rectangle(gauche_maintenu, gauche_maintenu_x, gauche_maintenu_y, buttx, butty, action, sol, stockPile);
+   affichage_map(sol, screen, zoom, image, coord, hauteur, largeur,*stockPile);
 
-    if (*temps != SDL_GetTicks()/100 && p)
-        {
+   if (*temps != SDL_GetTicks()/100 && p)
+   {
         cherche_action (sol, perso);
         for (i= 0; i<NB_Perso;i++)
-         if (perso[i].faim >0)
-         {
-          //perso[i] = faim(perso[i]);
-          perso[i] = deplacement_personnage(sol , &screen ,perso[i], perso[i].but.x, perso[i].but.y, zoom);
-          perso[i] = actionPerso(sol,perso[i], plantation ,&stockPile);
-         }
-         *plantation = pousser(sol, *plantation);
-         *temps = SDL_GetTicks()/100;
+        	if (perso[i].faim >0)
+        	{
+        	 //perso[i] = faim(perso[i]);
+			  perso[i] = deplacement_personnage(sol , screen ,perso[i], perso[i].but.x, perso[i].but.y, zoom);
+			  perso[i] = actionPerso(sol,perso[i], plantation ,stockPile);
+        	}
+        *plantation = pousser(sol, *plantation);
+        *temps = SDL_GetTicks()/100;
         }
        for (i= 0; i<NB_Perso;i++)
         {
           perso[i].rcDest.x = perso[i].pos.x * taille * zoom + coord.x;
           perso[i].rcDest.y = perso[i].pos.y * taille * zoom + coord.y;
-          SDL_BlitSurface(perso[i].perso, &perso[i].rcSens, &screen, &perso[i].rcDest);
+          SDL_BlitSurface(perso[i].perso, &perso[i].rcSens, screen, &perso[i].rcDest);
         }
-      affichage_menu(&screen, hauteur, largeur, image, action);
+       affichage_menu(screen, hauteur, largeur, image, action);
 
-}
+	}
+

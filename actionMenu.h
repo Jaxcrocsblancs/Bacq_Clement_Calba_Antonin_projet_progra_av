@@ -13,7 +13,7 @@ void actionMenu(int action, sol tab[COL][LIG], int buttx, int butty, liste_stock
 perso actionPerso(sol tab[COL][LIG],perso perso, liste_point *plantation, liste_stockpile *stockPile);
 void couper(sol tab[COL][LIG], perso perso);
 perso ramasser(sol tab[COL][LIG], perso perso);
-perso deposer(sol tab[COL][LIG], perso perso, int nb, int buttx, int butty, liste_stockpile *stockPile);
+perso deposer(sol tab[COL][LIG], perso perso, int nb, liste_stockpile *stockPile);
 void cherche_action(sol tab[COL][LIG], perso perso[NB_Perso]);
 void miner(sol tab[COL][LIG], perso perso);
 liste_point pousser(sol tab[COL][LIG], liste_point plantation);

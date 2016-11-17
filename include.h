@@ -13,6 +13,7 @@
 #include "SDL_rotozoom.h"
 #include "struct.h"
 #include "map.h"
+#include "assert.h"
 #include "liste_point.h"
 #include "liste_stockpile.h"
 #include "deplacement.h"
