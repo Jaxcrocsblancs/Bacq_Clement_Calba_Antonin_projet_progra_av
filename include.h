@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdbool.h>
+#include <math.h>
 
 #include "define.h"
 #include "procedural.h"

@@ -25,13 +25,11 @@
 #define pousse_bois 7
 #define bois 8
 
-
-
 #define annuler 0
 // Condition: les actions selectionable ne doivent pas être multiple de 10
 #define action_couper_bois 11
 #define action_couper_plante 12
-#define action_couper 1
+#define action_couper 11
 #define action_planter_fraise 13
 #define action_planter_coton 14
 #define action_planter_ble 15
@@ -40,7 +38,7 @@
 #define action_manger 10000
 #define action_ramasser 2
 #define action_deposer 3
-#define action_stockpile 5
 #define action_mur 4
+#define action_stockpile 5
 
 #define max_stock 20
