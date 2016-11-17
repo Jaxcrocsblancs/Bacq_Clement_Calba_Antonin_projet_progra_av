@@ -41,7 +41,7 @@
 #define action_manger 10000
 #define action_ramasser 2
 #define action_deposer 3
-#define action_stockpile 10
+#define action_stockpile 9
 #define action_mur 4
 
 #define max_stock 20
