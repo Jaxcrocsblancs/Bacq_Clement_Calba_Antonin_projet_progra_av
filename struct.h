@@ -36,6 +36,7 @@ struct image
   SDL_Surface* mine;
   SDL_Surface* menu;
   SDL_Surface* mur;
+  SDL_Surface* ascii;
 };
 
 struct object

@@ -322,11 +322,6 @@ void affichage_menu(SDL_Surface *screen, int hauteur, int largeur, image image, 
       rcCase.x += taille*2;
       rcCaseDest.x += taille*2;
     }
-
-
-
-
-
   if (action == 0)
   {
     rcCase.x = 32 * 0 ;
@@ -423,3 +418,13 @@ void affichage_menu(SDL_Surface *screen, int hauteur, int largeur, image image, 
     }
 }
 
+void lettre(char l,int *x, int *y)
+{
+    *x= l%16;
+    *y= l/16;
+}
+
+void affichage_text(int nb, int col, int lig)
+{
+
+}

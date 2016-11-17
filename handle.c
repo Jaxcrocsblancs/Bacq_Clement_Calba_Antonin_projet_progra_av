@@ -238,77 +238,74 @@ void handle(perso perso[NB_Perso], image *image, int *action,int *done, int *p, 
             }
 	      case SDL_BUTTON_LEFT:
             {
-              if (event.motion.x < largeur/2-505/2 || event.motion.x > largeur/2-505/2+505)
-                {
-                  if (*gauche_maintenu == 0)
+                if ((event.motion.x > (largeur/2-505/2)) && (event.motion.x < (largeur/2-505/2+505)) && (event.motion.y > (hauteur)))
+                  {
+                    if((event.motion.y > (hauteur+17)) && (event.motion.y < (hauteur+47)))
                     {
-                      *gauche_maintenu = 1;
-                      *gauche_maintenu_x = event.motion.x / (taille*(*zoom)) - coord->x/ (taille*(*zoom));
-                      *gauche_maintenu_y = event.motion.y / (taille*(*zoom)) - coord->y/ (taille*(*zoom));
-                      *buttx = *gauche_maintenu_x;
-                      *butty = *gauche_maintenu_y;
+						if (*action == 0)
+						{
+							if ((event.motion.x > (largeur/2-505/2+17)) && (event.motion.x < (largeur/2-505/2+ 17 + 32)))
+							  *action = 10;
+							if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 1)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 1+ 32)))
+							  *action = 20;
+							if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 2)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 2+ 32)))
+							  *action = 30;
+							if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 3)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 3+ 32)))
+							  *action = 40;
+							if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 4)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 4+ 32)))
+							  *action = 50;
+							if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 5)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 5+ 32)))
+							  *action = 60;
+							if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 6)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 6+ 32)))
+							  *action = 70;
+							if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 7)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 7+ 32)))
+							  *action = 80;
+							if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 8)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 8+ 32)))
+							  *action = 90;
+							if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 9)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 9+ 32)))
+							  *action = 100;
+							SDL_Delay(50);
+					  }
+					  else
+					  {
+						  if (*action % 10 == 0)
+								*action -= 10;
+
+							if ((event.motion.x > (largeur/2-505/2+17)) && (event.motion.x < (largeur/2-505/2+ 17 + 32)))
+								*action = *action/10*10 + 1;
+							if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 1)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 1+ 32)))
+								*action = *action/10*10 + 2;
+							if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 2)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 2+ 32)))
+								*action = *action/10*10 + 3;
+							if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 3)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 3+ 32)))
+								*action = *action/10*10 + 4;
+							if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 4)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 4+ 32)))
+								*action = *action/10*10 + 5;
+							if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 5)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 5+ 32)))
+								*action = *action/10*10 + 6;
+							if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 6)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 6+ 32)))
+								*action = *action/10*10 + 7;
+							if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 7)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 7+ 32)))
+								*action = *action/10*10 + 8;
+							if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 8)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 8+ 32)))
+								*action = *action/10*10 + 9;
+							if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 9)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 9+ 32)))
+								*action = 0;
+
+							printf("*action: %d\n", *action);
+							SDL_Delay(100);
+					  }
                     }
-                }
-              else
-              {
-                if ((event.motion.x > (largeur/2-505/2)) && (event.motion.x < (largeur/2-505/2+505)) && (event.motion.y > (hauteur+17)) && (event.motion.y < (hauteur+47)))
-                  {
-                    if (*action == 0)
-                    {
-                        if ((event.motion.x > (largeur/2-505/2+17)) && (event.motion.x < (largeur/2-505/2+ 17 + 32)))
-                          *action = 10;
-                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 1)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 1+ 32)))
-                          *action = 20;
-                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 2)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 2+ 32)))
-                          *action = 30;
-                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 3)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 3+ 32)))
-                          *action = 40;
-                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 4)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 4+ 32)))
-                          *action = 50;
-                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 5)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 5+ 32)))
-                          *action = 60;
-                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 6)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 6+ 32)))
-                          *action = 70;
-                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 7)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 7+ 32)))
-                          *action = 80;
-                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 8)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 8+ 32)))
-                          *action = 90;
-                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 9)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 9+ 32)))
-                          *action = 100;
-                        printf("*action: %d\n", *action);
-                        SDL_Delay(50);
                   }
-                  else
-                  {
-                      if (*action % 10 == 0)
-                            *action -= 10;
-
-                        if ((event.motion.x > (largeur/2-505/2+17)) && (event.motion.x < (largeur/2-505/2+ 17 + 32)))
-                            *action = *action/10*10 + 1;
-                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 1)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 1+ 32)))
-                            *action = *action/10*10 + 2;
-                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 2)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 2+ 32)))
-                            *action = *action/10*10 + 3;
-                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 3)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 3+ 32)))
-                            *action = *action/10*10 + 4;
-                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 4)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 4+ 32)))
-                            *action = *action/10*10 + 5;
-                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 5)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 5+ 32)))
-                            *action = *action/10*10 + 6;
-                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 6)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 6+ 32)))
-                            *action = *action/10*10 + 7;
-                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 7)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 7+ 32)))
-                            *action = *action/10*10 + 8;
-                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 8)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 8+ 32)))
-                            *action = *action/10*10 + 9;
-                        if ((event.motion.x > (largeur/2-505/2+ 17 + 48* 9)) && (event.motion.x < (largeur/2-505/2+ 17 + 48* 9+ 32)))
-                            *action = 0;
-
-                        printf("*action: %d\n", *action);
-                        SDL_Delay(100);
-                  }
-                }
-              }
+                else
+                    if (*gauche_maintenu == 0)
+                        {
+                          *gauche_maintenu = 1;
+                          *gauche_maintenu_x = event.motion.x / (taille*(*zoom)) - coord->x/ (taille*(*zoom));
+                          *gauche_maintenu_y = event.motion.y / (taille*(*zoom)) - coord->y/ (taille*(*zoom));
+                          *buttx = *gauche_maintenu_x;
+                          *butty = *gauche_maintenu_y;
+                        }
               break;
             }
 	      case SDL_BUTTON_RIGHT:
@@ -320,8 +317,7 @@ void handle(perso perso[NB_Perso], image *image, int *action,int *done, int *p, 
 	  }
 	case SDL_MOUSEMOTION:
           {
-            if (event.motion.x < largeur/2-505/2 || event.motion.x > largeur/2-505/2+505)
-              if (*gauche_maintenu == 1)
+            if (*gauche_maintenu == 1)
                 {
                   *buttx = event.motion.x / (taille*(*zoom)) - coord->x/ (taille*(*zoom));
                   *butty = event.motion.y / (taille*(*zoom)) - coord->y/ (taille*(*zoom));

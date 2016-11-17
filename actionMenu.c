@@ -7,13 +7,38 @@
 
 void couper(sol tab[COL][LIG], perso perso)
 {
+    int dc, dl, nb;
     if (tab[perso.but.x][perso.but.y].id != 0)
 	  if((perso.pos.x  == perso.but.x) && (perso.pos.y == perso.but.y))
 	  {
-		  tab[perso.but.x][perso.but.y].item.id = tab[perso.but.x][perso.but.y].id;
-		  tab[perso.but.x][perso.but.y].id = 0;
-		  tab[perso.but.x][perso.but.y].ordre = 0;
-		  tab[perso.but.x][perso.but.y].item.nb = 4;
+        for (nb=1;nb>=0;nb--)
+            for (dl=-nb; dl<nb+1; dl++)
+              for (dc=-nb; dc<nb+1; dc++)
+                {
+                    if (abs(dl)+abs(dc) != nb) continue;
+                    if (tab[perso.but.x+dc][perso.but.y+dl].item.id == tab[perso.but.x][perso.but.y].id)
+                    {
+                      tab[perso.but.x+dc][perso.but.y+dl].item.id = tab[perso.but.x][perso.but.y].id;
+                      tab[perso.but.x][perso.but.y].id = 0;
+                      tab[perso.but.x][perso.but.y].ordre = 0;
+                      tab[perso.but.x+dc][perso.but.y+dl].item.nb += 4;
+                      return;
+                    }
+                }
+        for (nb=0;nb<10;nb++)
+            for (dl=-nb; dl<nb+1; dl++)
+              for (dc=-nb; dc<nb+1; dc++)
+                {
+                    if (abs(dl)+abs(dc) != nb) continue;
+                    if (tab[perso.but.x+dc][perso.but.y+dl].item.id == 0)
+                    {
+                      tab[perso.but.x+dc][perso.but.y+dl].item.id = tab[perso.but.x][perso.but.y].id;
+                      tab[perso.but.x][perso.but.y].id = 0;
+                      tab[perso.but.x][perso.but.y].ordre = 0;
+                      tab[perso.but.x+dc][perso.but.y+dl].item.nb += 4;
+                      return;
+                    }
+                }
       }
 }
 
@@ -259,7 +284,8 @@ void actionMenu(int action, sol tab[COL][LIG], int buttx, int butty, liste_stock
         tab[buttx][butty].ordre = action;
       break;
     case action_stockpile:
-    	creerStockPile(tab,stockPile,bois,buttx,butty);
+        if(tab[buttx][butty].id == 0)
+            creerStockPile(tab,stockPile,bois,buttx,butty);
     	break;
     case action_mur:
     	if(tab[buttx][butty].id == 0 && tab[buttx][butty].item.id == 0 && tab[buttx][butty].ordre == 0)
@@ -374,7 +400,6 @@ void cherche_action(sol tab[COL][LIG], perso perso[NB_Perso])
                             nb = (COL-1)+(LIG-1)-1;
                             action = 100-1;
                           }
-
                 }
             }
             else
@@ -405,6 +430,7 @@ void cherche_action(sol tab[COL][LIG], perso perso[NB_Perso])
 void rectangle(int gauche_maintenu, int *gauche_maintenu_x, int *gauche_maintenu_y, int *buttx, int *butty, int action, sol sol[COL][LIG], liste_stockpile *stockPile)
 {
   int x, y;
+  //printf("rect: %d, %d, %d, %d\n", *gauche_maintenu_x,*gauche_maintenu_y, *buttx, *butty);
   if (gauche_maintenu == 0)
     {
       if (*gauche_maintenu_x - *buttx < 0)

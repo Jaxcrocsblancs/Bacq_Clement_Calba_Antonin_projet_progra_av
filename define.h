@@ -9,8 +9,7 @@
 
 #define taille 32
 
-#define NB_Perso 2
-
+#define NB_Perso 100
 
 #define pousse_fraise 1
 #define fraise 2
@@ -42,6 +41,7 @@
 #define action_ramasser 2
 #define action_deposer 3
 #define action_stockpile 9
+
 #define action_mur 4
 
 #define max_stock 20
