@@ -4,8 +4,8 @@
 /* et Calba Antonin      */
 /*************************/
 
-#define COL 100
-#define LIG 100
+#define COL 20
+#define LIG 20
 
 #define taille 32
 
@@ -39,6 +39,6 @@
 #define action_ramasser 2
 #define action_deposer 3
 #define action_mur 4
-#define action_stockpile 5
+#define action_stockpile 9
 
 #define max_stock 20

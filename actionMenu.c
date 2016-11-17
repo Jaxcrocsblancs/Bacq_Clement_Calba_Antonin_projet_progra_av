@@ -322,7 +322,7 @@ perso actionPerso(sol tab[COL][LIG],perso perso, liste_point *plantation, liste_
         case action_planter_bois:
           planter(tab, perso, pousse_bois, plantation);
           break;
-        case 9:
+        case action_miner:
           miner(tab, perso);
           break;
         case action_manger:
@@ -340,7 +340,6 @@ perso actionPerso(sol tab[COL][LIG],perso perso, liste_point *plantation, liste_
 
 void cherche_action(sol tab[COL][LIG], perso perso[NB_Perso])
 {
-
   int nb, dl, dc, action, id_perso, col, lig, act, vide;
   int action_tab[100];
 
@@ -356,8 +355,17 @@ void cherche_action(sol tab[COL][LIG], perso perso[NB_Perso])
             action_tab[act] += 1;
             vide = 1;
             }
+
     if (vide ==0)
+    {
+    	for (id_perso = 0;id_perso <NB_Perso; id_perso++)
+    	      if (perso[id_perso].cond == 0)
+    	      {
+    	    	  perso[id_perso].action = action_stockpile;
+    	      }
         return;
+    }
+
 
   for (id_perso = 0;id_perso <NB_Perso; id_perso++)
       if (perso[id_perso].cond == 0)
@@ -396,6 +404,7 @@ void cherche_action(sol tab[COL][LIG], perso perso[NB_Perso])
             }
             else
             {
+            	assert(0);
                 for (nb=1;nb< (COL-1)+(LIG-1);nb++)
                     for (dl=-nb; dl<nb+1; dl++)
                          for (dc=-nb; dc<nb+1; dc++)
