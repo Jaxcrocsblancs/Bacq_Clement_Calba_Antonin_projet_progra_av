@@ -7,6 +7,6 @@
 #include "include.h"
 #ifndef DEPLACEMENT_H_
 #define DEPLACEMENT_H_
-perso deplacement_chemin(sol tab[COL][LIG], SDL_Surface *screen,perso perso, liste_point *L, int buttx, int butty, int *cond, int zoom);
-perso deplacement_personnage(sol tab[COL][LIG], SDL_Surface *screen,perso perso, liste_point *L, int buttx, int butty, int *cond, int zoom);
+perso deplacement_chemin(sol tab[COL][LIG], SDL_Surface *screen,perso perso, int buttx, int butty, int zoom);
+perso deplacement_personnage(sol tab[COL][LIG], SDL_Surface *screen,perso perso, int buttx, int butty, int zoom);
 #endif /* DEPLACEMENT_H_ */

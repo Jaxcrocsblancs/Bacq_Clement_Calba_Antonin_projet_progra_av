@@ -24,12 +24,12 @@ void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image,
       rcCaseDest.x = taille*zoom*col +coord_init.x;
       if (rcCaseDest.x >= 0 && rcCaseDest.x < -coord_init.x + largeur)
         {
-	  for(lig=0;lig<LIG;lig++)
-	    {
-	      rcCaseDest.y = taille*zoom*lig +coord_init.y;
-	      if (rcCaseDest.y >= 0 && rcCaseDest.y < -coord_init.y + hauteur)
-		SDL_BlitSurface(image.herbe, &rcCase, screen, &rcCaseDest);
-	    }
+          for(lig=0;lig<LIG;lig++)
+            {
+              rcCaseDest.y = taille*zoom*lig +coord_init.y;
+              if (rcCaseDest.y >= 0 && rcCaseDest.y < -coord_init.y + hauteur+ 64)
+                SDL_BlitSurface(image.herbe, &rcCase, screen, &rcCaseDest);
+            }
         }
     }
 
@@ -41,7 +41,7 @@ void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image,
             for(lig=0;lig<LIG;lig++)
               {
                 rcCaseDest.y= taille*zoom*lig + coord_init.y;
-                if (rcCaseDest.y >= 0 && rcCaseDest.y < -coord_init.y + hauteur)
+                if (rcCaseDest.y >= 0 && rcCaseDest.y < -coord_init.y + hauteur+ 64)
                 {
                     switch (tab[col][lig].id)
                         {
@@ -263,7 +263,7 @@ void affichage_tab(sol tab[COL][LIG])
   for (lig=0;lig<LIG;lig++)
     {
       for (col=0;col<COL;col++)
-        printf("%d ",tab[col][lig].id);
+        printf("%d ",tab[col][lig].ordre);
       printf("\n");
     }
   printf("\n");
@@ -282,66 +282,7 @@ void affichage_tab_object(sol tab[COL][LIG])
 }
 
 
-image image_init()
-{
-  image image;
-  image.herbe = SDL_LoadBMP ("image/herbe.bmp");
-  image.plante = SDL_LoadBMP ("image/plante.bmp");
-  image.alpha = SDL_LoadBMP ("image/attente.bmp");
-  image.mine = SDL_LoadBMP ("image/porte_mine.bmp");
-  image.menu = SDL_LoadBMP ("image/menu.bmp");
-  image.mur = SDL_LoadBMP("image/test.bmp");
-  SDL_SetColorKey(image.plante, SDL_SRCCOLORKEY, SDL_MapRGB(image.plante->format, 255, 0, 255));
-  SDL_SetColorKey(image.alpha, SDL_SRCCOLORKEY, SDL_MapRGB(image.alpha->format, 255, 0, 255));
-  SDL_SetColorKey(image.mine, SDL_SRCCOLORKEY, SDL_MapRGB(image.mine->format, 255, 0, 255));
-  SDL_SetColorKey(image.menu, SDL_SRCCOLORKEY, SDL_MapRGB(image.menu->format, 255, 0, 255));
-  SDL_SetAlpha(image.alpha,SDL_SRCALPHA, 128 );
-  return image;
-}
 
-perso init_perso()
-{
-  perso p;
-  SDL_Surface *image;
-  SDL_Rect rcDest;
-  SDL_Rect rcSens;
-
-  rcDest.x = 0;
-  rcDest.y = 0;
-  rcDest.h = taille;
-  rcDest.w = taille;
-
-  rcSens.x = 0;
-  rcSens.y = 0;
-  rcSens.h = taille;
-  rcSens.w = taille;
-
-  image = SDL_LoadBMP ("image/test.bmp");
-  SDL_SetColorKey(image, SDL_SRCCOLORKEY, SDL_MapRGB(image->format, 255, 0, 255));
-  p.rcDest = rcDest;
-  p.rcSens = rcSens;
-  p.perso = image;
-  p.action = 0;
-
-  p.item.id = 0;
-  p.item.nb = 0;
-
-  p.cptSens.x = 0;
-  p.cptSens.y = 0;
-
-  p.pos.x = 0;
-  p.pos.y = 0;
-
-  p.but.x = 0;
-  p.but.y = 0;
-
-  p.faim = 200;
-
-  int i;
-  for (i=0;i<100;i++)
-    p.travail[i]=i+1;
-  return p;
-}
 
 image zoom_image(image image, float zoom)
 {
@@ -362,7 +303,7 @@ perso zoom_perso(perso perso, float zoom)
   return perso;
 }
 
-void affichage_menu(SDL_Surface *screen, int hauteur, int largeur, image image)
+void affichage_menu(SDL_Surface *screen, int hauteur, int largeur, image image, int action)
 {
   SDL_Rect rcCase, rcCaseDest;
   int col;
@@ -371,7 +312,7 @@ void affichage_menu(SDL_Surface *screen, int hauteur, int largeur, image image)
   rcCase.h = 2*taille;
   rcCase.w = 2*taille;
 
-  rcCaseDest.x = largeur/2-768/2 ;
+  rcCaseDest.x = largeur/2-505/2 ;
   rcCaseDest.y = hauteur;
   rcCaseDest.h = 2*taille;
   rcCaseDest.w = 2*taille;
@@ -380,6 +321,105 @@ void affichage_menu(SDL_Surface *screen, int hauteur, int largeur, image image)
       SDL_BlitSurface(image.menu, &rcCase, screen, &rcCaseDest);
       rcCase.x += taille*2;
       rcCaseDest.x += taille*2;
+    }
+
+
+
+
+
+  if (action == 0)
+  {
+    rcCase.x = 32 * 0 ;
+    rcCase.y = 64+ 32 * 1;
+    rcCase.h = 32;
+    rcCase.w = 32;
+
+    rcCaseDest.x = largeur/2-505/2 + 17 + 48* 1;
+    rcCaseDest.y = hauteur + 16;
+    rcCaseDest.h = 32;
+    rcCaseDest.w = 32;
+    SDL_BlitSurface(image.menu, &rcCase, screen, &rcCaseDest);
+  }
+  if ((action-1)/10 == 1)
+  {
+    rcCase.x = 32 * 1 ;
+    rcCase.y = 64+ 32 * 1;
+    rcCase.h = 32;
+    rcCase.w = 32;
+
+    rcCaseDest.x = largeur/2-505/2 + 17 + 49* 0;
+    rcCaseDest.y = hauteur + 16;
+    rcCaseDest.h = 32;
+    rcCaseDest.w = 32;
+    SDL_BlitSurface(image.menu, &rcCase, screen, &rcCaseDest);
+
+    rcCase.x = 32 * 2 ;
+    rcCase.y = 64+ 32 * 1;
+    rcCase.h = 32;
+    rcCase.w = 32;
+
+    rcCaseDest.x = largeur/2-505/2 + 17 + 49* 1;
+    rcCaseDest.y = hauteur + 16;
+    rcCaseDest.h = 32;
+    rcCaseDest.w = 32;
+    SDL_BlitSurface(image.menu, &rcCase, screen, &rcCaseDest);
+
+        rcCase.x = 32 * 3 ;
+    rcCase.y = 64+ 32 * 1;
+    rcCase.h = 32;
+    rcCase.w = 32;
+
+    rcCaseDest.x = largeur/2-505/2 + 17 + 49* 2;
+    rcCaseDest.y = hauteur + 16;
+    rcCaseDest.h = 32;
+    rcCaseDest.w = 32;
+    SDL_BlitSurface(image.menu, &rcCase, screen, &rcCaseDest);
+
+    rcCase.x = 32 * 4 ;
+    rcCase.y = 64+ 32 * 1;
+    rcCase.h = 32;
+    rcCase.w = 32;
+
+    rcCaseDest.x = largeur/2-505/2 + 17 + 49* 3;
+    rcCaseDest.y = hauteur + 16;
+    rcCaseDest.h = 32;
+    rcCaseDest.w = 32;
+    SDL_BlitSurface(image.menu, &rcCase, screen, &rcCaseDest);
+
+    rcCase.x = 32 * 5 ;
+    rcCase.y = 64+ 32 * 1;
+    rcCase.h = 32;
+    rcCase.w = 32;
+
+    rcCaseDest.x = largeur/2-505/2 + 17 + 49* 4;
+    rcCaseDest.y = hauteur + 16;
+    rcCaseDest.h = 32;
+    rcCaseDest.w = 32;
+    SDL_BlitSurface(image.menu, &rcCase, screen, &rcCaseDest);
+
+    rcCase.x = 32 * 6 ;
+    rcCase.y = 64+ 32 * 1;
+    rcCase.h = 32;
+    rcCase.w = 32;
+
+    rcCaseDest.x = largeur/2-505/2 + 17 + 49* 5;
+    rcCaseDest.y = hauteur + 16;
+    rcCaseDest.h = 32;
+    rcCaseDest.w = 32;
+    SDL_BlitSurface(image.menu, &rcCase, screen, &rcCaseDest);
+  }
+    if (action != 0)
+    {
+    rcCase.x = 0;
+    rcCase.y = 64;
+    rcCase.h = 32;
+    rcCase.w = 32;
+
+    rcCaseDest.x = largeur/2-505/2 + 17 + 49 * 9;
+    rcCaseDest.y = hauteur + 16;
+    rcCaseDest.h = 32;
+    rcCaseDest.w = 32;
+    SDL_BlitSurface(image.menu, &rcCase, screen, &rcCaseDest);
     }
 }
 

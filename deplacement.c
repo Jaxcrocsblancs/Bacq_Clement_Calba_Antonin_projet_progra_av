@@ -6,46 +6,46 @@
 
 #include "include.h"
 
-perso deplacement_chemin(sol tab[COL][LIG], SDL_Surface *screen,perso perso, liste_point *L, int buttx, int butty, int *cond, int zoom)
+perso deplacement_chemin(sol tab[COL][LIG], SDL_Surface *screen, perso perso, int buttx, int butty, int zoom)
 {
   int dx, dy;
-  if(!est_vide(*L))
+  if(!est_vide(perso.L))
     {
-      dx = prem(*L).col;
-      dy = prem(*L).lig;
-	  perso = affichage_perso(perso,*L,zoom);
+      dx = prem(perso.L).col;
+      dy = prem(perso.L).lig;
+	  perso = affichage_perso(perso,perso.L,zoom);
       if(tab[dx][dy].id < 100)
 	{
 	  perso.pos.x = dx;
 	  perso.pos.y = dy;
-	  *L = reste(*L);
+	  perso.L = reste(perso.L);
 	}
       else
 	{
-	  *L = Astar(tab,perso.pos.x,perso.pos.y,buttx,butty);
-	  deplacement_chemin(tab, screen, perso, L, buttx ,butty ,cond ,zoom);
+	  perso.L = Astar(tab,perso.pos.x,perso.pos.y,buttx,butty);
+	  deplacement_chemin(tab, screen, perso, buttx ,butty,zoom);
 	  return perso;
 	}
     }
   else
     {
       perso.rcSens.x = 0;
-      *cond = 0;
+      perso.cond = 0;
     }
   return perso;
 }
 
 
-perso deplacement_personnage(sol tab[COL][LIG], SDL_Surface *screen,perso perso, liste_point *L, int buttx, int butty, int *cond, int zoom)
+perso deplacement_personnage(sol tab[COL][LIG], SDL_Surface *screen,perso perso, int buttx, int butty, int zoom)
 {
-  if(*cond > 0)
+  if(perso.cond > 0)
     {
-      if(*cond == 1)
+      if(perso.cond == 1)
         {
-          *L = Astar(tab,perso.pos.x,perso.pos.y,buttx,butty);
-          *cond = 2;
+          perso.L = Astar(tab,perso.pos.x,perso.pos.y,buttx,butty);
+          perso.cond = 2;
         }
-      return deplacement_chemin(tab,screen, perso, L, buttx, butty, cond, zoom);
+      return deplacement_chemin(tab,screen, perso, buttx, butty, zoom);
     }
   return perso;
 }

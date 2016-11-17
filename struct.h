@@ -91,6 +91,8 @@ struct perso
     int action;
     int travail[100];
     int faim;
+    int cond;
+    liste_point L;
 };
 
 struct NODE

@@ -6,9 +6,11 @@
 
 #define COL 20
 #define LIG 20
+
 #define taille 32
 
 #define NB_Perso 2
+
 
 #define pousse_fraise 1
 #define fraise 2
@@ -28,11 +30,13 @@
 
 #define annuler 0
 // Condition: les actions selectionable ne doivent pas être multiple de 10
+#define action_couper_bois 11
+#define action_couper_plante 12
 #define action_couper 1
-#define action_planter_fraise 12
-#define action_planter_coton 13
-#define action_planter_ble 14
-#define action_planter_bois 15
+#define action_planter_fraise 13
+#define action_planter_coton 14
+#define action_planter_ble 15
+#define action_planter_bois 16
 #define action_miner 99
 #define action_manger 10000
 #define action_ramasser 2

@@ -57,6 +57,10 @@
 		<Unit filename="handle.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="init.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="init.h" />
 		<Unit filename="liste_point.c">
 			<Option compilerVar="CC" />
 		</Unit>
