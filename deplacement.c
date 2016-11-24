@@ -49,5 +49,3 @@ perso deplacement_personnage(sol tab[COL][LIG], SDL_Surface *screen,perso perso,
     }
   return perso;
 }
-
-

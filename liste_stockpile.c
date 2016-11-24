@@ -114,6 +114,7 @@ stockpile rechercher_elem(int col, int lig, liste_stockpile L)
 			return premS(L);
 		return rechercher_elem(col,lig,resteS(L));
 	}
+	return;
 }
 
 liste_stockpile renverser_listeS(liste_stockpile L)
@@ -149,5 +150,10 @@ liste_stockpile snocS(stockpile a, liste_stockpile L)// insere un element a la f
 }
 
 
-
+liste_stockpile copy(liste_stockpile L)
+{
+    if(est_videS(L))
+		return l_videS();
+	return consS(premS(L),copy(reste(L)));
+}
 

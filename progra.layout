@@ -6,117 +6,87 @@
 			<Cursor1 position="0" topLine="0" />
 		</Cursor>
 	</File>
-<<<<<<< HEAD
-	<File name="deplacement.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-	<File name="main.c" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="init.c" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="12494" topLine="348" />
+			<Cursor1 position="2680" topLine="79" />
 		</Cursor>
 	</File>
-	<File name="affichage.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="define.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="11930" topLine="314" />
+			<Cursor1 position="220" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="actionMenu.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="deplacement.c" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="10135" topLine="299" />
-=======
-	<File name="handle.c" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-=======
-	<File name="main.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
->>>>>>> e5528bf525a14476f1e38d3bde861ddb1c8f8c31
->>>>>>> 70d98bc3458a2dab9dcfc36be487b002eec61b40
-		<Cursor>
-			<Cursor1 position="652" topLine="2" />
+			<Cursor1 position="163" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="handle.c" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="procedural.c" open="0" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-<<<<<<< HEAD
-			<Cursor1 position="8820" topLine="258" />
-=======
-<<<<<<< HEAD
-			<Cursor1 position="12352" topLine="321" />
->>>>>>> 2239f7e65b16ad4228239d978ad956c8b72217c0
-=======
-			<Cursor1 position="6" topLine="0" />
->>>>>>> e5528bf525a14476f1e38d3bde861ddb1c8f8c31
->>>>>>> 70d98bc3458a2dab9dcfc36be487b002eec61b40
+			<Cursor1 position="2410" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="struct.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="526" topLine="9" />
+		</Cursor>
+	</File>
+	<File name="main.c" open="0" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2106" topLine="45" />
+		</Cursor>
+	</File>
+	<File name="map.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1082" topLine="34" />
+		</Cursor>
+	</File>
+	<File name="handle.c" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2062" topLine="75" />
+		</Cursor>
+	</File>
+	<File name="affichage.c" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="12345" topLine="298" />
+		</Cursor>
+	</File>
+	<File name="actionMenu.c" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="6212" topLine="6" />
 		</Cursor>
 		<Folding>
-			<Collapse line="268" />
+			<Collapse line="8" />
+			<Collapse line="45" />
+			<Collapse line="62" />
+			<Collapse line="91" />
+			<Collapse line="123" />
+			<Collapse line="135" />
+			<Collapse line="168" />
+			<Collapse line="178" />
+			<Collapse line="204" />
+			<Collapse line="231" />
+			<Collapse line="252" />
+			<Collapse line="258" />
+			<Collapse line="274" />
+			<Collapse line="325" />
+			<Collapse line="366" />
+			<Collapse line="466" />
 		</Folding>
 	</File>
-	<File name="procedural.c" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include.h" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="162" topLine="82" />
+			<Cursor1 position="157" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="init.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="liste_point.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-<<<<<<< HEAD
-			<Cursor1 position="297" topLine="0" />
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-			<Cursor1 position="2780" topLine="95" />
-=======
-			<Cursor1 position="2822" topLine="83" />
-=======
-			<Cursor1 position="316" topLine="0" />
->>>>>>> 70d98bc3458a2dab9dcfc36be487b002eec61b40
+			<Cursor1 position="1355" topLine="73" />
 		</Cursor>
 	</File>
-	<File name="liste_point.c" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="handle.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-<<<<<<< HEAD
-			<Cursor1 position="326" topLine="105" />
-=======
-			<Cursor1 position="0" topLine="0" />
->>>>>>> e5528bf525a14476f1e38d3bde861ddb1c8f8c31
->>>>>>> 70d98bc3458a2dab9dcfc36be487b002eec61b40
-		</Cursor>
-	</File>
-	<File name="affichage.c" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="12173" topLine="295" />
-		</Cursor>
-	</File>
-	<File name="init.c" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1074" topLine="27" />
-		</Cursor>
-	</File>
-	<File name="main.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-<<<<<<< HEAD
-			<Cursor1 position="1748" topLine="36" />
-=======
-<<<<<<< HEAD
-			<Cursor1 position="16722" topLine="438" />
->>>>>>> 2239f7e65b16ad4228239d978ad956c8b72217c0
-=======
-			<Cursor1 position="9450" topLine="267" />
->>>>>>> 70d98bc3458a2dab9dcfc36be487b002eec61b40
-		</Cursor>
-	</File>
-	<File name="SDL_rotozoom.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="6" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="actionMenu.c" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-<<<<<<< HEAD
-			<Cursor1 position="17203" topLine="430" />
-=======
-			<Cursor1 position="2826" topLine="0" />
->>>>>>> e5528bf525a14476f1e38d3bde861ddb1c8f8c31
->>>>>>> 70d98bc3458a2dab9dcfc36be487b002eec61b40
+			<Cursor1 position="94" topLine="0" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>
