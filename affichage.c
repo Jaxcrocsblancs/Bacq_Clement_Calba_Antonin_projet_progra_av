@@ -357,22 +357,19 @@ void affichage_image_menu(int x, int y, SDL_Surface *screen, image image, int ha
 void affichage_menu(SDL_Surface *screen, int hauteur, int largeur, image image, int action)
 {
   SDL_Rect rcCase, rcCaseDest;
-  int col, i;
+
+  int i;
   rcCase.x = 0;
   rcCase.y = 0 ;
   rcCase.h = 2*taille;
-  rcCase.w = 2*taille;
+  rcCase.w = 505;
 
   rcCaseDest.x = largeur/2-505/2 ;
   rcCaseDest.y = hauteur;
   rcCaseDest.h = 2*taille;
-  rcCaseDest.w = 2*taille;
-  for (col = 0; col < largeur / (taille*2);col++)
-    {
-      SDL_BlitSurface(image.menu, &rcCase, screen, &rcCaseDest);
-      rcCase.x += taille*2;
-      rcCaseDest.x += taille*2;
-    }
+  rcCaseDest.w = 505;
+
+  SDL_BlitSurface(image.menu, &rcCase, screen, &rcCaseDest);
   if (action == 0)
   {
     for (i= 0; i<10; i++)
@@ -389,4 +386,5 @@ void affichage_menu(SDL_Surface *screen, int hauteur, int largeur, image image, 
   }
 
 }
+
 
