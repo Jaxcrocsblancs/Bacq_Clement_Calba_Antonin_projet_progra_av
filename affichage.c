@@ -5,6 +5,31 @@
 /*************************/
 #include "include.h"
 
+
+void affichage_text(int nb, int col, int lig, int zoom, image image, SDL_Surface *screen)
+{
+    SDL_Rect rcCase, rcCaseDest;
+    int nbbis;
+    nbbis = nb;
+
+    int i;
+    for (i= 2; i>=0; i--)
+    {
+        rcCase.x = 8*(nbbis/((int)pow(10,i)));
+        nbbis -= (nbbis/((int)pow(10,i)))*((int)pow(10,i));
+        rcCase.y = 8*3;
+        rcCase.h = 8;
+        rcCase.w = 8;
+
+        rcCaseDest.x = col* taille * zoom + 8 * (2-i) ;
+        rcCaseDest.y = lig* taille * zoom + (taille-8)*zoom;
+        rcCaseDest.h = 8;
+        rcCaseDest.w = 8;
+        SDL_BlitSurface(image.ascii, &rcCase, screen, &rcCaseDest);
+    }
+
+}
+
 void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image, SDL_Rect coord_init, int hauteur, int largeur, liste_stockpile stockPile)
 {
   SDL_Rect rcCase, rcCaseDest;
@@ -159,6 +184,7 @@ void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image,
                                 rcCase.x = 0*taille*zoom;
                                 rcCase.y = 2*taille*zoom;
                                 SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+                                affichage_text(tab[col][lig].item.nb, col,lig,zoom, image, screen);
                                 break;
                             }
                             case coton:
@@ -303,10 +329,26 @@ perso zoom_perso(perso perso, float zoom)
   return perso;
 }
 
+void affichage_image_menu(int x, int y, SDL_Surface *screen, image image, int hauteur, int largeur)
+{
+    SDL_Rect rcCase, rcCaseDest;
+    rcCase.x = 32 * x ;
+    rcCase.y = 64 + 32 * y;
+    rcCase.h = 32;
+    rcCase.w = 32;
+
+    rcCaseDest.x = largeur/2-505/2 + 17 + 49 * x;
+    rcCaseDest.y = hauteur + 16;
+    rcCaseDest.h = 32;
+    rcCaseDest.w = 32;
+    SDL_BlitSurface(image.menu, &rcCase, screen, &rcCaseDest);
+}
+
 void affichage_menu(SDL_Surface *screen, int hauteur, int largeur, image image, int action)
 {
   SDL_Rect rcCase, rcCaseDest;
 
+  int i;
   rcCase.x = 0;
   rcCase.y = 0 ;
   rcCase.h = 2*taille;
@@ -318,97 +360,22 @@ void affichage_menu(SDL_Surface *screen, int hauteur, int largeur, image image, 
   rcCaseDest.w = 505;
 
   SDL_BlitSurface(image.menu, &rcCase, screen, &rcCaseDest);
-  rcCase.h = 32;
-  rcCase.w = 32;
-  rcCaseDest.h = 32;
-  rcCaseDest.w = 32;
 
   if (action == 0)
   {
-    rcCase.x = 32 * 0 ;
-    rcCase.y = 64+ 32 * 1;
-
-
-    rcCaseDest.x = largeur/2-505/2 + 17 + 48* 1;
-    rcCaseDest.y = hauteur + 16;
-
-    SDL_BlitSurface(image.menu, &rcCase, screen, &rcCaseDest);
-  }
-  if ((action-1)/10 == 1)
-  {
-    rcCase.x = 32 * 1 ;
-    rcCase.y = 64+ 32 * 1;
-
-
-    rcCaseDest.x = largeur/2-505/2 + 17 + 49* 0;
-    rcCaseDest.y = hauteur + 16;
-
-    SDL_BlitSurface(image.menu, &rcCase, screen, &rcCaseDest);
-
-    rcCase.x = 32 * 2 ;
-    rcCase.y = 64+ 32 * 1;
-
-
-    rcCaseDest.x = largeur/2-505/2 + 17 + 49* 1;
-    rcCaseDest.y = hauteur + 16;
-
-    SDL_BlitSurface(image.menu, &rcCase, screen, &rcCaseDest);
-
-	rcCase.x = 32 * 3 ;
-    rcCase.y = 64+ 32 * 1;
-
-
-    rcCaseDest.x = largeur/2-505/2 + 17 + 49* 2;
-    rcCaseDest.y = hauteur + 16;
-
-    SDL_BlitSurface(image.menu, &rcCase, screen, &rcCaseDest);
-
-    rcCase.x = 32 * 4 ;
-    rcCase.y = 64+ 32 * 1;
-
-    rcCaseDest.x = largeur/2-505/2 + 17 + 49* 3;
-    rcCaseDest.y = hauteur + 16;
-
-    SDL_BlitSurface(image.menu, &rcCase, screen, &rcCaseDest);
-
-    rcCase.x = 32 * 5 ;
-    rcCase.y = 64+ 32 * 1;
-
-
-    rcCaseDest.x = largeur/2-505/2 + 17 + 49* 4;
-    rcCaseDest.y = hauteur + 16;
-
-    SDL_BlitSurface(image.menu, &rcCase, screen, &rcCaseDest);
-
-    rcCase.x = 32 * 6 ;
-    rcCase.y = 64+ 32 * 1;
-
-
-    rcCaseDest.x = largeur/2-505/2 + 17 + 49* 5;
-    rcCaseDest.y = hauteur + 16;
-
-    SDL_BlitSurface(image.menu, &rcCase, screen, &rcCaseDest);
-  }
-    if (action != 0)
+    for (i= 0; i<10; i++)
     {
-    rcCase.x = 0;
-    rcCase.y = 64;
-
-
-    rcCaseDest.x = largeur/2-505/2 + 17 + 49 * 9;
-    rcCaseDest.y = hauteur + 16;
-
-    SDL_BlitSurface(image.menu, &rcCase, screen, &rcCaseDest);
+        affichage_image_menu(i, 0, screen, image, hauteur,largeur);
     }
-}
-
-void lettre(char l,int *x, int *y)
-{
-    *x= l%16;
-    *y= l/16;
-}
-
-void affichage_text(int nb, int col, int lig)
-{
+  }
+  else
+  {
+    for (i= 0; i<10; i++)
+    {
+        affichage_image_menu(i, (action-1)/10+1, screen, image, hauteur,largeur);
+    }
+  }
 
 }
+
+
