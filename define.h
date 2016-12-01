@@ -9,7 +9,9 @@
 
 #define taille 32
 
-#define NB_Perso 20
+
+#define NB_Perso 10
+#define NB_ennemi 10
 
 #define pousse_fraise 1
 #define fraise 2
@@ -35,6 +37,7 @@
 #define action_planter_ble 15
 #define action_planter_bois 16
 #define action_miner 99
+
 #define action_manger 10000
 #define action_ramasser 6
 #define action_deposer 7
@@ -43,5 +46,7 @@
 #define action_stockpile_coton 2
 #define action_stockpile_bles 3
 #define action_stockpile_bois 4
+#define action_combat 100001
+#define action_cherche_combat 10002
+#define action_stockpile 10
 #define max_stock 20
-#define action_stockpile 5

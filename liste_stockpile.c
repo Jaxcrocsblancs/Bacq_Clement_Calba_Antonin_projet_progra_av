@@ -89,15 +89,18 @@ void afficher_stockpile_liste(liste_stockpile L)
 
 liste_stockpile changer_elem(int col, int lig, int nb, liste_stockpile L)
 {
-	if(premS(L).col == col && premS(L).lig == lig)
+	if(!est_videS(L))
 	{
-		stockpile temp;
-		temp = premS(L);
-		temp.nb += nb;
-		ecrire_premS(temp,L);
-		return L;
+		if(premS(L).col == col && premS(L).lig == lig)
+		{
+			stockpile temp;
+			temp = premS(L);
+			temp.nb = nb;
+			ecrire_premS(temp,L);
+			return L;
+		}
+		return changer_elem(col,lig,nb,resteS(L));
 	}
-	return changer_elem(col,lig,nb,resteS(L));
 }
 
 liste_stockpile ecrire_prem_nb(int nb, liste_stockpile L)
@@ -152,9 +155,14 @@ void free_liste_stockpile(liste_stockpile L)
 {
     if (est_videS(L))
         return;
-
     free_liste_stockpile(resteS(L));
     free(L); // MAGIC MARCEAU
 }
 
+liste_stockpile copy(liste_stockpile L)
+{
+    if(est_videS(L))
+		return l_videS();
+	return consS(premS(L),copy(resteS(L)));
+}
 

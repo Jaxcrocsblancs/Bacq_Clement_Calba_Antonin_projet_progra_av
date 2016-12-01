@@ -84,9 +84,9 @@ liste_point supprimerR(point_cout a, liste_point L) // MERCI MARCEAU
     {
       return l_vide();
     }
-
   if((a.col == prem(L).col) & (a.lig == prem(L).lig) )
     {
+      liste_point mem;
       return supprimerR(a,reste(L));
     }
   return cons(prem(L),supprimerR(a,reste(L))) ;

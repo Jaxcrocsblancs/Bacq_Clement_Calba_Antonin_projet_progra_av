@@ -10,4 +10,6 @@ image image_init();
 void affichage_tab_object(sol tab[COL][LIG]);
 perso affichage_perso(perso perso, liste_point L, int zoom);
 void affichage_menu(SDL_Surface *screen, int hauteur, int largeur, image image, int action);
+
+void affichage_text(int zoomint, int nb, int col, int lig, int zoom, image image, SDL_Surface *screen);
 #endif

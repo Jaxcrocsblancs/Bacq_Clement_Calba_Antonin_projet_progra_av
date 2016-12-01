@@ -21,15 +21,15 @@ int main(int argc, char *argv[])
   SDL_Rect coord;
   SDL_Event event;
   image image;
-  perso perso[NB_Perso];
+  perso perso[NB_Perso], ennemi[NB_ennemi];
   liste_point plantation;
   liste_stockpile stockPile;
   sol sol[COL][LIG];
-  unsigned int  temps;
+  unsigned int  temps, temps_ennemi;
   stockPile = l_videS();
   plantation = l_vide();
   temps = 0;
-
+  temps_ennemi=0;
   videoInfo=SDL_GetVideoInfo();
   maxW=videoInfo->current_w;
   maxH=videoInfo->current_h;
@@ -57,8 +57,8 @@ int main(int argc, char *argv[])
 
   while (done == 0)
     {
-      handle(perso, &image, &action,&done, &p, &zoom, &coord, hauteur, largeur, &gauche_maintenu_x, &gauche_maintenu_y, &gauche_maintenu, &buttx, &butty);
-      tour(coord, &plantation, perso, gauche_maintenu, &gauche_maintenu_x, &gauche_maintenu_y, &buttx, &butty,  action, sol ,screen, &stockPile, zoom, image, hauteur, largeur, &temps, p);
+      handle(&event,perso, &image, &action,&done, &p, &zoom, &coord, hauteur, largeur, &gauche_maintenu_x, &gauche_maintenu_y, &gauche_maintenu, &buttx, &butty);
+      tour(&temps_ennemi,ennemi,coord, &plantation, perso, gauche_maintenu, &gauche_maintenu_x, &gauche_maintenu_y, &buttx, &butty,  action, sol ,screen, &stockPile, zoom, image, hauteur, largeur, &temps, p);
       SDL_UpdateRect(screen, 0, 0, 0, 0);
     }
 
@@ -68,6 +68,15 @@ int main(int argc, char *argv[])
   for(z=0;z<NB_Perso;z++)
 	  free_liste_point(perso[z].L);
 
-
+    SDL_FreeSurface(image.alpha);
+    SDL_FreeSurface(image.ascii);
+    SDL_FreeSurface(image.herbe);
+    SDL_FreeSurface(image.mine);
+    SDL_FreeSurface(image.plante);
+    for (i=0; i<NB_Perso; i++)
+        SDL_FreeSurface(perso[i].perso);
+    for (i=0; i<NB_ennemi; i++)
+        SDL_FreeSurface(ennemi[i].perso);
+    SDL_Quit();
   return 0;
 }

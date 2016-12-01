@@ -16,7 +16,7 @@ void init_tab(sol tab[COL][LIG])
 
 void init_var(sol sol[COL][LIG], image *image, perso perso[NB_Perso], SDL_Rect *coord, int *zoom, int *done, int *action, int *gauche_maintenu, int *gauche_maintenu_x, int *gauche_maintenu_y, int *p, unsigned int *temps, liste_point *plantation, liste_stockpile *stockPile, int *buttx, int *butty)
 {
-    int i;
+  int i;
   init_tab(sol);
 
   generation_procedural(sol);
@@ -55,7 +55,6 @@ image image_init()
   image.alpha = SDL_LoadBMP ("image/attente.bmp");
   image.mine = SDL_LoadBMP ("image/porte_mine.bmp");
   image.menu = SDL_LoadBMP ("image/menu.bmp");
-  image.mur = SDL_LoadBMP("image/test.bmp");
   image.ascii = SDL_LoadBMP("image/ascii.bmp");
   SDL_SetColorKey(image.plante, SDL_SRCCOLORKEY, SDL_MapRGB(image.plante->format, 255, 0, 255));
   SDL_SetColorKey(image.alpha, SDL_SRCCOLORKEY, SDL_MapRGB(image.alpha->format, 255, 0, 255));
@@ -101,12 +100,63 @@ perso init_perso()
 
   p.but.x = 0;
   p.but.y = 0;
+
+  p.but2.x = 0;
+  p.but2.y = 0;
+  p.action2 = 0;
+
   p.cond = 0;
   p.L = l_vide();
   p.faim = 200;
 
+  p.pv = 200;
+  p.atk = 20;
+  p.def = 5;
   int i;
   for (i=0;i<100;i++)
     p.travail[i]=i+1;
+  return p;
+}
+
+perso init_ennemi()
+{
+
+  perso p;
+  SDL_Surface *image;
+  SDL_Rect rcDest;
+  SDL_Rect rcSens;
+
+  rcDest.x = 0;
+  rcDest.y = 0;
+  rcDest.h = taille;
+  rcDest.w = taille;
+
+  rcSens.x = 0;
+  rcSens.y = 64;
+  rcSens.h = taille;
+  rcSens.w = taille;
+
+  image = SDL_LoadBMP ("image/test.bmp");
+  SDL_SetColorKey(image, SDL_SRCCOLORKEY, SDL_MapRGB(image->format, 255, 0, 255));
+  p.rcDest = rcDest;
+  p.rcSens = rcSens;
+  p.perso = image;
+
+  p.action = action_cherche_combat;
+
+  p.cptSens.x = 0;
+  p.cptSens.y = 0;
+
+  p.pos.x = 5;
+  p.pos.y = 5;
+
+  p.but.x = 0;
+  p.but.y = 0;
+
+  p.cond = 0;
+  p.pv = 10;
+  p.atk = 0;
+  p.def = 0;
+
   return p;
 }

@@ -45,37 +45,49 @@
 		<Unit filename="SDL_rotozoom.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="SDL_rotozoom.h" />
 		<Unit filename="actionMenu.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="actionMenu.h" />
 		<Unit filename="affichage.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="define.h" />
 		<Unit filename="deplacement.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="deplacement.h" />
 		<Unit filename="handle.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="handle.h" />
+		<Unit filename="include.h" />
 		<Unit filename="init.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="init.h" />
+		<Unit filename="liste_item.h" />
 		<Unit filename="liste_point.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="liste_point.h" />
 		<Unit filename="liste_stockpile.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="liste_stockpile.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="map.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="map.h" />
 		<Unit filename="procedural.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="procedural.h" />
+		<Unit filename="struct.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

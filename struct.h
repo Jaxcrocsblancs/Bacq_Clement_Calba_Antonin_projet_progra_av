@@ -13,7 +13,6 @@ typedef struct Liste_stockpile *liste_stockpile;
 typedef struct perso perso;
 typedef struct cptSens cptSens;
 
-
 struct item
 {
     int id;
@@ -35,7 +34,6 @@ struct image
   SDL_Surface* alpha;
   SDL_Surface* mine;
   SDL_Surface* menu;
-  SDL_Surface* mur;
   SDL_Surface* ascii;
 };
 
@@ -90,10 +88,15 @@ struct perso
     cptSens pos;
     cptSens but;
     int action;
+    cptSens but2;
+    int action2;
     int travail[100];
     int faim;
     int cond;
     liste_point L;
+    int pv;
+    int atk;
+    int def;
 };
 
 struct NODE
