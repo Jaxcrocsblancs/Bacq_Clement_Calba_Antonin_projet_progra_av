@@ -23,7 +23,7 @@ perso faim(perso perso);
 perso manger(sol tab[COL][LIG], perso perso);
 perso chercher_object(sol tab[COL][LIG], perso perso, int id);
 void creerStockPile(sol tab[COL][LIG], liste_stockpile *stockPile, int id, int buttx, int butty);
-perso chercheStockPile(sol tab[COL][LIG], perso perso, liste_stockpile *stockPile);
+liste_stockpile chercheStockPile(sol tab[COL][LIG], perso perso, liste_stockpile stockPile);
 
 
 #endif /* ACTIONMENU_H_ */

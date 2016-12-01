@@ -23,6 +23,6 @@ point_cout remplisPoint(int col,int lig,int f);
 point_cout plusPetitF(point_cout max,liste_point L);
 void afficher_point_liste(liste_point L);
 liste_point renverser_liste(liste_point L);
-
+void free_liste_point(liste_point L);
 
 #endif /* LISTE_POINT_H_ */

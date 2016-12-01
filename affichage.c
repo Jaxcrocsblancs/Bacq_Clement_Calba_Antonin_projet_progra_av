@@ -172,6 +172,27 @@ void affichage_map(sol tab[COL][LIG],SDL_Surface *screen, int zoom, image image,
 											SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
 											break;
 										}
+										case fraise:
+										{
+											rcCase.x = 0;
+											rcCase.y = 2*taille*zoom;
+											SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+											break;
+										}
+										case bles:
+										{
+											rcCase.x = 2*taille*zoom;
+											rcCase.y = 2*taille*zoom;
+											SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+											break;
+										}
+										case coton:
+										{
+											rcCase.x = taille*zoom;
+											rcCase.y = 2*taille*zoom;
+											SDL_BlitSurface(image.plante, &rcCase, screen, &rcCaseDest);
+											break;
+										}
 									}
                                 }
                                 break;

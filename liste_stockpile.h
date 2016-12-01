@@ -23,7 +23,7 @@ liste_stockpile supprimerS(stockpile a, liste_stockpile L);
 stockpile rechercher_elem(int col, int lig, liste_stockpile L);
 liste_stockpile changer_elem(int col, int lig, int nb, liste_stockpile L);
 liste_stockpile ecrire_prem_nb(int nb, liste_stockpile L);
-
+void free_liste_stockpile(liste_stockpile L);
 liste_stockpile snocS(stockpile a, liste_stockpile L);
 liste_stockpile snoc_prem(liste_stockpile L);
 

@@ -57,11 +57,17 @@ int main(int argc, char *argv[])
 
   while (done == 0)
     {
-
       handle(perso, &image, &action,&done, &p, &zoom, &coord, hauteur, largeur, &gauche_maintenu_x, &gauche_maintenu_y, &gauche_maintenu, &buttx, &butty);
       tour(coord, &plantation, perso, gauche_maintenu, &gauche_maintenu_x, &gauche_maintenu_y, &buttx, &butty,  action, sol ,screen, &stockPile, zoom, image, hauteur, largeur, &temps, p);
       SDL_UpdateRect(screen, 0, 0, 0, 0);
     }
+
+  free_liste_stockpile(stockPile);
+  free_liste_point(plantation);
+  int z;
+  for(z=0;z<NB_Perso;z++)
+	  free_liste_point(perso[z].L);
+
 
   return 0;
 }

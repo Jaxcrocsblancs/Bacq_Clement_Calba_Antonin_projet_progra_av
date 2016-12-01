@@ -163,25 +163,25 @@ void creerStockPile(sol tab[COL][LIG], liste_stockpile *stockPile, int id, int b
 }
 
 
-perso chercheStockPile(sol tab[COL][LIG], perso perso, liste_stockpile *stockPile)
+liste_stockpile chercheStockPile(sol tab[COL][LIG], perso perso, liste_stockpile stockPile)
 {
-	if(!est_videS(*stockPile))
+	if(!est_videS(stockPile))
 	{
-		if(premS(*stockPile).nb < max_stock)
+		if(premS(stockPile).nb < max_stock)
 		{
-			perso = chercher_object(tab,perso,premS(*stockPile).id);
+			perso = chercher_object(tab,perso,premS(stockPile).id);
 
 			if(perso.item.nb > 0)
 			{
-				tab[premS(*stockPile).col][premS(*stockPile).lig].ordre = action_deposer;
+				tab[premS(stockPile).col][premS(stockPile).lig].ordre = action_deposer;
 			}
 		}
 		else
 		{
-			*stockPile = snoc_prem(*stockPile);
+			stockPile = snoc_prem(stockPile);
 		}
 	}
-	return perso;
+	return stockPile;
 }
 
 perso chercher_object(sol tab[COL][LIG], perso perso, int id)
@@ -198,7 +198,7 @@ perso chercher_object(sol tab[COL][LIG], perso perso, int id)
 				  if (tab[perso.pos.x+dc][perso.pos.y+dl].item.id == id && id != 0)
 				  {
 					  tab[perso.pos.x+dc][perso.pos.y+dl].ordre = action_ramasser;
-					  return perso;
+//					  return perso;
 				  }
 	          }
 	return perso;
@@ -283,11 +283,23 @@ void actionMenu(int action, sol tab[COL][LIG], int buttx, int butty, liste_stock
       if(tab[buttx][butty].id == 0 && tab[buttx][butty].ordre == 0)
         tab[buttx][butty].ordre = action;
       break;
-    case action_stockpile:
+    case action_stockpile_fraise:
+        if(tab[buttx][butty].id == 0)
+            creerStockPile(tab,stockPile,fraise,buttx,butty);
+    	break;
+    case action_stockpile_coton:
+        if(tab[buttx][butty].id == 0)
+            creerStockPile(tab,stockPile,coton,buttx,butty);
+    	break;
+    case action_stockpile_bles:
+        if(tab[buttx][butty].id == 0)
+            creerStockPile(tab,stockPile,bles,buttx,butty);
+    	break;
+    case action_stockpile_bois:
         if(tab[buttx][butty].id == 0)
             creerStockPile(tab,stockPile,bois,buttx,butty);
     	break;
-    case action_mur:
+    case action_mur_bois:
     	if(tab[buttx][butty].id == 0 && tab[buttx][butty].item.id == 0 && tab[buttx][butty].ordre == 0)
     		tab[buttx][butty].ordre = action;
     	break;
@@ -329,9 +341,9 @@ perso actionPerso(sol tab[COL][LIG],perso perso, liste_point *plantation, liste_
           perso = manger(tab, perso);
           break;
         case action_stockpile:
-          perso = chercheStockPile(tab,perso,stockPile);
+          *stockPile = chercheStockPile(tab,perso,*stockPile);
           break;
-        case action_mur:
+        case action_mur_bois:
         	perso = construire(tab,perso,mur_bois,2,bois);
         	break;
     }

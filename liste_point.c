@@ -128,5 +128,16 @@ liste_point renverser_liste(liste_point L)
       M = reste (M) ;
     }
   return R ;
-
 }
+
+void free_liste_point(liste_point L)
+{
+    if (est_vide(L))
+        return;
+
+    free_liste_point(reste(L));
+    free(L); // MAGIC MARCEAU
+}
+
+
+

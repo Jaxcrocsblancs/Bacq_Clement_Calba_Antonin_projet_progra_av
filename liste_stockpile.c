@@ -148,6 +148,13 @@ liste_stockpile snocS(stockpile a, liste_stockpile L)// insere un element a la f
 	return consS(premS(L),snocS(a,resteS(L)));
 }
 
+void free_liste_stockpile(liste_stockpile L)
+{
+    if (est_videS(L))
+        return;
 
+    free_liste_stockpile(resteS(L));
+    free(L); // MAGIC MARCEAU
+}
 
 
