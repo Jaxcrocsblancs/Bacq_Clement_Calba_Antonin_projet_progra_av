@@ -9,7 +9,7 @@
 
 #define taille 32
 
-#define NB_Perso 30
+#define NB_Perso 10
 #define NB_ennemi 10
 
 #define pousse_fraise 1

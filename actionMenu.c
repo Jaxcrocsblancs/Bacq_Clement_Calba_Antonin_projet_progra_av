@@ -430,9 +430,9 @@ perso actionPerso(perso ennemi[NB_ennemi], sol tab[COL][LIG],perso perso, liste_
   return perso;
 }
 
-void cherche_action(sol tab[COL][LIG], perso perso[NB_Perso])
+void cherche_action(sol tab[COL][LIG], perso *perso)
 {
-  int nb, dl, dc, action, id_perso, col, lig, act, vide;
+  int nb, dl, dc, action, col, lig, act, vide;
   int action_tab[100];
 
   vide = 0;
@@ -448,56 +448,47 @@ void cherche_action(sol tab[COL][LIG], perso perso[NB_Perso])
             vide = 1;
             }
 
-    if (vide ==0)
-    {
-    	for (id_perso = 0;id_perso <NB_Perso; id_perso++)
-    	      if (perso[id_perso].cond == 0)
-    	      {
-    	    	  perso[id_perso].action = action_stockpile;
-    	      }
-        return;
-    }
-
-
-  for (id_perso = 0;id_perso <NB_Perso; id_perso++)
-      if (perso[id_perso].cond == 0)
+      if (perso->cond == 0)
       {
-        if (perso[id_perso].faim > 100)// test nourriture
+        if (vide == 0)
+            perso->action = action_stockpile;
+
+        if (perso->faim > 100)// test nourriture
             {
-             if (perso[id_perso].action2 != 0)
+             if (perso->action2 != 0)
                     {
-                        perso[id_perso].but.x = perso[id_perso].but2.x;
-                        perso[id_perso].but.y = perso[id_perso].but2.y;
-                        perso[id_perso].action = perso[id_perso].action2;
-                        perso[id_perso].but2.x = 0;
-                        perso[id_perso].but2.y = 0;
-                        perso[id_perso].action2 = 0;
-                        perso[id_perso].cond = 1;
+                        perso->but.x = perso->but2.x;
+                        perso->but.y = perso->but2.y;
+                        perso->action = perso->action2;
+                        perso->but2.x = 0;
+                        perso->but2.y = 0;
+                        perso->action2 = 0;
+                        perso->cond = 1;
                     }
                 else
                 {
-                    perso[id_perso].action = action_stockpile;
+                    perso->action = action_stockpile;
                     for (action = 0; action <100; action++)
-                        if (action_tab[perso[id_perso].travail[action]] > 0 )
+                        if (action_tab[perso->travail[action]] > 0 )
                         {
-                            action_tab[perso[id_perso].travail[action]] -= 1;
+                            action_tab[perso->travail[action]] -= 1;
                                 for (nb=0; nb<(COL-1)+(LIG-1);nb++)
                                     for (dl=-nb; dl<nb+1; dl++)
                                         for (dc=-nb; dc<nb+1; dc++)
                                         {
-                                        if (perso[id_perso].but.x != perso[id_perso].pos.x && perso[id_perso].but.y != perso[id_perso].pos.y) continue;
+                                        if (perso->but.x != perso->pos.x && perso->but.y != perso->pos.y) continue;
                                         if (abs(dl)+abs(dc) != nb) continue;
-                                        if (perso[id_perso].pos.x+dc < 1 || perso[id_perso].pos.x+dc > COL-2) continue; // on veut pas sortir du tableau
-                                        if (perso[id_perso].pos.y+dl < 1 || perso[id_perso].pos.y+dl > LIG-2) continue;
-                                        if (tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].ordre != perso[id_perso].travail[action]) continue;
-                                        if (perso[id_perso].travail[action] == 2 && (tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].item.id != perso[id_perso].item.id && perso[id_perso].item.id != 0)) continue;
-                                        if (tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].ordre < 1000) tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].ordre += 1000;
+                                        if (perso->pos.x+dc < 1 || perso->pos.x+dc > COL-2) continue; // on veut pas sortir du tableau
+                                        if (perso->pos.y+dl < 1 || perso->pos.y+dl > LIG-2) continue;
+                                        if (tab[perso->pos.x+dc][perso->pos.y+dl].ordre != perso->travail[action]) continue;
+                                        if (perso->travail[action] == 2 && (tab[perso->pos.x+dc][perso->pos.y+dl].item.id != perso->item.id && perso->item.id != 0)) continue;
+                                        if (tab[perso->pos.x+dc][perso->pos.y+dl].ordre < 1000) tab[perso->pos.x+dc][perso->pos.y+dl].ordre += 1000;
 
-                                        perso[id_perso].but.x = perso[id_perso].pos.x+dc;
-                                        perso[id_perso].but.y = perso[id_perso].pos.y+dl;
-                                        perso[id_perso].cond = 1;
+                                        perso->but.x = perso->pos.x+dc;
+                                        perso->but.y = perso->pos.y+dl;
+                                        perso->cond = 1;
 
-                                        perso[id_perso].action = perso[id_perso].travail[action];
+                                        perso->action = perso->travail[action];
                                         dc = nb;
                                         dl = nb;
                                         nb = (COL-1)+(LIG-1)-1;
@@ -513,14 +504,14 @@ void cherche_action(sol tab[COL][LIG], perso perso[NB_Perso])
                          for (dc=-nb; dc<nb+1; dc++)
                          {
                             if (abs(dl)+abs(dc) != nb) continue;
-                            if (perso[id_perso].pos.x+dc < 1 || perso[id_perso].pos.x+dc > COL-2) continue; // on veut pas sortir du tableau
-                            if (perso[id_perso].pos.y+dl < 1 || perso[id_perso].pos.y+dl > LIG-2) continue;
-                            if (tab[perso[id_perso].pos.x+dc][perso[id_perso].pos.y+dl].item.id == fraise)
+                            if (perso->pos.x+dc < 1 || perso->pos.x+dc > COL-2) continue; // on veut pas sortir du tableau
+                            if (perso->pos.y+dl < 1 || perso->pos.y+dl > LIG-2) continue;
+                            if (tab[perso->pos.x+dc][perso->pos.y+dl].item.id == fraise)
                                 {
-                                perso[id_perso].but.x = perso[id_perso].pos.x+dc;
-                                perso[id_perso].but.y = perso[id_perso].pos.y+dl;
-                                perso[id_perso].cond = 1;
-                                perso[id_perso].action = action_manger;
+                                perso->but.x = perso->pos.x+dc;
+                                perso->but.y = perso->pos.y+dl;
+                                perso->cond = 1;
+                                perso->action = action_manger;
                                 dc = nb;
                                 dl = nb;
                                 nb = (COL-1)+(LIG-1)-1;
