@@ -4,13 +4,13 @@
 /* et Calba Antonin      */
 /*************************/
 
-#define COL 30
-#define LIG 30
+#define COL 40
+#define LIG 40
 
 #define taille 32
 
-#define NB_Perso 10
-#define NB_ennemi 1
+#define NB_Perso 30
+#define NB_ennemi 10
 
 #define pousse_fraise 1
 #define fraise 2
@@ -42,5 +42,6 @@
 #define action_deposer 3
 #define action_mur 24
 #define action_stockpile 29
-#define action_combattre 10001
+#define action_combat 100001
+#define action_cherche_combat 10002
 #define max_stock 20

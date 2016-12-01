@@ -78,7 +78,7 @@ perso init_perso()
   rcDest.w = taille;
 
   rcSens.x = 0;
-  rcSens.y = 64;
+  rcSens.y = 0;
   rcSens.h = taille;
   rcSens.w = taille;
 
@@ -109,6 +109,9 @@ perso init_perso()
   p.L = l_vide();
   p.faim = 200;
 
+  p.pv = 200;
+  p.atk = 20;
+  p.def = 5;
   int i;
   for (i=0;i<100;i++)
     p.travail[i]=i+1;
@@ -139,7 +142,7 @@ perso init_ennemi()
   p.rcSens = rcSens;
   p.perso = image;
 
-  p.action = action_combattre;
+  p.action = action_cherche_combat;
 
   p.cptSens.x = 0;
   p.cptSens.y = 0;
@@ -151,6 +154,9 @@ perso init_ennemi()
   p.but.y = 0;
 
   p.cond = 0;
+  p.pv = 10;
+  p.atk = 0;
+  p.def = 0;
 
   return p;
 }

@@ -141,6 +141,7 @@ void handle(SDL_Event *event, perso perso[NB_Perso], image *image, int *action,i
                   {
                     *action = 0;
                   }
+            SDL_Delay(100);
             break;
 	      case SDLK_p:
             if (p)
@@ -336,46 +337,80 @@ void handle(SDL_Event *event, perso perso[NB_Perso], image *image, int *action,i
 }
 
 
-void tour(unsigned int temps_ennemi, perso ennemi[NB_ennemi],SDL_Rect coord, liste_point *plantation, perso perso[NB_Perso], int gauche_maintenu, int *gauche_maintenu_x, int *gauche_maintenu_y, int *buttx, int *butty, int action, sol sol[COL][LIG], SDL_Surface *screen, liste_stockpile *stockPile, int zoom, image image, int hauteur, int largeur, unsigned int *temps, int p)
+void tour(unsigned int *temps_ennemi, perso ennemi[NB_ennemi],SDL_Rect coord, liste_point *plantation, perso perso[NB_Perso], int gauche_maintenu, int *gauche_maintenu_x, int *gauche_maintenu_y, int *buttx, int *butty, int action, sol sol[COL][LIG], SDL_Surface *screen, liste_stockpile *stockPile, int zoom, image image, int hauteur, int largeur, unsigned int *temps, int p)
 {
-   int i;
+   int i, j;
    rectangle(gauche_maintenu, gauche_maintenu_x, gauche_maintenu_y, buttx, butty, action, sol, stockPile);
    affichage_map(sol, screen, zoom, image, coord, hauteur, largeur,*stockPile);
 
    if (*temps != SDL_GetTicks()/100 && p)
    {
-        if (*temps%200 + temps_ennemi != temps_ennemi)
+        /*if ( *temps_ennemi <=  SDL_GetTicks()/10000 || *temps_ennemi == 0)
         {
-            temps_ennemi += *temps%200;
+            *temps_ennemi = SDL_GetTicks()/10000 +1 ;
             for (i=0; i<NB_ennemi; i++)
+            {
                 ennemi[i] = init_ennemi();
+            }
         }
-        for (i=0; i<NB_ennemi; i++)
-            cherche_ennemi(sol,ennemi[i],perso);
+       for (i=0; i<NB_ennemi; i++)
+        for (j=0; j<NB_Perso; j++)
+            if (ennemi[i].pv > 0)
+            {
+            cherche_ennemi(sol,ennemi[i],perso[j]);
+            }*/
 
         cherche_action (sol, perso);
         for (i= 0; i<NB_Perso;i++)
-        	if (perso[i].faim >0)
+        	if (perso[i].faim >0 && perso[i].pv > 0)
         	{
-        	 //perso[i] = faim(perso[i]);
-              perso[i] = actionPerso(sol,perso[i], plantation ,stockPile);
+        	  //perso[i] = faim(perso[i]);
+              perso[i] = actionPerso(ennemi, sol, perso[i], plantation ,stockPile);
               perso[i] = deplacement_personnage(sol , screen ,perso[i], perso[i].but.x, perso[i].but.y, zoom);
         	}
+
+      /*  for (i=0; i<NB_Perso; i++)
+            for (j=0; j<NB_Perso; j++)
+            if (perso[i].pv > 0)
+            {
+            cherche_ennemi(sol,perso[i],ennemi[j]);
+            }
+        for (i= 0; i<NB_ennemi;i++)
+        	if (ennemi[i].pv > 0)
+        	{
+              ennemi[i] = actionPerso(perso, sol, ennemi[i], plantation ,stockPile);
+              ennemi[i] = deplacement_personnage(sol , screen ,ennemi[i], ennemi[i].but.x, ennemi[i].but.y, zoom);
+        	}
+*/
 
         *plantation = pousser(sol, *plantation);
         *temps = SDL_GetTicks()/100;
     }
        for (i= 0; i<NB_Perso;i++)
         {
-          perso[i].rcDest.x = perso[i].pos.x * taille * zoom + coord.x;
-          perso[i].rcDest.y = perso[i].pos.y * taille * zoom + coord.y;
-          SDL_BlitSurface(perso[i].perso, &perso[i].rcSens, screen, &perso[i].rcDest);
+            if (perso[i].pv >0)
+            {
+              perso[i].rcDest.x = perso[i].pos.x * taille * zoom + coord.x;
+              perso[i].rcDest.y = perso[i].pos.y * taille * zoom + coord.y;
+              SDL_BlitSurface(perso[i].perso, &perso[i].rcSens, screen, &perso[i].rcDest);
+            }
         }
+
         for (i= 0; i<NB_ennemi;i++)
         {
-          ennemi[i].rcDest.x = ennemi[i].pos.x * taille * zoom + coord.x;
-          ennemi[i].rcDest.y = ennemi[i].pos.y * taille * zoom + coord.y;
-          SDL_BlitSurface(ennemi[i].perso, &ennemi[i].rcSens, screen, &ennemi[i].rcDest);
+            if (ennemi[i].pv >0)
+            {
+            ennemi[i].rcDest.x = ennemi[i].pos.x * taille * zoom + coord.x;
+            ennemi[i].rcDest.y = ennemi[i].pos.y * taille * zoom + coord.y;
+            SDL_BlitSurface(ennemi[i].perso, &ennemi[i].rcSens, screen, &ennemi[i].rcDest);
+            }
         }
+       /* for (i= 0; i<NB_ennemi-1;i++)
+        {
+            if (ennemi[i].pv<0)
+            {
+                ennemi[i]=ennemi[i+1];
+            }
+        }*/
        affichage_menu(screen, hauteur, largeur, image, action);
 }

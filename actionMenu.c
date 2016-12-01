@@ -5,6 +5,46 @@
 /*************************/
 #include "include.h"
 
+
+perso cherche_combattre(perso ennemi,perso perso)
+{
+    int col, lig;
+
+    for(col=-1;col<=1;col++)
+        for(lig=-1;lig<=1;lig++)
+            if(abs(col)+abs(lig) == 1)
+            {
+                if(perso.pos.x == ennemi.pos.x + col  && perso.pos.y == ennemi.pos.y + lig)
+                {
+                perso.but.x = perso.pos.x;
+                perso.but.y = perso.pos.y;
+                perso.cond = 0;
+                perso.action = action_combat;
+                return perso;
+                }
+            }
+    return perso;
+
+}
+
+void combattre(perso *defenser, perso *attack)
+{
+    int atk, def;
+    atk = rand()%6+1+attack->atk;
+    def = rand()%6+1+defenser->def;
+    if (atk-def>0)
+        defenser->pv = defenser->pv-atk+def;
+    if (defenser->pv > 0)
+        {
+            atk = rand()%4+1+defenser->atk;
+            def = rand()%6+1+attack->def;
+            if (atk-def>0)
+                attack->pv = attack->pv-atk+def;
+        }
+    attack->action = 0;
+    defenser->action = 0;
+}
+
 void couper(sol tab[COL][LIG], perso perso)
 {
     int dc, dl, nb;
@@ -198,7 +238,7 @@ perso chercheStockPile(sol tab[COL][LIG], perso perso, liste_stockpile *stockPil
                 perso.but2.x = perso.but.x;
                 perso.but2.y = perso.but.y;
                 perso.action2 = perso.action;
-                perso = chercher_object(tab,perso,premS(*stockPile).id, stockPile);
+                perso = chercher_object(tab,perso,premS(*stockPile).id, *stockPile);
 			}
 			else
 			{
@@ -340,7 +380,7 @@ void actionMenu(int action, sol tab[COL][LIG], int buttx, int butty, liste_stock
  return;
 }
 
-perso actionPerso(sol tab[COL][LIG],perso perso, liste_point *plantation, liste_stockpile *stockPile)
+perso actionPerso(perso ennemi[NB_ennemi], sol tab[COL][LIG],perso perso, liste_point *plantation, liste_stockpile *stockPile)
 {
     switch(perso.action)
     {
@@ -376,9 +416,16 @@ perso actionPerso(sol tab[COL][LIG],perso perso, liste_point *plantation, liste_
           perso = ramasser(tab,perso);
           break;
         case action_mur:
-        	perso = construire(tab,perso,mur_bois,2,bois, stockPile);
+        	perso = construire(tab,perso,mur_bois,2,bois, *stockPile);
             perso = ramasser(tab,perso);
         	break;
+        case action_cherche_combat:
+            perso = cherche_combattre(ennemi[0],perso);
+            if (perso.but.x == perso.pos.x && perso.but.y == perso.pos.y)
+            {
+            combattre(&perso, &ennemi[0]);
+            }
+            break;
     }
   return perso;
 }
@@ -417,7 +464,7 @@ void cherche_action(sol tab[COL][LIG], perso perso[NB_Perso])
       {
         if (perso[id_perso].faim > 100)// test nourriture
             {
-             if (perso[id_perso].but2.x > 0 || perso[id_perso].but2.y > 0)
+             if (perso[id_perso].action2 != 0)
                     {
                         perso[id_perso].but.x = perso[id_perso].but2.x;
                         perso[id_perso].but.y = perso[id_perso].but2.y;
@@ -483,22 +530,19 @@ void cherche_action(sol tab[COL][LIG], perso perso[NB_Perso])
       }
 }
 
-void cherche_ennemi(sol tab[COL][LIG], perso ennemi, perso perso[NB_Perso])
+void cherche_ennemi(sol tab[COL][LIG], perso ennemi, perso perso)
 {
   int nb, dl, dc,id_perso;
-  for (id_perso = 0;id_perso <NB_Perso; id_perso++)
-  {
-    perso[id_perso].but2.x = perso[id_perso].but.x;
-    perso[id_perso].but2.y = perso[id_perso].but.y;
-    perso[id_perso].action2 = perso[id_perso].action;
+      if (tab[perso.but.x][perso.but.y].ordre > 1000)
+        tab[perso.but.x][perso.but.y].ordre -= 1000;
 
-    perso[id_perso].but.x = ennemi.pos.x;
-    perso[id_perso].but.y = ennemi.pos.y;
-    perso[id_perso].cond = 1;
+        perso.but.x = ennemi.pos.x;
+        perso.but.y = ennemi.pos.y;
+        perso.cond = 1;
 
-    perso[id_perso].action = action_combattre;
+        perso.action = action_cherche_combat;
   }
-}
+
 
 void rectangle(int gauche_maintenu, int *gauche_maintenu_x, int *gauche_maintenu_y, int *buttx, int *butty, int action, sol sol[COL][LIG], liste_stockpile *stockPile)
 {

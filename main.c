@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
   while (done == 0)
     {
       handle(&event, perso, &image, &action,&done, &p, &zoom, &coord, hauteur, largeur, &gauche_maintenu_x, &gauche_maintenu_y, &gauche_maintenu, &buttx, &butty);
-      tour(temps_ennemi, ennemi, coord, &plantation, perso, gauche_maintenu, &gauche_maintenu_x, &gauche_maintenu_y, &buttx, &butty,  action, sol ,screen, &stockPile, zoom, image, hauteur, largeur, &temps, p);
+      tour(&temps_ennemi, ennemi, coord, &plantation, perso, gauche_maintenu, &gauche_maintenu_x, &gauche_maintenu_y, &buttx, &butty,  action, sol ,screen, &stockPile, zoom, image, hauteur, largeur, &temps, p);
       SDL_UpdateRect(screen, 0, 0, 0, 0);
     }
     SDL_FreeSurface(image.alpha);

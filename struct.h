@@ -95,6 +95,8 @@ struct perso
     int cond;
     liste_point L;
     int pv;
+    int atk;
+    int def;
 };
 
 struct NODE
