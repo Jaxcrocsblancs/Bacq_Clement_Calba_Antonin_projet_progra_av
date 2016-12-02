@@ -345,6 +345,7 @@ void tour(unsigned int *temps_ennemi, perso ennemi[NB_ennemi],SDL_Rect coord, li
 
    if (*temps != SDL_GetTicks()/100 && p)
    {
+       printf("action %d\n", perso[0].action);
         /*if ( *temps_ennemi <=  SDL_GetTicks()/10000 || *temps_ennemi == 0)
         {
             *temps_ennemi = SDL_GetTicks()/10000 +1 ;
@@ -360,11 +361,11 @@ void tour(unsigned int *temps_ennemi, perso ennemi[NB_ennemi],SDL_Rect coord, li
             cherche_ennemi(sol,ennemi[i],perso[j]);
             }*/
 
-        cherche_action (sol, perso);
         for (i= 0; i<NB_Perso;i++)
         	if (perso[i].faim >0 && perso[i].pv > 0)
         	{
         	  //perso[i] = faim(perso[i]);
+              cherche_action (sol, &perso[i]);
               perso[i] = actionPerso(ennemi, sol, perso[i], plantation ,stockPile);
               perso[i] = deplacement_personnage(sol , screen ,perso[i], perso[i].but.x, perso[i].but.y, zoom);
         	}
@@ -396,7 +397,7 @@ void tour(unsigned int *temps_ennemi, perso ennemi[NB_ennemi],SDL_Rect coord, li
             }
         }
 
-        for (i= 0; i<NB_ennemi;i++)
+       /* for (i= 0; i<NB_ennemi;i++)
         {
             if (ennemi[i].pv >0)
             {
@@ -405,7 +406,7 @@ void tour(unsigned int *temps_ennemi, perso ennemi[NB_ennemi],SDL_Rect coord, li
             SDL_BlitSurface(ennemi[i].perso, &ennemi[i].rcSens, screen, &ennemi[i].rcDest);
             }
         }
-       /* for (i= 0; i<NB_ennemi-1;i++)
+        for (i= 0; i<NB_ennemi-1;i++)
         {
             if (ennemi[i].pv<0)
             {

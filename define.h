@@ -9,7 +9,6 @@
 
 #define taille 32
 
-
 #define NB_Perso 10
 #define NB_ennemi 10
 
