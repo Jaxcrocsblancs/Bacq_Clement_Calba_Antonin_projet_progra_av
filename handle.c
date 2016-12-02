@@ -345,7 +345,6 @@ void tour(unsigned int *temps_ennemi, perso ennemi[NB_ennemi],SDL_Rect coord, li
 
    if (*temps != SDL_GetTicks()/100 && p)
    {
-       printf("action %d\n", perso[0].action);
         /*if ( *temps_ennemi <=  SDL_GetTicks()/10000 || *temps_ennemi == 0)
         {
             *temps_ennemi = SDL_GetTicks()/10000 +1 ;

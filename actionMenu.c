@@ -402,7 +402,7 @@ perso actionPerso(perso ennemi[NB_ennemi], sol tab[COL][LIG],perso perso, liste_
           perso = ramasser(tab,perso);
           break;
         case action_deposer:
-        	perso  = deposer(tab,perso,perso.item.nb,stockPile);
+          perso  = deposer(tab,perso,perso.item.nb,stockPile);
           break;
         case action_planter_fraise:
           planter(tab, perso, pousse_fraise, plantation);
@@ -436,6 +436,8 @@ perso actionPerso(perso ennemi[NB_ennemi], sol tab[COL][LIG],perso perso, liste_
             {
             combattre(&perso, &ennemi[0]);
             }
+            break;
+        default:
             break;
     }
   return perso;
@@ -535,7 +537,6 @@ void cherche_action(sol tab[COL][LIG], perso *perso)
 
 void cherche_ennemi(sol tab[COL][LIG], perso ennemi, perso perso)
 {
-  int nb, dl, dc,id_perso;
       if (tab[perso.but.x][perso.but.y].ordre > 1000)
         tab[perso.but.x][perso.but.y].ordre -= 1000;
 
